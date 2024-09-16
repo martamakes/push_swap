@@ -6,7 +6,7 @@
 #    By: marta <marta@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/18 13:36:09 by mvigara-          #+#    #+#              #
-#    Updated: 2024/09/16 09:51:37 by marta            ###   ########.fr        #
+#    Updated: 2024/09/16 12:09:00 by marta            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,23 +48,8 @@ all: $(NAME)
 $(NAME): $(OBJ) $(INCLUDE)
 	@$(CREATE) $(NAME) $(OBJ)
 	@echo "\n${YELLOW}"
-	@echo "       *       "
-	@echo "      ***      "
-	@echo "     *****     "
-	@echo "    *******    "
-	@echo "   *********   "
-	@echo "  ***********  "
-	@echo " ************* "
-	@echo "*****${RED}libft${YELLOW}*****"
-	@echo " ************* "
-	@echo "  ***********  "
-	@echo "   *********   "
-	@echo "    *******    "
-	@echo "     *****     "
-	@echo "      ***      "
-	@echo "       *       "
+	@echo "*****${RED}libft compiled${YELLOW}*****"
 	@echo "${RESET}"
-	@echo "${GREEN}libft compiled!${RESET}"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
