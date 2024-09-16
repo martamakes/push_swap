@@ -1,0 +1,4 @@
+tree.txt
+*.a
+*.o
+obj
