@@ -6,7 +6,7 @@
 #    By: marta <marta@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 10:51:12 by marta             #+#    #+#              #
-#    Updated: 2024/09/16 15:23:21 by marta            ###   ########.fr        #
+#    Updated: 2024/09/19 12:31:04 by marta            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,12 +59,12 @@ $(OBJDIR)/%.o: src/%.c
 clean:
 	@make -C $(LIBFT_DIR) clean
 	@rm -rf $(OBJDIR)
-	@echo "\033[1;31mCleaned object files\033[0m"
+	@echo "\033[1;31mCPush Swap Object Files Cleaned\033[0m"
 
 fclean: clean
 	@make -C $(LIBFT_DIR) fclean
 	@rm -f $(NAME)
-	@echo "\033[1;31mCleaned executable\033[0m"
+	@echo "\033[1;31mExecutable Push Swap Cleaned\033[0m"
 
 re: fclean all
 

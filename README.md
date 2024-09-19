@@ -378,5 +378,85 @@ función rrr(stack_a, stack_b):
     rra(stack_a)
     rrb(stack_b)
 
+Example Strategy:
+
+Determine the size of stack A.
+Calculate chunk sizes (e.g., divide the stack into quarters).
+Start with the lowest chunk (bottom quarter of the stack).
+Rotate stack A, pushing to B when we find an element from the current chunk.
+Once we've moved all elements from the current chunk, move to the next chunk.
+Repeat until only a few elements (e.g., 3) remain in stack A.
+
+Optimal Number of Chunks for 500 Numbers:
+
+For 500 numbers, using 5 to 8 chunks often provides a good balance.
+This means each chunk would contain about 60-100 numbers.
+
+
+Adaptive Chunk Sizing:
+
+Yes, adapting chunk sizes based on the total stack size is beneficial.
+For smaller stacks (e.g., <100), fewer chunks (2-3) might be sufficient.
+For larger stacks (e.g., >1000), more chunks (10-20) could be more efficient.
+
+
+Pushing to B:
+
+This chunking strategy is primarily for efficiently transferring elements from A to B.
+It helps in creating a somewhat pre-sorted state in B, making later insertions back into A more efficient.
+
+
+Binary Operations and Node Structure:
+
+Using binary operations for indexing could be an interesting approach.
+You could represent each number's position in the sorted array as a binary number.
+For 500 numbers, you'd need 9 bits (2^9 = 512, which covers 500).
+
+Potential implementation:
+
+Add a 'binary_index' field to your node struct (as an integer).
+When initializing, assign each number its position in the sorted array, converted to binary.
+Use bitwise operations to quickly determine which chunk a number belongs to.
+
+Example:
+
+For 8 chunks, you could use the 3 most significant bits of the binary index.
+000xxxxx would be the first chunk, 001xxxxx the second, etc.
+
+
+Is it Worth It?
+
+Pros:
+
+Can make chunk determination very fast (simple bitwise operations).
+Allows for easy adjustment of chunk sizes by considering different numbers of bits.
+
+
+Cons:
+
+Requires an initial sort to assign indices, which adds complexity.
+Increases memory usage per node.
+
+
+Overall: It can be worth it if you're pushing for maximum optimization, especially for larger datasets.
+
+
+Alternative to Consider:
+
+Instead of full binary representation, you could use a simpler indexing system.
+Assign each number an index based on its position in the sorted array (1 to 500).
+Use integer division to determine chunks (e.g., index / (500/8) gives the chunk number).
+
+
+Optimization Strategy:
+
+Start with a simpler chunking method based on positions/indices.
+If you're not meeting performance targets, then consider implementing the binary method.
+Always profile your code to ensure optimizations are actually improving performance.
+
+
+
+Remember, the key in Push_swap is balancing the complexity of your algorithm with the number of operations it produces. Sometimes, a simpler approach that's easier to reason about can lead to better overall results than a more complex optimization.
+
 ## Author
 mvigara-
