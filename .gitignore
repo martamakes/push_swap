@@ -2,3 +2,5 @@
 *.a
 *.o
 obj
+push_swap
+tester_parsing
