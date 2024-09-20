@@ -1,35 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   check_duplicate.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marta <marta@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/16 11:39:36 by marta             #+#    #+#             */
-/*   Updated: 2024/09/19 13:38:16 by marta            ###   ########.fr       */
+/*   Created: 2024/09/19 13:25:15 by marta             #+#    #+#             */
+/*   Updated: 2024/09/19 13:25:38 by marta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int main(int argc, char **argv)
+int check_duplicates(int *numbers, int count)
 {
-    t_stack *a;
-    t_stack *b;
-    int *numbers;
-    int count;
+    int i;
+    int j;
 
-    if (argc < 2)
-        return (0);
-    numbers = parse_args(argc, argv, &count);
-    if (!numbers)
+    i = 0;
+    while (i < count)
     {
-        ft_putstr_fd("Error\n", 2);
-        return (1);
+        j = i + 1;
+        while (j < count)
+        {
+            if (numbers[i] == numbers[j])
+            {
+                ft_putstr_fd("Error: Duplicate numbers found\n", 2);
+                return (0);
+            }
+            j++;
+        }
+        i++;
     }
-    // TODO: init_stacks con numbers y count
-    // TODO: sort
-    free(numbers);
-    free_stacks(&a, &b);
-    return (0);
+    return (1);
 }

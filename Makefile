@@ -6,7 +6,7 @@
 #    By: marta <marta@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 10:51:12 by marta             #+#    #+#              #
-#    Updated: 2024/09/19 12:31:04 by marta            ###   ########.fr        #
+#    Updated: 2024/09/19 14:11:40 by marta            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,18 +21,15 @@ ifeq ($(DEBUG), 1)
 endif
 
 SRCS = src/push_swap/main.c \
-       src/push_swap/utils/stack_utils.c
-       # src/push_swap/parsing/parse_args.c \
-       # src/push_swap/parsing/input_validation.c \
-       # src/push_swap/operations/swap.c \
-       # src/push_swap/operations/push.c \
-       # src/push_swap/operations/rotate.c \
-       # src/push_swap/operations/reverse_rotate.c \
-       # src/push_swap/algorithm/sort_small.c \
-       # src/push_swap/algorithm/sort_large.c \
-       # src/push_swap/algorithm/optimize.c \
-       # src/push_swap/utils/stack_init.c \
-       # src/push_swap/validation/sorting_validation.c
+       src/push_swap/utils/stack_utils.c \
+       src/push_swap/parsing/parse_args.c \
+       src/push_swap/parsing/check_duplicates.c \
+	   src/push_swap/parsing/count_numbers.c \
+	   src/push_swap/parsing/parse_number.c \
+	   src/push_swap/parsing/parse_quoted_numbers.c \
+	   src/push_swap/utils/memory_utils.c
+
+SRCS_NO_MAIN = $(filter-out src/push_swap/main.c, $(SRCS))
 
 OBJDIR = obj
 OBJS = $(SRCS:src/%.c=$(OBJDIR)/%.o)
@@ -139,4 +136,10 @@ test1000:
 	@echo -n "Instructions: "
 	@./$(NAME) $(ARG) | wc -l
 
-.PHONY: all clean fclean re test2 test3 test5 test10 test25 test50 test100 test250 test500 test1000
+tester: $(LIBFT) $(OBJS)
+	$(CC) $(CFLAGS) $(filter-out obj/push_swap/main.o, $(OBJS)) test/tester_parsing.c -o tester_parsing $(INC) -L$(LIBFT_DIR) -lft
+
+test: tester
+	./tester_parsing
+
+.PHONY: all clean fclean re test2 test3 test5 test10 test25 test50 test100 test250 test500 test1000 tester test

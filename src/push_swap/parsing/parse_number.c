@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parse_number.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marta <marta@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/16 11:39:36 by marta             #+#    #+#             */
-/*   Updated: 2024/09/19 13:38:16 by marta            ###   ########.fr       */
+/*   Created: 2024/09/19 13:22:47 by marta             #+#    #+#             */
+/*   Updated: 2024/09/20 09:02:17 by marta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <limits.h>
 
-int main(int argc, char **argv)
+int parse_number(const char *str, int *number)
 {
-    t_stack *a;
-    t_stack *b;
-    int *numbers;
-    int count;
+    char *end;
+    long num;
 
-    if (argc < 2)
+    num = ft_strtol(str, &end, 10);
+    if (*end != '\0' || num > INT_MAX || num < INT_MIN)
         return (0);
-    numbers = parse_args(argc, argv, &count);
-    if (!numbers)
-    {
-        ft_putstr_fd("Error\n", 2);
-        return (1);
-    }
-    // TODO: init_stacks con numbers y count
-    // TODO: sort
-    free(numbers);
-    free_stacks(&a, &b);
-    return (0);
+    *number = (int)num;
+    return (1);
 }
+

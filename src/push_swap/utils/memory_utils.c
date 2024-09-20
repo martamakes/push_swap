@@ -1,35 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   memory_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marta <marta@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/16 11:39:36 by marta             #+#    #+#             */
-/*   Updated: 2024/09/19 13:38:16 by marta            ###   ########.fr       */
+/*   Created: 2024/09/19 13:18:33 by marta             #+#    #+#             */
+/*   Updated: 2024/09/19 13:18:38 by marta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int main(int argc, char **argv)
+void *ft_calloc_wrapper(size_t count, size_t size)
 {
-    t_stack *a;
-    t_stack *b;
-    int *numbers;
-    int count;
+    void *ptr;
 
-    if (argc < 2)
-        return (0);
-    numbers = parse_args(argc, argv, &count);
-    if (!numbers)
-    {
-        ft_putstr_fd("Error\n", 2);
-        return (1);
-    }
-    // TODO: init_stacks con numbers y count
-    // TODO: sort
-    free(numbers);
-    free_stacks(&a, &b);
-    return (0);
+    ptr = ft_calloc(count, size);
+    if (!ptr)
+        exit(1);
+    return (ptr);
 }
