@@ -2,5 +2,4 @@
 *.a
 *.o
 obj
-push_swap
 test_parsing
