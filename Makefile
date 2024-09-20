@@ -6,7 +6,7 @@
 #    By: marta <marta@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 10:51:12 by marta             #+#    #+#              #
-#    Updated: 2024/09/19 14:11:40 by marta            ###   ########.fr        #
+#    Updated: 2024/09/20 16:25:06 by marta            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,11 +23,11 @@ endif
 SRCS = src/push_swap/main.c \
        src/push_swap/utils/stack_utils.c \
        src/push_swap/parsing/parse_args.c \
-       src/push_swap/parsing/check_duplicates.c \
-	   src/push_swap/parsing/count_numbers.c \
-	   src/push_swap/parsing/parse_number.c \
-	   src/push_swap/parsing/parse_quoted_numbers.c \
-	   src/push_swap/utils/memory_utils.c
+       src/push_swap/parsing/convert_numbers.c \
+	   src/push_swap/parsing/check_duplicates.c \
+	   src/push_swap/utils/free_tokens.c \
+	   src/push_swap/parsing/tokenize.c \
+	   src/push_swap/parsing/validate_numbers.c 
 
 SRCS_NO_MAIN = $(filter-out src/push_swap/main.c, $(SRCS))
 
@@ -137,7 +137,7 @@ test1000:
 	@./$(NAME) $(ARG) | wc -l
 
 tester: $(LIBFT) $(OBJS)
-	$(CC) $(CFLAGS) $(filter-out obj/push_swap/main.o, $(OBJS)) test/tester_parsing.c -o tester_parsing $(INC) -L$(LIBFT_DIR) -lft
+	$(CC) $(CFLAGS) $(filter-out obj/push_swap/main.o, $(OBJS)) test/tester_parsing.c -o test_parsing $(INC) -L$(LIBFT_DIR) -lft
 
 test: tester
 	./tester_parsing

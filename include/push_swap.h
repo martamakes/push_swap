@@ -6,7 +6,7 @@
 /*   By: marta <marta@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:12:33 by marta             #+#    #+#             */
-/*   Updated: 2024/09/19 13:33:29 by marta            ###   ########.fr       */
+/*   Updated: 2024/09/20 14:36:01 by marta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,11 @@ typedef struct s_stack
 
 void                free_stacks(t_stack **stack_a, t_stack **stack_b);
 void                free_stack(t_stack **stack);
-void                *ft_calloc_wrapper(size_t count, size_t size);
-int                 *parse_args(int argc, char **argv, int *count);
-int                 *parse_args(int argc, char **argv, int *count);
-int                 count_numbers(int argc, char **argv);
-int                 parse_number(const char *str, int *number);
-int                 parse_quoted_numbers(const char *str, int *numbers, int *index);
+void                free_tokens(char ***tokens, int argc);
+int                 *parse_args(int *argc, char **argv);
+int                 *convert_to_numbers(char ***tokens, int count);
+char                ***tokenize_args(int argc, char **argv);
+int                 validate_and_count_numbers(char ***tokens, int *argc);
 int                 check_duplicates(int *numbers, int count);
 
 

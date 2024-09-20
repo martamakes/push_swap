@@ -3,4 +3,4 @@
 *.o
 obj
 push_swap
-tester_parsing
+test_parsing

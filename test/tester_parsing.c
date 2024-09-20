@@ -6,7 +6,7 @@
 /*   By: marta <marta@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 13:52:00 by marta             #+#    #+#             */
-/*   Updated: 2024/09/20 08:58:18 by marta            ###   ########.fr       */
+/*   Updated: 2024/09/20 14:39:18 by marta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 
 void test_parse_args(int argc, char **argv)
 {
-    int count;
-    int *numbers = parse_args(argc, argv, &count);
+    int *numbers = parse_args(&argc, argv);
 
     if (numbers == NULL)
     {
@@ -24,8 +23,8 @@ void test_parse_args(int argc, char **argv)
         return;
     }
 
-    printf("Parsed %d numbers:\n", count);
-    for (int i = 0; i < count; i++)
+    printf("Parsed %d numbers:\n", argc);
+    for (int i = 0; i < argc; i++)
     {
         printf("%d ", numbers[i]);
     }
