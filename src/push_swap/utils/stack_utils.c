@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marta <marta@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvigara- <mvigara-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:45:27 by marta             #+#    #+#             */
-/*   Updated: 2024/09/16 11:50:51 by marta            ###   ########.fr       */
+/*   Updated: 2024/09/23 20:52:40 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void free_stack(t_stack **stack)
 
     if (!stack || !*stack)
         return;
-
     current = (*stack)->top;
     while (current)
     {

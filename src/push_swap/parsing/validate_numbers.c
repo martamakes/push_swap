@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_numbers.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marta <marta@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvigara- <mvigara-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:24:26 by marta             #+#    #+#             */
-/*   Updated: 2024/09/20 14:27:18 by marta            ###   ########.fr       */
+/*   Updated: 2024/09/23 20:49:41 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	validate_and_count_numbers(char ***tokens, int *argc)
 
 	count = 0;
 	i = 1;
-	while (i < *argc)
+	while (tokens[i] && i < *argc)
 	{
 		j = 0;
 		while (tokens[i][j])
