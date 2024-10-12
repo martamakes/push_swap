@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvigara- <mvigara-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: marta <marta@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 12:41:10 by marta             #+#    #+#             */
-/*   Updated: 2024/09/23 20:07:54 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/10/13 00:35:41 by marta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,12 @@ int	*parse_args(int *argc, char **argv)
 
 	tokens = tokenize_args(*argc, argv);
 	if (!tokens)
+	{
+		ft_putstr_fd("Error\n", 2);
 		return (NULL);
+	}
 	count = validate_and_count_numbers(tokens, argc);
-	if (count == -1)
+	if (count <= 0)  // Cambiado de count == -1 a count <= 0
 	{
 		free_tokens(tokens, *argc);
 		return (NULL);
@@ -32,8 +35,8 @@ int	*parse_args(int *argc, char **argv)
 	if (!numbers || !check_duplicates(numbers, count))
 	{
 		free(numbers);
+		ft_putstr_fd("Error\n", 2);
 		return (NULL);
 	}
-    numbers[count] = 0;
 	return (numbers);
 }

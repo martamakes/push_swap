@@ -6,7 +6,7 @@
 /*   By: marta <marta@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:27:00 by marta             #+#    #+#             */
-/*   Updated: 2024/09/20 16:20:34 by marta            ###   ########.fr       */
+/*   Updated: 2024/10/13 00:42:11 by marta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ int	*convert_to_numbers(char ***tokens, int count)
 	int	j;
 	int	index;
 
-	numbers = ft_calloc(count, sizeof(int));
+	numbers = ft_calloc(count + 1, sizeof(int));
 	if (!numbers)
 		return (NULL);
-	i = 1;
+	i = 0;
 	index = 0;
-	while (tokens[i])
+	while (tokens[i] && index < count)
 	{
 		j = 0;
-		while (tokens[i][j])
+		while (tokens[i][j] && index < count)
 		{
 			numbers[index] = ft_atoi(tokens[i][j]);
 			index++;
@@ -35,6 +35,6 @@ int	*convert_to_numbers(char ***tokens, int count)
 		}
 		i++;
 	}
-	numbers[index] = 0;
+	numbers[count] = 0;
 	return (numbers);
 }

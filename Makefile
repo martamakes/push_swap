@@ -6,7 +6,7 @@
 #    By: marta <marta@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 10:51:12 by marta             #+#    #+#              #
-#    Updated: 2024/09/23 23:23:35 by marta            ###   ########.fr        #
+#    Updated: 2024/10/12 19:14:53 by marta            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,12 +24,10 @@ SRCS = src/push_swap/main.c \
        src/push_swap/utils/stack_utils.c \
        src/push_swap/parsing/parse_args.c \
        src/push_swap/parsing/convert_numbers.c \
-	   src/push_swap/parsing/check_duplicates.c \
-	   src/push_swap/utils/free_tokens.c \
-	   src/push_swap/parsing/tokenize.c \
-	   src/push_swap/parsing/validate_numbers.c 
-
-SRCS_NO_MAIN = $(filter-out src/push_swap/main.c, $(SRCS))
+       src/push_swap/parsing/check_duplicates.c \
+       src/push_swap/utils/free_tokens.c \
+       src/push_swap/parsing/tokenize.c \
+       src/push_swap/parsing/validate_numbers.c 
 
 OBJDIR = obj
 OBJS = $(SRCS:src/%.c=$(OBJDIR)/%.o)
@@ -56,7 +54,7 @@ $(OBJDIR)/%.o: src/%.c
 clean:
 	@make -C $(LIBFT_DIR) clean
 	@rm -rf $(OBJDIR)
-	@echo "\033[1;31mCPush Swap Object Files Cleaned\033[0m"
+	@echo "\033[1;31mPush Swap Object Files Cleaned\033[0m"
 
 fclean: clean
 	@make -C $(LIBFT_DIR) fclean
@@ -136,10 +134,4 @@ test1000:
 	@echo -n "Instructions: "
 	@./$(NAME) $(ARG) | wc -l
 
-tester: $(LIBFT) $(OBJS)
-	$(CC) $(CFLAGS) $(filter-out obj/push_swap/main.o, $(OBJS)) test/tester_parsing.c -o test_parsing $(INC) -L$(LIBFT_DIR) -lft
-
-test: tester
-	./tester_parsing
-
-.PHONY: all clean fclean re test2 test3 test5 test10 test25 test50 test100 test250 test500 test1000 tester test
+.PHONY: all clean fclean re test2 test3 test5 test10 test25 test50 test100 test250 test500 test1000
