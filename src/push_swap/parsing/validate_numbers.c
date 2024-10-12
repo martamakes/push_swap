@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_numbers.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvigara- <mvigara-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: marta <marta@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:24:26 by marta             #+#    #+#             */
-/*   Updated: 2024/09/23 20:49:41 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/09/23 23:06:02 by marta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,26 +32,20 @@ int	is_valid_number(const char *str)
 	return (num >= INT_MIN && num <= INT_MAX);
 }
 
-int	validate_and_count_numbers(char ***tokens, int *argc)
+int validate_and_count_numbers(char ***tokens, int *argc)
 {
-	int	count;
-	int	i;
-	int	j;
+    int count;
+    int i;
 
-	count = 0;
-	i = 1;
-	while (tokens[i] && i < *argc)
-	{
-		j = 0;
-		while (tokens[i][j])
-		{
-			if (!is_valid_number(tokens[i][j]))
-				return (-1);
-			count++;
-			j++;
-		}
-		i++;
-	}
-	*argc = count;
-	return (count);
+    count = 0;
+    i = 0;
+    while (tokens[i])
+    {
+        if (!is_valid_number(tokens[i][0]))
+            return (-1);
+        count++;
+        i++;
+    }
+    *argc = count;
+    return (count);
 }

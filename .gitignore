@@ -3,3 +3,5 @@
 *.o
 obj
 test_parsing
+.DS_Store
+env/

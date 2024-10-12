@@ -6,7 +6,7 @@
 #    By: marta <marta@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 10:51:12 by marta             #+#    #+#              #
-#    Updated: 2024/09/20 16:25:06 by marta            ###   ########.fr        #
+#    Updated: 2024/09/23 23:23:35 by marta            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 DEBUG ?= 0
 ifeq ($(DEBUG), 1)
-    CFLAGS += -g
+    CFLAGS += -g3 -fsanitize=address
 endif
 
 SRCS = src/push_swap/main.c \
