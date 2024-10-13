@@ -1,35 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push.c                                             :+:      :+:    :+:   */
+/*   fin_min_pos.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marta <marta@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/13 17:10:42 by marta             #+#    #+#             */
-/*   Updated: 2024/10/13 17:11:08 by marta            ###   ########.fr       */
+/*   Created: 2024/10/13 17:15:24 by marta             #+#    #+#             */
+/*   Updated: 2024/10/13 17:15:39 by marta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void push(t_stack *src, t_stack *dst, char dst_name)
+int find_min_position(t_stack *stack)
 {
-    if (src->size == 0)
-        return;
-    t_node *node = src->top;
-    src->top = src->top->next;
-    src->size--;
-    node->next = dst->top;
-    dst->top = node;
-    dst->size++;
-    ft_printf("p%c\n", dst_name);
-}
-void pa(t_stack *b, t_stack *a)
-{
-    push(b, a, 'a');
-}
+    t_node *current = stack->top;
+    int min = current->value;
+    int min_pos = 0;
+    int current_pos = 0;
 
-void pb(t_stack *a, t_stack *b)
-{
-    push(a, b, 'b');
+    while (current)
+    {
+        if (current->value < min)
+        {
+            min = current->value;
+            min_pos = current_pos;
+        }
+        current = current->next;
+        current_pos++;
+    }
+    return min_pos;
 }
