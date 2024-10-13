@@ -6,7 +6,7 @@
 #    By: marta <marta@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 10:51:12 by marta             #+#    #+#              #
-#    Updated: 2024/10/12 19:14:53 by marta            ###   ########.fr        #
+#    Updated: 2024/10/13 14:23:52 by marta            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,9 @@ SRCS = src/push_swap/main.c \
        src/push_swap/parsing/check_duplicates.c \
        src/push_swap/utils/free_tokens.c \
        src/push_swap/parsing/tokenize.c \
-       src/push_swap/parsing/validate_numbers.c 
+       src/push_swap/parsing/validate_numbers.c \
+	   src/push_swap/utils/is_sorted.c \
+	   src/push_swap/utils/stack_init.c
 
 OBJDIR = obj
 OBJS = $(SRCS:src/%.c=$(OBJDIR)/%.o)

@@ -6,7 +6,7 @@
 /*   By: marta <marta@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:12:33 by marta             #+#    #+#             */
-/*   Updated: 2024/09/20 14:36:01 by marta            ###   ########.fr       */
+/*   Updated: 2024/10/13 17:03:45 by marta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ int                 *convert_to_numbers(char ***tokens, int count);
 char                ***tokenize_args(int argc, char **argv);
 int                 validate_and_count_numbers(char ***tokens, int *argc);
 int                 check_duplicates(int *numbers, int count);
+int                 is_sorted(int *numbers, int count);
+t_stack	            *init_a(int *numbers, int count);
+t_stack             *init_b(void);
+void                sort(t_stack *a, t_stack *b);
 
 
 #endif

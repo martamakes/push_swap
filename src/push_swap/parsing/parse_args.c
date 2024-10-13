@@ -6,7 +6,7 @@
 /*   By: marta <marta@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 12:41:10 by marta             #+#    #+#             */
-/*   Updated: 2024/10/13 00:35:41 by marta            ###   ########.fr       */
+/*   Updated: 2024/10/13 16:16:51 by marta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	*parse_args(int *argc, char **argv)
 		return (NULL);
 	}
 	count = validate_and_count_numbers(tokens, argc);
-	if (count <= 0)  // Cambiado de count == -1 a count <= 0
+	if (count <= 0)
 	{
 		free_tokens(tokens, *argc);
 		return (NULL);
@@ -38,5 +38,6 @@ int	*parse_args(int *argc, char **argv)
 		ft_putstr_fd("Error\n", 2);
 		return (NULL);
 	}
+	*argc = count;
 	return (numbers);
 }
