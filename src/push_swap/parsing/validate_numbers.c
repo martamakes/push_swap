@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_numbers.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marta <marta@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvigara- <mvigara-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:24:26 by marta             #+#    #+#             */
-/*   Updated: 2024/10/13 00:35:12 by marta            ###   ########.fr       */
+/*   Updated: 2024/10/18 12:44:29 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	is_valid_number(const char *str)
 	num = ft_atoll(str);
 	return (num >= INT_MIN && num <= INT_MAX);
 }
-
 
 int	validate_and_count_numbers(char ***tokens, int *argc)
 {

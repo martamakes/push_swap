@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marta <marta@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvigara- <mvigara-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:20:45 by marta             #+#    #+#             */
-/*   Updated: 2024/10/13 00:41:28 by marta            ###   ########.fr       */
+/*   Updated: 2024/10/18 12:44:26 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static int	is_quoted(const char *str)
 {
-	return ((str[0] == '"' && str[ft_strlen(str) - 1] == '"') ||
-			(str[0] == '\'' && str[ft_strlen(str) - 1] == '\''));
+	return ((str[0] == '"' && str[ft_strlen(str) - 1] == '"') || (str[0] == '\''
+			&& str[ft_strlen(str) - 1] == '\''));
 }
 
 static char	**tokenize_arg(char *arg)

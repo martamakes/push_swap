@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marta <marta@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvigara- <mvigara-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 12:41:10 by marta             #+#    #+#             */
-/*   Updated: 2024/10/13 16:16:51 by marta            ###   ########.fr       */
+/*   Updated: 2024/10/18 12:44:22 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	*parse_args(int *argc, char **argv)
 {
-	char	***tokens;
-	int		*numbers;
-	int		count;
+	char ***tokens;
+	int *numbers;
+	int count;
 
 	tokens = tokenize_args(*argc, argv);
 	if (!tokens)
