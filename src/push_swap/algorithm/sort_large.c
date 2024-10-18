@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 12:40:23 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/10/18 12:48:30 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/10/18 18:12:06 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,5 @@
 void	sort_large(t_stack *a, t_stack *b)
 {
 	ft_printf("estoy en sort large");
-    ft_printf("%p , %p", a, b);
+	ft_printf("%p , %p", a, b);
 }

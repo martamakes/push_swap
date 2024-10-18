@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:39:36 by marta             #+#    #+#             */
-/*   Updated: 2024/10/18 12:51:46 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/10/18 18:20:05 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ int	main(int argc, char **argv)
 	}
 	print_stack(a, 'a');
 	sort(a, b);
+	print_stack(b, 'b');
+	print_stack(a, 'a');
 	free(numbers);
 	free_stacks(&a, &b);
 	return (0);

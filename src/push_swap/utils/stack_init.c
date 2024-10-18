@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marta <marta@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvigara- <mvigara-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 01:17:56 by marta             #+#    #+#             */
-/*   Updated: 2024/10/13 16:28:58 by marta            ###   ########.fr       */
+/*   Updated: 2024/10/18 18:12:54 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	populate_stack(t_stack *stack, int *numbers, int count)
 	{
 		new_node = create_node(numbers[i]);
 		if (!new_node)
-            return (0);
+			return (0);
 		add_node_to_stack(stack, new_node);
 		i++;
 	}
