@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marta <marta@student.42.fr>                +#+  +:+       +#+         #
+#    By: mvigara- <mvigara-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 10:51:12 by marta             #+#    #+#              #
-#    Updated: 2024/10/13 17:17:09 by marta            ###   ########.fr        #
+#    Updated: 2024/10/18 12:46:24 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,8 @@ SRCS = src/push_swap/main.c \
 	   src/push_swap/operations/reverse_rotate.c \
 	   src/push_swap/operations/rotate.c \
 	   src/push_swap/operations/swap.c \
+	   src/push_swap/algorithm/sort_small.c \
+	   src/push_swap/algorithm/sort_large.c
 
 OBJDIR = obj
 OBJS = $(SRCS:src/%.c=$(OBJDIR)/%.o)
