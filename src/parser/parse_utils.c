@@ -6,40 +6,43 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:45:18 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/01 16:06:01 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/01 17:05:39 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static int	check_digits(char *str)
+static int is_valid_format(char *str)
 {
-	int	i;
+    int i;
 
-	i = 0;
-	if (str[i] == '-' || str[i] == '+')
-		i++;
-	if (!str[i])
-		return (0);
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-			return (0);
-		i++;
-	}
-	return (1);
+    i = 0;
+    if (!str || !*str)
+        return (0);
+    if (str[i] == '-' || str[i] == '+')
+        i++;
+    if (!str[i])
+        return (0);
+    while (str[i])
+    {
+        if (!ft_isdigit(str[i]))
+            return (0);
+        i++;
+    }
+    return (1);
 }
 
-int	is_valid_number(char *str)
+static int is_valid_range(char *str)
 {
-	long long	num;
+    long long num;
 
-	if (!check_digits(str))
-		return (0);
-	num = ft_atoll(str);
-	if (num > INT_MAX || num < INT_MIN)
-		return (0);
-	return (1);
+    num = ft_atoll(str);
+    return (num <= INT_MAX && num >= INT_MIN);
+}
+
+int is_valid_number(char *str)
+{
+    return (is_valid_format(str) && is_valid_range(str));
 }
 
 void    free_split(char **split)
