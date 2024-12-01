@@ -6,28 +6,51 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:46:17 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/01 15:53:28 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/01 16:07:23 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void process_split(char **split, t_stack *stack, int *pos)
+static int	check_duplicates(t_stack *stack, int pos, int new_num)
 {
-    int j;
+	int	i;
 
-    j = 0;
-    while (split[j])
-    {
-        if (!is_valid_number(split[j]))
-        {
-            free_split(split);
-            free_stack(stack);
-            error_exit();
-        }
-        stack->numbers[(*pos)++] = ft_atoi(split[j]);
-        j++;
-    }
+	i = 0;
+	while (i < pos)
+	{
+		if (stack->numbers[i] == new_num)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+static int	add_number(t_stack *stack, char *str, int *pos)
+{
+	long long	num;
+
+	if (!is_valid_number(str))
+		return (0);
+	num = ft_atoll(str);
+	if (check_duplicates(stack, *pos, (int)num))
+		return (0);
+	stack->numbers[(*pos)++] = (int)num;
+	return (1);
+}
+
+static int	process_split(char **split, t_stack *stack, int *pos)
+{
+	int	j;
+
+	j = 0;
+	while (split[j])
+	{
+		if (!add_number(stack, split[j], pos))
+			return (0);
+		j++;
+	}
+	return (1);
 }
 
 t_stack *parse_args(int argc, char **argv)

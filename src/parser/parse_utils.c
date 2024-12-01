@@ -6,21 +6,40 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:45:18 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/01 15:45:26 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/01 16:06:01 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int is_valid_number(char *str)
+static int	check_digits(char *str)
 {
-    long    num;
-    char    *endptr;
+	int	i;
 
-    num = ft_strtol(str, &endptr, 10);
-    if (*endptr != '\0' || num > INT_MAX || num < INT_MIN)
-        return (0);
-    return (1);
+	i = 0;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	if (!str[i])
+		return (0);
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	is_valid_number(char *str)
+{
+	long long	num;
+
+	if (!check_digits(str))
+		return (0);
+	num = ft_atoll(str);
+	if (num > INT_MAX || num < INT_MIN)
+		return (0);
+	return (1);
 }
 
 void    free_split(char **split)
