@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   print_stack.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/01 15:44:33 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/01 15:53:13 by mvigara-         ###   ########.fr       */
+/*   Created: 2024/12/01 15:52:29 by mvigara-          #+#    #+#             */
+/*   Updated: 2024/12/01 15:52:32 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int main(int argc, char **argv)
+void    print_stack(t_stack *stack, char *stack_name)
 {
-    t_stack *stack;
+    int i;
 
-    stack = parse_args(argc, argv);
-    if (!stack)
-        return (0);
-    
-    print_stack(stack, "a");
-    
-    free_stack(stack);
-    return (0);
+    ft_printf("\n=== Stack %s ===\n", stack_name);
+    if (!stack || !stack->numbers)
+    {
+        ft_printf("(empty)\n");
+        return ;
+    }
+    ft_printf("Size: %d\n", stack->size);
+    i = 0;
+    while (i < stack->size)
+    {
+        ft_printf("[%d]: %d\n", i, stack->numbers[i]);
+        i++;
+    }
+    ft_printf("=============\n\n");
 }

@@ -6,7 +6,7 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/01 15:27:20 by mvigara-          #+#    #+#              #
-#    Updated: 2024/12/01 15:47:30 by mvigara-         ###   ########.fr        #
+#    Updated: 2024/12/01 15:58:26 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,18 +23,25 @@ INC = -I./inc -I$(LIBFT_PATH)/inc
 
 # Source files
 SRC_DIR = src
-SRC = main/push_swap.c \
-      parser/parse_args.c \
-      parser/parse_utils.c \
-      parser/parse_count.c \
-      error/error_handler.c \
-      stack/stack_init.c
+SRC = $(SRC_DIR)/main/push_swap.c \
+      $(SRC_DIR)/parser/parse_args.c \
+      $(SRC_DIR)/parser/parse_utils.c \
+      $(SRC_DIR)/parser/parse_count.c \
+      $(SRC_DIR)/error/error_handler.c \
+      $(SRC_DIR)/stack/stack_init.c \
+      $(SRC_DIR)/debug/print_stack.c
 
 # Object files
 OBJ_DIR = obj
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-all: $(NAME)
+DIRS = main parser error stack debug
+OBJ_DIRS = $(addprefix $(OBJ_DIR)/, $(DIRS))
+
+all: $(OBJ_DIRS) $(NAME)
+
+$(OBJ_DIRS):
+	@mkdir -p $@
 
 # Compile libft first
 $(LIBFT):
@@ -44,7 +51,7 @@ $(NAME): $(LIBFT) $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT_PATH) -lft -o $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 clean:
