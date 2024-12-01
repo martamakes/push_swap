@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:44:56 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/01 17:02:46 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/01 17:50:57 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,14 @@ void error_exit(void)
     exit(1);
 }
 
-void    free_stack(t_stack *stack)
+void free_stack(t_stack *stack)
 {
-    if (stack)
+    t_stack *temp;
+
+    while (stack)
     {
-        if (stack->numbers)
-            free(stack->numbers);
+        temp = stack->next;
         free(stack);
+        stack = temp;
     }
 }

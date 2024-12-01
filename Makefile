@@ -6,62 +6,124 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/01 15:27:20 by mvigara-          #+#    #+#              #
-#    Updated: 2024/12/01 15:58:26 by mvigara-         ###   ########.fr        #
+#    Updated: 2024/12/01 17:59:22 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
-NAME = push_swap
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror
-RM = rm -f
+# Colors
+RED = \033[0;31m
+GREEN = \033[0;32m
+YELLOW = \033[0;33m
+BLUE = \033[0;34m
+MAGENTA = \033[0;35m
+CYAN = \033[0;36m
+WHITE = \033[0;37m
+RESET = \033[0m
 
-# Paths
-LIBFT_PATH = ./lib/libft
-LIBFT = $(LIBFT_PATH)/libft.a
-INC = -I./inc -I$(LIBFT_PATH)/inc
+# Project name
+NAME = push_swap
+
+# Directories
+SRC_DIR = src
+OBJ_DIR = obj
+INC_DIR = inc
+LIB_DIR = lib
 
 # Source files
-SRC_DIR = src
-SRC = $(SRC_DIR)/main/push_swap.c \
-      $(SRC_DIR)/parser/parse_args.c \
-      $(SRC_DIR)/parser/parse_utils.c \
-      $(SRC_DIR)/parser/parse_count.c \
-      $(SRC_DIR)/error/error_handler.c \
-      $(SRC_DIR)/stack/stack_init.c \
-      $(SRC_DIR)/debug/print_stack.c
+MAIN_SRC = main/push_swap.c
+STACK_SRC = stack/stack_init.c
+PARSER_SRC = parser/parse_args.c parser/parse_utils.c parser/parse_list.c
+ERROR_SRC = error/error_handler.c
+DEBUG_SRC = debug/print_stack.c
+
+# Source files with directory prefix
+SRCS = $(addprefix $(SRC_DIR)/, $(MAIN_SRC) $(STACK_SRC) $(PARSER_SRC) $(ERROR_SRC) $(DEBUG_SRC))
 
 # Object files
-OBJ_DIR = obj
-OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-DIRS = main parser error stack debug
-OBJ_DIRS = $(addprefix $(OBJ_DIR)/, $(DIRS))
+# Libft
+LIBFT_DIR = $(LIB_DIR)/libft
+LIBFT = $(LIBFT_DIR)/libft.a
 
-all: $(OBJ_DIRS) $(NAME)
+# Compiler and flags
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
+INCLUDES = -I$(INC_DIR) -I$(LIBFT_DIR)/inc
 
-$(OBJ_DIRS):
-	@mkdir -p $@
+# Detect OS
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Darwin)    # macOS
+    CFLAGS += -fsanitize=address -g
+    $(info $(CYAN)Compiling for macOS with Address Sanitizer$(RESET))
+else ifeq ($(UNAME_S),Linux)    # Linux
+    CFLAGS += -g
+    $(info $(CYAN)Compiling for Linux. Use valgrind for memory checks$(RESET))
+endif
 
-# Compile libft first
-$(LIBFT):
-	@make -C $(LIBFT_PATH)
+# Rules
+all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT_PATH) -lft -o $(NAME)
-
+# Create directories
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	@echo "$(BLUE)Compiling $<...$(RESET)"
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+# Compile libft
+$(LIBFT):
+	@echo "$(GREEN)Building libft...$(RESET)"
+	@make -C $(LIBFT_DIR)
+
+# Link everything
+$(NAME): $(LIBFT) $(OBJS)
+	@echo "$(GREEN)Linking $@...$(RESET)"
+	@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) -lft -o $(NAME)
+	@echo "$(GREEN)Build complete! 🚀$(RESET)"
 
 clean:
-	@make -C $(LIBFT_PATH) clean
-	$(RM) -r $(OBJ_DIR)
+	@echo "$(RED)Cleaning object files...$(RESET)"
+	@rm -rf $(OBJ_DIR)
+	@make -C $(LIBFT_DIR) clean
 
 fclean: clean
-	@make -C $(LIBFT_PATH) fclean
-	$(RM) $(NAME)
+	@echo "$(RED)Cleaning everything...$(RESET)"
+	@rm -f $(NAME)
+	@make -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+# Debug rule
+debug: CFLAGS += -g
+debug: re
+	@echo "$(YELLOW)Debug build complete!$(RESET)"
+
+# Testing helper
+test: $(NAME)
+	@echo "$(MAGENTA)Running basic tests...$(RESET)"
+	@./$(NAME) 42
+	@./$(NAME) 0 1 2 3
+	@./$(NAME) 0 1 2 3 4 5 6 7 8 9
+	@./$(NAME) "1 2 3"
+	@./$(NAME) 0 one 2 3
+
+.PHONY: all clean fclean re debug test
+
+# Help message
+help:
+	@echo "$(CYAN)Available targets:$(RESET)"
+	@echo "  $(GREEN)all$(RESET)     : Build the project"
+	@echo "  $(GREEN)clean$(RESET)   : Remove object files"
+	@echo "  $(GREEN)fclean$(RESET)  : Remove object files and executable"
+	@echo "  $(GREEN)re$(RESET)      : Rebuild the project"
+	@echo "  $(GREEN)debug$(RESET)   : Build with debug symbols"
+	@echo "  $(GREEN)test$(RESET)    : Run basic tests"
+	@echo
+	@echo "$(CYAN)OS Detection:$(RESET)"
+	@echo "  Current OS: $(UNAME_S)"
+	@if [ "$(UNAME_S)" = "Darwin" ]; then \
+		echo "  $(YELLOW)Using Address Sanitizer for memory checks$(RESET)"; \
+	else \
+		echo "  $(YELLOW)Use valgrind for memory checks$(RESET)"; \
+	fi
