@@ -6,36 +6,44 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 17:53:31 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/01 17:53:35 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/01 18:25:59 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_stack *find_last(t_stack *stack)
+t_node *find_last(t_stack *stack)
 {
-    if (!stack)
+    t_node *current;
+
+    if (!stack || !stack->top)
         return (NULL);
-    while (stack->next)
-        stack = stack->next;
-    return (stack);
+    current = stack->top;
+    while (current->next)
+        current = current->next;
+    return (current);
 }
 
 static int check_duplicate(t_stack *stack, int num)
 {
-    while (stack)
+    t_node *current;
+
+    if (!stack)
+        return (0);
+    current = stack->top;
+    while (current)
     {
-        if (stack->value == num)
+        if (current->value == num)
             return (1);
-        stack = stack->next;
+        current = current->next;
     }
     return (0);
 }
 
-int add_number(t_stack **stack, char *str)
+int add_number(t_stack *stack, char *str)
 {
-    t_stack     *new;
-    t_stack     *last;
+    t_node      *new;
+    t_node      *last;
     long long   num;
 
     if (!is_valid_number(str))
@@ -43,17 +51,18 @@ int add_number(t_stack **stack, char *str)
     num = ft_atoll(str);
     if (num > INT_MAX || num < INT_MIN)
         return (0);
-    if (check_duplicate(*stack, (int)num))
+    if (check_duplicate(stack->top, (int)num))
         return (0);
-    new = init_stack((int)num);
+    new = create_node((int)num);
     if (!new)
         return (0);
-    if (!*stack)
-        *stack = new;
+    if (!stack->top)
+        stack->top = new;
     else
     {
-        last = find_last(*stack);
+        last = find_last(stack->top);
         last->next = new;
     }
+    stack->size++;
     return (1);
 }

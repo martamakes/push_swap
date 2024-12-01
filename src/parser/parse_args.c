@@ -6,13 +6,13 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:46:17 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/01 17:56:09 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/01 18:25:29 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static int process_split(char **split, t_stack **stack)
+static int process_split(char **split, t_stack *stack)
 {
     int j;
 
@@ -38,12 +38,14 @@ t_stack *parse_args(int argc, char **argv)
 
     if (argc < 2)
         return (NULL);
-    stack = NULL;
+    stack = init_stack();
+    if (!stack)
+        return (NULL);
     i = 1;
     while (argv[i])
     {
         split = ft_split(argv[i], ' ');
-        if (!process_split(split, &stack))
+        if (!process_split(split, stack))
         {
             free_stack(stack);
             return (NULL);

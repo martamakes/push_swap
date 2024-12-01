@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:52:29 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/01 17:51:20 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/01 18:23:00 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,22 @@
 
 void print_stack(t_stack *stack, char *stack_name)
 {
-    int i;
+    t_node *current;
+    int    i;
 
     ft_printf("\n=== Stack %s ===\n", stack_name);
-    if (!stack)
+    if (!stack || !stack->top)
     {
         ft_printf("(empty)\n");
         return ;
     }
     
     i = 0;
-    while (stack)
+    current = stack->top;
+    while (current)
     {
-        ft_printf("[%d]: %d\n", i++, stack->value);
-        stack = stack->next;
+        ft_printf("[%d]: %d\n", i++, current->value);
+        current = current->next;
     }
     ft_printf("=============\n\n");
 }

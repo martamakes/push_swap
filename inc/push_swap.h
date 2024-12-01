@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/01 17:58:15 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/01 18:26:15 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,32 @@
 
 # include "libft.h"
 
-typedef struct s_stack
+typedef struct s_node
 {
     int             value;
-    int             size;
-    struct s_stack  *next;
-}                   t_stack;
+    struct s_node   *next;
+}                   t_node;
+
+typedef struct s_stack
+{
+    t_node  *top;
+    int     size;
+}           t_stack;
 
 // Error handling
 void        error_exit(void);
 void        free_stack(t_stack *stack);
 
 // Stack operations
-t_stack     *init_stack(int size);
+t_stack     *init_stack(void);
+t_node      *create_node(int value);
+t_node      *find_last(t_stack *stack);
 
 // Parsing functions
 t_stack     *parse_args(int argc, char **argv);
 int         is_valid_number(char *str);
 void        free_split(char **split);
 void        print_stack(t_stack *stack, char *stack_name);
-int         add_number(t_stack **stack, char *str);
-
-
+int         add_number(t_stack *stack, char *str);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:44:56 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/01 17:50:57 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/01 18:24:16 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,17 @@ void error_exit(void)
 
 void free_stack(t_stack *stack)
 {
-    t_stack *temp;
+    t_node *current;
+    t_node *temp;
 
-    while (stack)
+    if (!stack)
+        return ;
+    current = stack->top;
+    while (current)
     {
-        temp = stack->next;
-        free(stack);
-        stack = temp;
+        temp = current->next;
+        free(current);
+        current = temp;
     }
+    free(stack);
 }

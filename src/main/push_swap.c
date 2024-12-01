@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:44:33 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/01 17:57:58 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/01 18:24:35 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ int main(int argc, char **argv)
     
     stack = parse_args(argc, argv);
     if (!stack)
-        return (0);
-    stack->size = argc - 1;
+        error_exit();
     
     if (stack && stack->size > 0)
         print_stack(stack, "a");
