@@ -6,7 +6,7 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/01 15:27:20 by mvigara-          #+#    #+#              #
-#    Updated: 2024/12/01 15:27:24 by mvigara-         ###   ########.fr        #
+#    Updated: 2024/12/01 15:47:30 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,12 @@ INC = -I./inc -I$(LIBFT_PATH)/inc
 
 # Source files
 SRC_DIR = src
-SRC = $(SRC_DIR)/push_swap.c
+SRC = main/push_swap.c \
+      parser/parse_args.c \
+      parser/parse_utils.c \
+      parser/parse_count.c \
+      error/error_handler.c \
+      stack/stack_init.c
 
 # Object files
 OBJ_DIR = obj

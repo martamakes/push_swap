@@ -6,26 +6,32 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/01 15:28:33 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/01 15:47:03 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// inc/push_swap.h
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
 # include "libft.h"
 
-// Stack structure
 typedef struct s_stack
 {
-    int             *numbers;
-    int             size;
-}               t_stack;
+    int     *numbers;
+    int     size;
+}           t_stack;
 
-// Function prototypes
-void    error_exit(void);
-t_stack *parse_args(int argc, char **argv);
+// Error handling
+void        error_exit(void);
+void        free_stack(t_stack *stack);
+
+// Stack operations
+t_stack     *init_stack(int size);
+
+// Parsing functions
+t_stack     *parse_args(int argc, char **argv);
+int         count_numbers(char **argv);
+int         is_valid_number(char *str);
+void        free_split(char **split);
 
 #endif
