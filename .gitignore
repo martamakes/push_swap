@@ -3,3 +3,5 @@
 push_swap
 .DS_Store
 tree.txt
+lib/libft/obj
+lib/libft/libft.a
