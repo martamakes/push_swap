@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/01 18:26:15 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/02 07:26:28 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ typedef struct s_node
 {
     int             value;
     struct s_node   *next;
+    struct  s_node  *prev;
 }                   t_node;
 
 typedef struct s_stack
 {
     t_node  *top;
     int     size;
+    t_node  *bottom;
 }           t_stack;
 
 // Error handling

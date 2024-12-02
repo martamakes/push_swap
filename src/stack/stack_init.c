@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:46:40 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/01 18:21:49 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/02 07:50:08 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_stack *init_stack(void)
         error_exit();
     stack->top = NULL;
     stack->size = 0;
+    stack->bottom = NULL;
     return (stack);
 }
 
@@ -33,5 +34,7 @@ t_node *create_node(int value)
         error_exit();
     new->value = value;
     new->next = NULL;
+    new->prev = NULL;
+    ft_printf("Debug: Node created - value: %d, address: %p\n", value, (void*)new);
     return (new);
 }
