@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/02 08:59:25 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/02 09:08:54 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void        sort_five(t_stack *stack_a, t_stack *stack_b);
 void        sort_medium(t_stack *stack_a, t_stack *stack_b);
 void        sort_large(t_stack *stack_a, t_stack *stack_b);
 int         is_sorted(t_stack *stack);
+int         get_highest_pos(t_stack *stack);
 
 
 //Debug
