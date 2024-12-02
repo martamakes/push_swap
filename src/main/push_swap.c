@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:44:33 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/02 08:50:51 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/02 09:04:26 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void sort_stack(t_stack *stack_a)
     if (!stack_a || stack_a->size < 2)
         return ;
     
-    ft_printf("\nOriginal Stack A:\n");
+    ft_printf("\n=== Initial state ===\n");
     simple_print_stack(stack_a, "A");
     
     if (stack_a->size > 3)
@@ -27,6 +27,7 @@ static void sort_stack(t_stack *stack_a)
     else
         stack_b = NULL;
     
+    ft_printf("\n=== Operations ===\n");
     if (stack_a->size == 2)
         sort_two(stack_a);
     else if (stack_a->size == 3)
@@ -38,7 +39,7 @@ static void sort_stack(t_stack *stack_a)
     else
         sort_large(stack_a, stack_b);
     
-    ft_printf("\nFinal Sorted Stack A:\n");
+    ft_printf("\n=== Final state ===\n");
     simple_print_stack(stack_a, "A");
     
     if (stack_b)

@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 08:51:46 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/02 08:52:30 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/02 09:04:51 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 void    sort_two(t_stack *stack_a)
 {
-    ft_printf("\nSort Two Numbers:\n");
-    simple_print_stack(stack_a, "A");
-    return ;
+    if (!stack_a || stack_a->size != 2)
+        return ;
+    if (!is_sorted(stack_a))
+        sa(stack_a);
 }
 
 void    sort_three(t_stack *stack_a)
