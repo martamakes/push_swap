@@ -6,7 +6,7 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/01 15:27:20 by mvigara-          #+#    #+#              #
-#    Updated: 2024/12/02 08:26:35 by mvigara-         ###   ########.fr        #
+#    Updated: 2024/12/02 08:37:50 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,8 @@ STACK_SRC = stack/stack_init.c
 PARSER_SRC = parser/parse_args.c parser/parse_utils.c parser/parse_list.c
 ERROR_SRC = error/error_handler.c
 DEBUG_SRC = debug/print_stack.c debug/test_ops.c
-OPS_SRC = operations/basic_ops.c operations/push_ops.c
+OPS_SRC = operations/basic_ops.c operations/push_ops.c operations/rotate_ops.c \
+	operations/reverse_rotate_ops.c
 
 # Source files with directory prefix
 SRCS = $(addprefix $(SRC_DIR)/, $(MAIN_SRC) $(STACK_SRC) $(PARSER_SRC) $(ERROR_SRC) $(DEBUG_SRC) $(OPS_SRC))

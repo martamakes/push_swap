@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/02 08:23:53 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/02 08:40:02 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,25 @@ void        free_split(char **split);
 int         add_number(t_stack *stack, char *str);
 
 // Basic stack operations
-void    sa(t_stack *stack_a);
-void    sb(t_stack *stack_b);
-void    ss(t_stack *stack_a, t_stack *stack_b);
-void    pa(t_stack *stack_a, t_stack *stack_b);
-void    pb(t_stack *stack_a, t_stack *stack_b);
+void        sa(t_stack *stack_a);
+void        sb(t_stack *stack_b);
+void        ss(t_stack *stack_a, t_stack *stack_b);
+void        pa(t_stack *stack_a, t_stack *stack_b);
+void        pb(t_stack *stack_a, t_stack *stack_b);
+void        ra(t_stack *stack_a);
+void        rb(t_stack *stack_b);
+void        rr(t_stack *stack_a, t_stack *stack_b);
+void        rra(t_stack *stack_a);
+void        rrb(t_stack *stack_b);
+void        rrr(t_stack *stack_a, t_stack *stack_b);
 
 //Debug
 void        test_swaps(t_stack *stack_a, t_stack *stack_b);
 void        print_stack(t_stack *stack, char *stack_name);
 void        simple_print_stack(t_stack *stack, char *stack_name);
+void        test_rotations(t_stack *stack_a, t_stack *stack_b);
+void        test_reverse_rotations(t_stack *stack_a, t_stack *stack_b);
+void        test_all_operations(t_stack *stack_a, t_stack *stack_b);
+
 
 #endif

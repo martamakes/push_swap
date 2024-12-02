@@ -6,9 +6,13 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:44:33 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/02 08:24:27 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/02 08:41:10 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "push_swap.h"
+
+/* src/main/push_swap.c */
 
 #include "push_swap.h"
 
@@ -41,9 +45,9 @@ int main(int argc, char **argv)
         simple_print_stack(stack_b, "b");
 
     if (stack_b)
-        test_swaps(stack_a, stack_b);
+        test_all_operations(stack_a, stack_b);
     else
-        ft_printf("\nStack has 3 or fewer elements - skipping swap tests\n");
+        ft_printf("\nStack has 3 or fewer elements - skipping operation tests\n");
 
     if (stack_b)
         free_stack(stack_b);
