@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/02 07:26:28 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/02 08:03:22 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void        free_stack(t_stack *stack);
 // Stack operations
 t_stack     *init_stack(void);
 t_node      *create_node(int value);
-t_node      *find_last(t_stack *stack);
 
 // Parsing functions
 t_stack     *parse_args(int argc, char **argv);

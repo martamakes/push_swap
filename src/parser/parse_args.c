@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:46:17 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/02 07:37:53 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/02 08:00:21 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static int process_split(char **split, t_stack *stack)
     j = 0;
     while (split[j])
     {
-        ft_printf("Debug: process_split - procesando argumento: '%s'\n", split[j]);
         if (!add_number(stack, split[j]))
         {
             free_split(split);
@@ -31,6 +30,7 @@ static int process_split(char **split, t_stack *stack)
     }
     return (1);
 }
+
 t_stack *parse_args(int argc, char **argv)
 {
     t_stack *stack;

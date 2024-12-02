@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:46:40 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/02 07:50:08 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/02 08:01:02 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,5 @@ t_node *create_node(int value)
     new->value = value;
     new->next = NULL;
     new->prev = NULL;
-    ft_printf("Debug: Node created - value: %d, address: %p\n", value, (void*)new);
     return (new);
 }
