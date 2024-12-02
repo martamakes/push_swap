@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:52:29 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/02 07:55:39 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/02 08:30:09 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,25 @@ void print_stack(t_stack *stack, char *stack_name)
         current = current->prev;
     }
     ft_printf("\n==================\n\n");
+}
+
+void simple_print_stack(t_stack *stack, char *stack_name)
+{
+    t_node  *current;
+
+    ft_printf("\n=== Stack %s ===\n", stack_name);
+    if (!stack || !stack->top)
+    {
+        ft_printf("(empty)\n");
+        return ;
+    }
+    current = stack->top;
+    while (current)
+    {
+        ft_printf("%d", current->value);
+        if (current->next)
+            ft_printf("\n");
+        current = current->next;
+    }
+    ft_printf("\n");
 }

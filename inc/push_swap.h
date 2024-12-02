@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/02 08:03:22 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/02 08:23:53 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,18 @@ t_node      *create_node(int value);
 t_stack     *parse_args(int argc, char **argv);
 int         is_valid_number(char *str);
 void        free_split(char **split);
-void        print_stack(t_stack *stack, char *stack_name);
 int         add_number(t_stack *stack, char *str);
+
+// Basic stack operations
+void    sa(t_stack *stack_a);
+void    sb(t_stack *stack_b);
+void    ss(t_stack *stack_a, t_stack *stack_b);
+void    pa(t_stack *stack_a, t_stack *stack_b);
+void    pb(t_stack *stack_a, t_stack *stack_b);
+
+//Debug
+void        test_swaps(t_stack *stack_a, t_stack *stack_b);
+void        print_stack(t_stack *stack, char *stack_name);
+void        simple_print_stack(t_stack *stack, char *stack_name);
 
 #endif
