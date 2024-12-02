@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/02 08:40:02 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/02 08:51:25 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,13 @@ void        rr(t_stack *stack_a, t_stack *stack_b);
 void        rra(t_stack *stack_a);
 void        rrb(t_stack *stack_b);
 void        rrr(t_stack *stack_a, t_stack *stack_b);
+
+// Sorting algorithms
+void        sort_two(t_stack *stack_a);
+void        sort_three(t_stack *stack_a);
+void        sort_five(t_stack *stack_a, t_stack *stack_b);
+void        sort_medium(t_stack *stack_a, t_stack *stack_b);
+void        sort_large(t_stack *stack_a, t_stack *stack_b);
 
 //Debug
 void        test_swaps(t_stack *stack_a, t_stack *stack_b);

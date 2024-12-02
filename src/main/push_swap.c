@@ -6,51 +6,55 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:44:33 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/02 08:41:10 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/02 08:50:51 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-/* src/main/push_swap.c */
+static void sort_stack(t_stack *stack_a)
+{
+    t_stack *stack_b;
 
-#include "push_swap.h"
+    if (!stack_a || stack_a->size < 2)
+        return ;
+    
+    ft_printf("\nOriginal Stack A:\n");
+    simple_print_stack(stack_a, "A");
+    
+    if (stack_a->size > 3)
+        stack_b = init_stack();
+    else
+        stack_b = NULL;
+    
+    if (stack_a->size == 2)
+        sort_two(stack_a);
+    else if (stack_a->size == 3)
+        sort_three(stack_a);
+    else if (stack_a->size <= 5)
+        sort_five(stack_a, stack_b);
+    else if (stack_a->size <= 100)
+        sort_medium(stack_a, stack_b);
+    else
+        sort_large(stack_a, stack_b);
+    
+    ft_printf("\nFinal Sorted Stack A:\n");
+    simple_print_stack(stack_a, "A");
+    
+    if (stack_b)
+        free_stack(stack_b);
+}
 
 int main(int argc, char **argv)
 {
     t_stack *stack_a;
-    t_stack *stack_b;
 
     if (argc < 2)
         return (0);
-    
     stack_a = parse_args(argc, argv);
     if (!stack_a)
         error_exit();
-    
-    stack_b = NULL;
-    if (stack_a->size > 3)
-    {
-        stack_b = init_stack();
-        if (!stack_b)
-        {
-            free_stack(stack_a);
-            error_exit();
-        }
-    }
-
-    ft_printf("\n=== Initial state ===\n");
-    simple_print_stack(stack_a, "a");
-    if (stack_b)
-        simple_print_stack(stack_b, "b");
-
-    if (stack_b)
-        test_all_operations(stack_a, stack_b);
-    else
-        ft_printf("\nStack has 3 or fewer elements - skipping operation tests\n");
-
-    if (stack_b)
-        free_stack(stack_b);
+    sort_stack(stack_a);
     free_stack(stack_a);
     return (0);
 }
