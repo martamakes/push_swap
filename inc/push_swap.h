@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/02 09:21:21 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/02 15:45:34 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,10 @@ void        sort_medium(t_stack *stack_a, t_stack *stack_b);
 void        sort_large(t_stack *stack_a, t_stack *stack_b);
 int         is_sorted(t_stack *stack);
 int         get_highest_pos(t_stack *stack);
+int         get_chunk_size(int stack_size);
+int         get_chunk_max(t_stack *stack, int chunk_size, int chunk_num);
+int         is_in_chunk(int value, int min, int max);
+int         find_closest_chunk_num(t_stack *stack, int chunk_min, int chunk_max);
 
 
 //Debug
