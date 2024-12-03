@@ -6,7 +6,7 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/01 15:27:20 by mvigara-          #+#    #+#              #
-#    Updated: 2024/12/02 15:56:47 by mvigara-         ###   ########.fr        #
+#    Updated: 2024/12/03 08:15:32 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ DEBUG_SRC = debug/print_stack.c debug/test_ops.c
 OPS_SRC = operations/basic_ops.c operations/push_ops.c operations/rotate_ops.c \
 	operations/reverse_rotate_ops.c
 SORT_SRC = sort/sort_large.c sort/sort_small.c sort/sort_utils.c sort/chunks.c \
-	sort/sort_medium.c
+	sort/sort_medium.c sort/push_back.c sort/push_optimal_chunk.c
 
 # Source files with directory prefix
 SRCS = $(addprefix $(SRC_DIR)/, $(MAIN_SRC) $(STACK_SRC) $(PARSER_SRC) $(ERROR_SRC) $(DEBUG_SRC) $(OPS_SRC) $(SORT_SRC))
