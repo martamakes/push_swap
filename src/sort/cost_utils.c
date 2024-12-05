@@ -6,16 +6,30 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 09:26:06 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/05 09:57:24 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/05 10:24:16 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int count_numbers_in_chunk(t_stack *stack, int start, int end)
+#include "push_swap.h"
+
+void    init_cost(t_cost *cost)
 {
-    t_node *current;
-    int count;
+    cost->cost_a = 0;
+    cost->cost_b = 0;
+    cost->pos_a = 0;
+    cost->pos_b = 0;
+    cost->rev_a = false;
+    cost->rev_b = false;
+    cost->needs_swap = false;
+    cost->can_ss = false;
+}
+
+int    count_numbers_in_chunk(t_stack *stack, int start, int end)
+{
+    t_node  *current;
+    int     count;
 
     count = 0;
     current = stack->top;
@@ -28,41 +42,28 @@ int count_numbers_in_chunk(t_stack *stack, int start, int end)
     return (count);
 }
 
-int calculate_position_cost(int pos, int stack_size, bool *reverse)
+int    calculate_position_cost(int pos, int stack_size, bool *reverse)
 {
     *reverse = pos > stack_size / 2;
     return (*reverse ? stack_size - pos : pos);
 }
 
-// cost_utils.c
-static int count_common_rotations(int cost_a, int cost_b)
-{
-    if (cost_a < cost_b)
-        return (cost_a);
-    return (cost_b);
-}
-
-static int calculate_rotate_cost(t_cost *cost, int *common_moves)
-{
-    int total;
-
-    total = cost->cost_a + cost->cost_b;
-    if (cost->rev_a == cost->rev_b)
-    {
-        *common_moves = count_common_rotations(cost->cost_a, cost->cost_b);
-        total = *common_moves + (cost->cost_a - *common_moves) +
-                (cost->cost_b - *common_moves);
-    }
-    return (total);
-}
-
-int calculate_total_cost(t_cost *cost)
+int    calculate_total_cost(t_cost *cost)
 {
     int total;
     int common_moves;
 
+    total = cost->cost_a + cost->cost_b;
     common_moves = 0;
-    total = calculate_rotate_cost(cost, &common_moves);
+    if (cost->rev_a == cost->rev_b)
+    {
+        if (cost->cost_a < cost->cost_b)
+            common_moves = cost->cost_a;
+        else
+            common_moves = cost->cost_b;
+        total = common_moves + (cost->cost_a - common_moves) + 
+            (cost->cost_b - common_moves);
+    }
     if (cost->needs_swap && cost->can_ss)
         total--;
     return (total);

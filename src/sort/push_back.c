@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:11:42 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/05 10:18:35 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/05 10:22:31 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	find_max_pos(t_stack *stack)
 	return (max_pos);
 }
 
-static void	calculate_push_cost(t_stack *a, t_stack *b, t_cost *cost)
+static void	calculate_push_cost(t_stack *b, t_cost *cost)
 {
 	int	max_pos;
 
@@ -54,7 +54,7 @@ void	move_back_to_a(t_stack *a, t_stack *b)
 	while (b->size > 0)
 	{
 		init_cost(&cost);
-		calculate_push_cost(a, b, &cost);
+		calculate_push_cost(b, &cost);
 		execute_moves(a, b, &cost);
 		pa(a, b);
 	}
