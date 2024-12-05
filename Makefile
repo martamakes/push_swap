@@ -6,7 +6,7 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/01 15:27:20 by mvigara-          #+#    #+#              #
-#    Updated: 2024/12/05 10:28:59 by mvigara-         ###   ########.fr        #
+#    Updated: 2024/12/05 11:32:11 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,15 +32,16 @@ LIB_DIR = lib
 
 # Source files
 MAIN_SRC = main/push_swap.c
-STACK_SRC = stack/stack_init.c
+STACK_SRC = stack/stack_init.c stack/stack_utils.c
 PARSER_SRC = parser/parse_args.c parser/parse_utils.c parser/parse_list.c
 ERROR_SRC = error/error_handler.c
 DEBUG_SRC = debug/print_stack.c debug/test_ops.c
 OPS_SRC = operations/basic_ops.c operations/push_ops.c operations/rotate_ops.c \
 	operations/reverse_rotate_ops.c
 SORT_SRC = sort/sort_large.c sort/sort_small.c sort/sort_utils.c sort/chunks.c \
-	sort/push_back.c sort/push_optimal_chunk.c sort/execute_moves.c \
-	sort/cost_utils.c sort/move_to_b.c
+	sort/push_back.c sort/execute_moves.c sort/cost_utils.c sort/move_to_b.c \
+	sort/target_utils.c sort/move_utils.c sort/target_utils.c \
+	sort/cost_calculator.c
 	
 
 # Source files with directory prefix

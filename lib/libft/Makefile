@@ -6,7 +6,7 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/18 13:36:09 by mvigara-          #+#    #+#              #
-#    Updated: 2024/11/29 02:00:52 by mvigara-         ###   ########.fr        #
+#    Updated: 2024/12/05 11:00:01 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ ft_lstlast_bonus.c ft_lstadd_back_bonus.c ft_lstdelone_bonus.c\
 ft_lstclear_bonus.c ft_lstiter_bonus.c ft_lstmap_bonus.c ft_putunbr_fd.c\
 ft_strndup.c ft_strnchr.c ft_printf_char.c ft_printf_nb.c ft_printf_utils.c \
 ft_printf.c get_next_line.c ft_iswhitespace.c ft_atoll.c ft_strcmp.c\
-ft_strtok.c ft_isodd.c ft_abs.c ft_strtol.c ft_atof.c
+ft_strtok.c ft_isodd.c ft_abs.c ft_strtol.c ft_atof.c ft_min.c
 
 OBJ = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
 INCLUDE = inc/libft.h

@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 08:51:46 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/02 09:20:34 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/05 11:20:11 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,32 +35,6 @@ void    sort_three(t_stack *stack_a)
         rra(stack_a);
     if (!is_sorted(stack_a))
         sa(stack_a);
-}
-
-static int    get_min_pos(t_stack *stack)
-{
-    t_node  *current;
-    int     min;
-    int     pos;
-    int     min_pos;
-
-    if (!stack || !stack->top)
-        return (-1);
-    current = stack->top;
-    min = current->value;
-    pos = 0;
-    min_pos = 0;
-    while (current)
-    {
-        if (current->value < min)
-        {
-            min = current->value;
-            min_pos = pos;
-        }
-        pos++;
-        current = current->next;
-    }
-    return (min_pos);
 }
 
 static void    push_min_to_b(t_stack *stack_a, t_stack *stack_b)

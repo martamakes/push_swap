@@ -6,11 +6,9 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 09:26:06 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/05 10:24:16 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/05 13:15:03 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "push_swap.h"
 
 #include "push_swap.h"
 
@@ -20,10 +18,12 @@ void    init_cost(t_cost *cost)
     cost->cost_b = 0;
     cost->pos_a = 0;
     cost->pos_b = 0;
+    cost->total_cost = 0;
     cost->rev_a = false;
     cost->rev_b = false;
-    cost->needs_swap = false;
     cost->can_ss = false;
+    cost->needs_swap = false;
+    cost->value = 0;
 }
 
 int    count_numbers_in_chunk(t_stack *stack, int start, int end)

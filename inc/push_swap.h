@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/05 10:25:51 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/05 13:26:01 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,19 @@ typedef struct s_chunk_info
     int     current;
 }           t_chunk_info;
 
+// En push_swap.h, modificar t_cost para incluir todos los campos necesarios:
 typedef struct s_cost
 {
     int     cost_a;
     int     cost_b;
     int     pos_a;
     int     pos_b;
+    int     total_cost;
     bool    rev_a;
     bool    rev_b;
-    bool    needs_swap;
     bool    can_ss;
+    bool    needs_swap;
+    int     value;
 }           t_cost;
 
 void            error_exit(void);
@@ -86,11 +89,20 @@ int             get_value_at_position(t_stack *stack, int pos);
 
 void            push_optimal_number(t_stack *a, t_stack *b, 
                     int chunk_start, int chunk_end);
-void            execute_moves(t_stack *a, t_stack *b, t_cost *cost);
-void            init_cost(t_cost *cost);
 int             calculate_position_cost(int pos, int stack_size, bool *reverse);
 int             calculate_total_cost(t_cost *cost);
 void            move_to_b(t_stack *a, t_stack *b, t_chunk_info *chunk);
 void            move_back_to_a(t_stack *a, t_stack *b);
+void    complete_rotations(t_stack *stack, int count, int reverse);
+void    get_stack_bounds(t_stack *stack, int *min, int *max);
+int     get_min_pos(t_stack *stack);
+int     get_max_pos(t_stack *stack);
+int     get_highest_pos(t_stack *stack);
+void    init_cost(t_cost *cost);
+void    execute_optimal_moves(t_stack *a, t_stack *b, t_cost *cost);
+void    calculate_target_position(t_stack *a, int value, t_cost *cost);
+bool    would_improve_a(t_stack *a);
+bool    would_improve_b(t_stack *b, t_stack *a);
+bool    is_optimal_double_swap(t_stack *a, t_stack *b);
 
 #endif

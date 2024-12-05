@@ -6,56 +6,53 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:11:42 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/05 10:22:31 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/05 13:28:09 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static int	find_max_pos(t_stack *stack)
+static void    calculate_push_cost(t_stack *b, t_cost *cost)
 {
-	t_node	*current;
-	int		max;
-	int		pos;
-	int		max_pos;
-
-	current = stack->top;
-	max = current->value;
-	pos = 0;
-	max_pos = 0;
-	while (current)
-	{
-		if (current->value > max)
-		{
-			max = current->value;
-			max_pos = pos;
-		}
-		pos++;
-		current = current->next;
-	}
-	return (max_pos);
+    cost->pos_b = get_max_pos(b);
+    cost->cost_b = calculate_position_cost(cost->pos_b, b->size, 
+        &cost->rev_b);
+    cost->pos_a = 0;
+    cost->cost_a = 0;
 }
 
-static void	calculate_push_cost(t_stack *b, t_cost *cost)
+static bool is_consecutive_descending(t_node *node)
 {
-	int	max_pos;
-
-	max_pos = find_max_pos(b);
-	cost->pos_b = max_pos;
-	cost->cost_b = calculate_position_cost(max_pos, b->size, &cost->rev_b);
-	cost->pos_a = 0;
-	cost->cost_a = 0;
+    if (!node || !node->next)
+        return (true);
+    return (node->value == node->next->value + 1);
 }
 
-void	move_back_to_a(t_stack *a, t_stack *b)
+void    move_back_to_a(t_stack *a, t_stack *b)
 {
-	t_cost	cost;
+    t_cost  cost;
+    bool    rotate_optimized;
 
-	while (b->size > 0)
-	{
-		init_cost(&cost);
-		calculate_push_cost(b, &cost);
-		execute_moves(a, b, &cost);
-		pa(a, b);
-	}
+    while (b->size > 0)
+    {
+        init_cost(&cost);
+        rotate_optimized = false;
+        if (is_optimal_double_swap(a, b))
+        {
+            ss(a, b);
+            continue;
+        }
+        if (b->size > 1 && is_consecutive_descending(b->top))
+        {
+            rotate_optimized = true;
+            while (b->size > 0 && is_consecutive_descending(b->top))
+                pa(a, b);
+        }
+        if (!rotate_optimized)
+        {
+            calculate_push_cost(b, &cost);
+            execute_optimal_moves(a, b, &cost);
+            pa(a, b);
+        }
+    }
 }
