@@ -5,62 +5,49 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/02 15:42:25 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/02 15:50:24 by mvigara-         ###   ########.fr       */
+/*   Created: 2024/12/03 09:11:39 by mvigara-          #+#    #+#             */
+/*   Updated: 2024/12/05 10:19:27 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int get_chunk_size(int stack_size)
+static void	find_min_max(t_stack *stack, int *min, int *max)
 {
-    if (stack_size <= 100)
-        return (20);
-    return (50);
+	t_node	*current;
+
+	if (!stack || !stack->top)
+		return ;
+	current = stack->top;
+	*min = current->value;
+	*max = current->value;
+	while (current)
+	{
+		if (current->value < *min)
+			*min = current->value;
+		if (current->value > *max)
+			*max = current->value;
+		current = current->next;
+	}
 }
 
-int get_chunk_max(t_stack *stack, int chunk_size, int chunk_num)
+void	get_chunk_limits(t_stack *stack, int chunk_index, int *start, int *end)
 {
-    int max_value;
-    int count;
-    t_node *current;
+	int		min;
+	int		max;
+	int		total_chunks;
+	long	range;
 
-    max_value = INT_MIN;
-    count = 0;
-    current = stack->top;
-    while (current && count < chunk_size * chunk_num)
-    {
-        if (current->value > max_value)
-            max_value = current->value;
-        current = current->next;
-        count++;
-    }
-    return (max_value);
+	find_min_max(stack, &min, &max);
+	total_chunks = stack->size <= 100 ? 5 : 11;
+	range = ((long)max - (long)min) / total_chunks;
+	*start = min + (range * chunk_index);
+	*end = min + (range * (chunk_index + 1));
+	if (chunk_index == total_chunks - 1)
+		*end = max;
 }
 
-int is_in_chunk(int value, int min, int max)
+int	is_in_chunk(int value, int start, int end)
 {
-    return (value >= min && value <= max);
-}
-
-int find_closest_chunk_num(t_stack *stack, int chunk_min, int chunk_max)
-{
-    t_node *current;
-    int pos;
-    int closest_pos;
-
-    pos = 0;
-    closest_pos = -1;
-    current = stack->top;
-    while (current)
-    {
-        if (is_in_chunk(current->value, chunk_min, chunk_max))
-        {
-            if (closest_pos == -1 || pos < closest_pos)
-                closest_pos = pos;
-        }
-        current = current->next;
-        pos++;
-    }
-    return (closest_pos);
+	return (value >= start && value <= end);
 }

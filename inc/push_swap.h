@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/03 08:15:06 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/05 10:07:42 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,28 @@ typedef struct s_stack
     int     size;
     t_node  *bottom;
 }           t_stack;
+
+// Estructura para gestionar chunks
+typedef struct s_chunk_info
+{
+    int     start;      // Inicio del chunk actual
+    int     end;        // Fin del chunk actual
+    int     total;      // Número total de chunks
+    int     current;    // Índice del chunk actual
+}           t_chunk_info;
+
+// Estructura para calcular costes
+typedef struct s_cost
+{
+    int     cost_a;
+    int     cost_b;
+    int     pos_a;
+    int     pos_b;
+    bool    rev_a;
+    bool    rev_b;
+    bool    needs_swap;
+    bool    can_ss;
+}           t_cost;
 
 // Error handling
 void        error_exit(void);
@@ -60,16 +82,26 @@ void        rrr(t_stack *stack_a, t_stack *stack_b);
 void        sort_two(t_stack *stack_a);
 void        sort_three(t_stack *stack_a);
 void        sort_five(t_stack *stack_a, t_stack *stack_b);
-void        sort_medium(t_stack *stack_a, t_stack *stack_b);
 void        sort_large(t_stack *stack_a, t_stack *stack_b);
 int         is_sorted(t_stack *stack);
 int         get_highest_pos(t_stack *stack);
-int         get_chunk_size(int stack_size);
-int         get_chunk_max(t_stack *stack, int chunk_size, int chunk_num);
-int         is_in_chunk(int value, int min, int max);
-int         find_closest_chunk_num(t_stack *stack, int chunk_min, int chunk_max);
-void	    push_back_optimized(t_stack *a, t_stack *b);
-void	    push_optimal_chunk(t_stack *a, t_stack *b, int chunk_num, int total_chunks);
+// Chunk management
+void            get_chunk_limits(t_stack *stack, int chunk_index, int *chunk_start, int *chunk_end);
+t_chunk_info    *init_chunk_info(t_stack *stack);
+void            free_chunk_info(t_chunk_info *chunk_info);
+void            push_optimal_number(t_stack *a, t_stack *b, int chunk_start, int chunk_end);
+int             count_numbers_in_chunk(t_stack *stack, int start, int end);
+int             get_value_at_position(t_stack *stack, int pos);
+void            execute_moves(t_stack *a, t_stack *b, t_cost *cost);
+int             calculate_position_cost(int pos, int stack_size, bool *reverse);
+void            init_cost(t_cost *cost);
+void            move_to_b(t_stack *a, t_stack *b, t_chunk_info *chunk);
+void            move_back_to_a(t_stack *a, t_stack *b);
+int             calculate_total_cost(t_cost *cost);
+int             is_in_chunk(int value, int chunk_start, int chunk_end);
+
+
+
 
 
 
