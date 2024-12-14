@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 08:58:45 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/05 09:35:22 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/05 13:51:13 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,13 @@ void    free_chunk_info(t_chunk_info *chunk)
     free(chunk);
 }
 
-int get_value_at_position(t_stack *stack, int pos)
+t_node  *get_value_at_position(t_stack *stack, int pos)
 {
-    t_node *current;
-    int i;
+    t_node  *current;
+    int     i;
 
     if (!stack || pos >= stack->size)
-        return (0);
+        return (NULL);
     current = stack->top;
     i = 0;
     while (current && i < pos)
@@ -86,5 +86,5 @@ int get_value_at_position(t_stack *stack, int pos)
         current = current->next;
         i++;
     }
-    return (current ? current->value : 0);
+    return (current);
 }

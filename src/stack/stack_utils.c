@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:10:18 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/05 11:10:34 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/05 14:56:24 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void    get_stack_bounds(t_stack *stack, int *min, int *max)
 {
     t_node  *current;
 
+    *min = INT_MAX;
+    *max = INT_MIN;
     if (!stack || !stack->top)
         return ;
     current = stack->top;

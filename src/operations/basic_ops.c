@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 08:09:17 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/02 08:09:36 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/14 17:28:03 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,12 @@ static void swap_top(t_stack *stack)
         return ;
     first = stack->top;
     second = first->next;
-    
     first->next = second->next;
     if (second->next)
         second->next->prev = first;
     second->prev = NULL;
     second->next = first;
     first->prev = second;
-    
     if (first == stack->bottom)
         stack->bottom = second;
     stack->top = second;
