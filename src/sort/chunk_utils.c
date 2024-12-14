@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 19:10:11 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/14 19:16:38 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/14 20:12:13 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,23 @@ void    init_chunk_info(t_stack *a, t_chunk *chunk)
     if (!a || !chunk)
         return ;
     
-    // Obtener valores mínimo y máximo del stack
     get_stack_bounds(a, &min, &max);
     chunk->min = min;
     chunk->max = max;
     
-    // Calcular número de chunks según tamaño
+    // Ajuste dinámico del número de chunks
     if (a->size <= 100)
+    {
+        // Para 50-100 números, usamos 5 chunks
         chunk->num_chunks = 5;
+    }
     else
+    {
+        // Para >100 números, usamos más chunks pero de manera proporcional
         chunk->num_chunks = 11;
+    }
     
-    // Calcular tamaño de cada chunk
+    // El tamaño de chunk es ahora más preciso
     chunk->chunk_size = (max - min + chunk->num_chunks) / chunk->num_chunks;
     chunk->current = 0;
 }

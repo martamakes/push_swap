@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 19:14:26 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/14 19:14:28 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/14 20:12:58 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,20 @@ void    sort_large(t_stack *a, t_stack *b)
 {
     t_chunk chunk;
 
+    // Si tenemos 5 o menos números, usamos algoritmos específicos
     if (!a || !b || a->size <= 5)
         return ;
+    
+    // Para números entre 6 y 50, podríamos usar una estrategia intermedia
+    if (a->size <= 50)
+    {
+        sort_medium(a, b);  // Nueva función a implementar
+        return ;
+    }
 
-    // Inicializar información del chunk
+    // Para más de 50 números, usamos chunks
     init_chunk_info(a, &chunk);
-
-    // Fase 1: Empujar números a B en orden por chunks
     push_chunks_to_b(a, b, &chunk);
-
-    // Fase 2: Ordenar los últimos 3 números en A
     sort_three(a);
-
-    // Fase 3: Devolver números a A en orden
     push_back_to_a(a, b);
 }
