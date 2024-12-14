@@ -6,95 +6,99 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:24:41 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/14 18:40:37 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/14 19:43:20 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-/*
-static int  find_optimal_number(t_stack *a, int start, int end, t_cost *best)
+static int  check_bottom_positions(t_stack *a, t_chunk *chunk, int top_limit)
+{
+    t_node  *bottom;
+    int     pos_bottom;
+
+    bottom = a->bottom;
+    pos_bottom = 0;
+    while (bottom && pos_bottom < top_limit)
+    {
+        if (is_in_current_chunk(bottom->value, chunk))
+            return (a->size - pos_bottom - 1);
+        pos_bottom++;
+        bottom = bottom->prev;
+    }
+    return (-1);
+}
+
+static int  get_closest_in_chunk(t_stack *a, t_chunk *chunk)
 {
     t_node  *current;
-    int     pos;
-    t_cost  cost;
+    int     pos_top;
+    int     bottom_pos;
 
-    pos = 0;
+    if (!a || !chunk || !a->top)
+        return (-1);
     current = a->top;
-    while (current)
+    pos_top = 0;
+    while (current && pos_top <= a->size / 2)
     {
-        if (current->value >= start && current->value <= end)
+        if (is_in_current_chunk(current->value, chunk))
         {
-            init_cost(&cost);
-            cost.pos_a = pos;
-            calculate_move_costs(a, NULL, &cost);
-            if (cost.total_cost < best->total_cost)
-            {
-                *best = cost;
-                best->value = current->value;
-            }
+            bottom_pos = check_bottom_positions(a, chunk, pos_top);
+            if (bottom_pos != -1)
+                return (bottom_pos);
+            return (pos_top);
         }
+        pos_top++;
         current = current->next;
-        pos++;
     }
-    return (best->total_cost != INT_MAX);
+    return (-1);
 }
 
-static void check_position(t_stack *a, t_stack *b, t_cost *cost, int pos)
+static void rotate_to_position(t_stack *a, int pos)
 {
-    t_node  *node;
+    int     middle;
+    int     moves;
 
-    node = get_value_at_position(a, pos);
-    if (!node)
+    if (!a || pos < 0)
         return ;
-    cost->pos_a = pos;
-    cost->value = node->value;
-    calculate_move_costs(a, b, cost);
-}
-*/
-
-static void check_chunk_positions(t_stack *a, t_stack *b, t_cost *best,
-    int *limits)
-{
-    t_node  *current;
-    t_cost  curr_cost;
-    int     pos;
-
-    current = a->top;
-    pos = 0;
-    while (current)
+    middle = a->size / 2;
+    if (pos <= middle)
     {
-        if (is_in_chunk(current->value, limits[0], limits[1]))
+        moves = pos;
+        while (moves > 0)
         {
-            init_cost(&curr_cost);
-            check_position(a, b, &curr_cost, pos);
-            if (curr_cost.total_cost < best->total_cost)
-                *best = curr_cost;
+            ra(a);
+            moves--;
         }
-        current = current->next;
-        pos++;
+        return ;
+    }
+    moves = a->size - pos;
+    while (moves > 0)
+    {
+        rra(a);
+        moves--;
     }
 }
 
-void    move_to_b(t_stack *a, t_stack *b, t_chunk_info *chunk)
+void    push_chunks_to_b(t_stack *a, t_stack *b, t_chunk *chunk)
 {
-    t_cost  best;
-    
-    if (!a || !b || !chunk || a->size <= 3)
+    int pos;
+    int moved;
+
+    if (!a || !b || !chunk)
         return ;
-    while (a->size > 3)
+    while (chunk->current < chunk->num_chunks)
     {
-        get_chunk_limits(a, chunk);
-        init_cost(&best);
-        best.total_cost = INT_MAX;
-        if (count_numbers_in_chunk(a, chunk->start, chunk->end) == 0)
+        moved = 0;
+        pos = get_closest_in_chunk(a, chunk);
+        while (pos != -1)
         {
+            rotate_to_position(a, pos);
+            pb(a, b);
+            moved++;
+            pos = get_closest_in_chunk(a, chunk);
+        }
+        if (moved == 0)
             chunk->current++;
-            if (chunk->current >= chunk->total)
-                chunk->current = 0;
-            continue ;
-        }
-        push_optimal_number(a, b, chunk->start, chunk->end);
     }
-    sort_three(a);
 }
