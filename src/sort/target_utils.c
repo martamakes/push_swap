@@ -6,13 +6,13 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:51:52 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/05 13:48:49 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/15 04:42:45 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void    calculate_target_position(t_stack *a, int value, t_cost *cost)
+void    calculate_target_position(t_stack *a, int value, t_move *cost)
 {
     t_node  *current;
     int     min;

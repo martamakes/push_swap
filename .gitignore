@@ -5,3 +5,4 @@ push_swap
 tree.txt
 lib/libft/obj
 lib/libft/libft.a
+.vscode/

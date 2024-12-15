@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 20:19:17 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/15 04:33:58 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/15 04:58:11 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ void    sort_medium(t_stack *a, t_stack *b)
     sort_three(a, 'a');
     calculate_move_cost(a, b, moves);
     push_back_to_a(a, b);
+    rotate_to_min(a); 
     free(moves);
 }

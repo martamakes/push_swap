@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/14 21:56:53 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/15 04:58:48 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ int             get_max_pos(t_stack *stack);
 int get_highest_pos(t_stack *stack); //ver si pudeo sustituir con get_max_pos
 void            rotate_both(t_stack *a, t_stack *b, int *cost_a, int *cost_b);
 void            rev_rotate_both(t_stack *a, t_stack *b, int *cost_a, int *cost_b);
+void    rotate_to_min(t_stack *a);
 
 // Funciones de debug (a mantener temporalmente)
 void            simple_print_stack(t_stack *stack, char *stack_name);
