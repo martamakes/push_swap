@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 19:14:26 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/14 20:12:58 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/14 21:57:25 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ void    sort_large(t_stack *a, t_stack *b)
     // Para más de 50 números, usamos chunks
     init_chunk_info(a, &chunk);
     push_chunks_to_b(a, b, &chunk);
-    sort_three(a);
+    sort_three(a, 'a');
     push_back_to_a(a, b);
 }

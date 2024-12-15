@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 13:26:34 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/05 13:27:16 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/14 21:45:17 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,16 @@ bool    would_improve_b(t_stack *b, t_stack *a)
 {
     t_node  *first;
     t_node  *second;
-    t_cost  cost_before;
-    t_cost  cost_after;
+    t_move  cost_before;
+    t_move  cost_after;
 
     if (!b || b->size < 2)
         return (false);
     first = b->top;
     second = first->next;
-    init_cost(&cost_before);
+    init_move(&cost_before);
     calculate_target_position(a, first->value, &cost_before);
-    init_cost(&cost_after);
+    init_move(&cost_after);
     calculate_target_position(a, second->value, &cost_after);
     if (cost_after.total_cost < cost_before.total_cost)
         return (true);

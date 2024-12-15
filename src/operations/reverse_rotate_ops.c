@@ -6,13 +6,13 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 08:36:43 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/02 08:36:55 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/14 21:54:51 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void	reverse_rotate(t_stack *stack)
+void	reverse_rotate(t_stack *stack)
 {
 	t_node	*first;
 	t_node	*last;

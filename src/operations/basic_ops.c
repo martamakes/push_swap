@@ -6,13 +6,13 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 08:09:17 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/14 17:28:03 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/14 21:36:22 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void swap_top(t_stack *stack)
+void swap_top(t_stack *stack)
 {
     t_node *first;
     t_node *second;

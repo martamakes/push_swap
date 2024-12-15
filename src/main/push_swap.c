@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:44:33 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/03 09:28:01 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/14 21:57:04 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,11 @@ static void sort_stack(t_stack *stack_a)
     if (stack_a->size == 2)
         sort_two(stack_a);
     else if (stack_a->size == 3)
-        sort_three(stack_a);
+        sort_three(stack_a, 'a');
     else if (stack_a->size <= 5)
         sort_five(stack_a, stack_b);
+    else if (stack_a->size > 5 && stack_a->size < 50)
+        sort_medium(stack_a, stack_b);
     else
         sort_large(stack_a, stack_b);
     

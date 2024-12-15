@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:24:41 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/14 20:11:04 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/15 04:32:12 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ void    push_chunks_to_b(t_stack *a, t_stack *b, t_chunk *chunk)
         {
             rotate_to_position(a, pos);
             pb(a, b);
-            // Añadimos la optimización de B aquí
             optimize_b_after_push(b);
             moved++;
             pos = get_closest_in_chunk(a, chunk);

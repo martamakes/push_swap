@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/14 18:57:57 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/14 21:56:53 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,23 +63,27 @@ void            free_split(char **split);
 int             add_number(t_stack *stack, char *str);
 
 // Operaciones básicas del stack
+void swap_top(t_stack *stack);
 void            sa(t_stack *stack_a);
 void            sb(t_stack *stack_b);
 void            ss(t_stack *stack_a, t_stack *stack_b);
 void            pa(t_stack *stack_a, t_stack *stack_b);
 void            pb(t_stack *stack_a, t_stack *stack_b);
+void	rotate(t_stack *stack);
 void            ra(t_stack *stack_a);
 void            rb(t_stack *stack_b);
 void            rr(t_stack *stack_a, t_stack *stack_b);
+void	reverse_rotate(t_stack *stack);
 void            rra(t_stack *stack_a);
 void            rrb(t_stack *stack_b);
 void            rrr(t_stack *stack_a, t_stack *stack_b);
 
 // Algoritmos de ordenación
 void            sort_two(t_stack *stack_a);
-void            sort_three(t_stack *stack_a);
+void            sort_three(t_stack *stack_a, char c);
 void            sort_five(t_stack *stack_a, t_stack *stack_b);
 void            sort_large(t_stack *stack_a, t_stack *stack_b);
+void            sort_medium(t_stack *a, t_stack *b);
 
 // Funciones de utilidad para sort_large
 void            init_chunk_info(t_stack *a, t_chunk *chunk);
@@ -98,6 +102,7 @@ int             get_position(t_stack *stack, int value);
 int             get_target_position(t_stack *a, int value);
 int             get_min_pos(t_stack *stack);
 int             get_max_pos(t_stack *stack);
+int get_highest_pos(t_stack *stack); //ver si pudeo sustituir con get_max_pos
 void            rotate_both(t_stack *a, t_stack *b, int *cost_a, int *cost_b);
 void            rev_rotate_both(t_stack *a, t_stack *b, int *cost_a, int *cost_b);
 
