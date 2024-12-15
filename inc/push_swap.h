@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/15 05:36:52 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/15 13:30:55 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void            rrr(t_stack *stack_a, t_stack *stack_b);
 // Algoritmos de ordenación
 void            sort_two(t_stack *stack_a);
 void            sort_three(t_stack *stack_a, char c);
-void            sort_five(t_stack *stack_a, t_stack *stack_b);
 void            sort_large(t_stack *stack_a, t_stack *stack_b);
 void            sort_medium(t_stack *a, t_stack *b);
 

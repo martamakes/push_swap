@@ -6,110 +6,159 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/03 07:53:30 by mvigara-          #+#    #+#              #
-#    Updated: 2024/12/03 08:36:24 by mvigara-         ###   ########.fr        #
+#    Updated: 2024/12/15 12:52:11 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #!/bin/bash
 
-# Colors for output
+# Colores para output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
+BLUE='\033[0;34m'
 YELLOW='\033[1;33m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
-# Verificar si se proporcionó un argumento para el número de enteros
-if [ $# -eq 0 ]; then
-    NUM_INTS=100  # valor por defecto
-else
-    # Verificar que el argumento es un número positivo
-    if ! [[ $1 =~ ^[0-9]+$ ]]; then
-        echo -e "${RED}Error: Por favor proporciona un número positivo${NC}"
-        exit 1
-    fi
-    NUM_INTS=$1
-fi
-
-# Detectar el sistema operativo y seleccionar el checker apropiado
+# Detectar sistema operativo y seleccionar checker
 if [[ "$OSTYPE" == "darwin"* ]]; then
     CHECKER="./checker_OS"
 elif [[ "$OSTYPE" == "linux"* ]]; then
     CHECKER="./checker_linux"
 else
-    echo -e "${RED}Sistema operativo no soportado${NC}"
+    echo -e "${RED}Error: Unsupported operating system${NC}"
     exit 1
 fi
 
-# Verificar que el checker existe
-if [ ! -f "$CHECKER" ]; then
-    echo -e "${RED}Error: $CHECKER no encontrado${NC}"
-    exit 1
-fi
+echo -e "${BLUE}=== PUSH_SWAP TESTER ===${NC}\n"
+echo -e "${BLUE}Using checker for $(uname -s)${NC}\n"
 
-# Verificar que push_swap existe
+# Función para imprimir sección
+print_section() {
+    echo -e "\n${YELLOW}=== $1 ===${NC}"
+}
+
+# Función para test con checker
+test_with_checker() {
+    local args="$1"
+    local description="$2"
+    local operations=0
+    
+    echo -e "\n${BLUE}Test:${NC} $description"
+    echo -e "${BLUE}Arguments:${NC} $args"
+    
+    # Verificar si la lista ya está ordenada
+    local is_sorted=true
+    local prev=""
+    for num in $args; do
+        if [ -n "$prev" ] && [ $num -lt $prev ]; then
+            is_sorted=false
+            break
+        fi
+        prev=$num
+    done
+
+    # Si está ordenada, no necesitamos hacer nada
+    if [ "$is_sorted" = true ]; then
+        echo -e "${BLUE}List is already sorted${NC}"
+        echo -e "${BLUE}Number of operations:${NC} 0"
+        echo -e "${GREEN}✓ Test passed (no operations needed)${NC}"
+        return 0
+    fi
+    
+    # Si no está ordenada, ejecutamos push_swap
+    operations=$(./push_swap $args | wc -l)
+    echo -e "${BLUE}Number of operations:${NC} $operations"
+    
+    # Ejecutamos con checker
+    local result=$(./push_swap $args | $CHECKER $args)
+    echo -e "${BLUE}Checker result:${NC} $result"
+    
+    if [ "$result" = "OK" ]; then
+        echo -e "${GREEN}✓ Test passed${NC}"
+        return $operations
+    else
+        echo -e "${RED}✗ Test failed${NC}"
+        return 1
+    fi
+}
+
+# Verificar requisitos
 if [ ! -f "./push_swap" ]; then
-    echo -e "${RED}Error: push_swap no encontrado${NC}"
+    echo -e "${RED}Error: push_swap not found${NC}"
     exit 1
 fi
 
-# Generar números aleatorios únicos entre -2147483648 y 2147483647
-ARG=$(python3 -c "
-import random
-INT_MIN = -2147483648
-INT_MAX = 2147483647
-try:
-    numbers = random.sample(range(INT_MIN, INT_MAX + 1), $NUM_INTS)
-    print(' '.join(map(str, numbers)))
-except ValueError as e:
-    if 'Sample larger than population' in str(e):
-        print('Error: Requesting more numbers than available unique integers')
-        exit(1)
-    raise
-")
-
-# Verificar si Python retornó un error
-if [ $? -ne 0 ]; then
-    echo -e "${RED}Error generando números${NC}"
+if [ ! -f "$CHECKER" ]; then
+    echo -e "${RED}Error: checker not found ($CHECKER)${NC}"
     exit 1
 fi
 
-echo -e "${YELLOW}Testing with $NUM_INTS numbers${NC}"
-echo "Input: $ARG"
-echo
-
-# Ejecutar push_swap y capturar tanto la salida como el código de error
-MOVES=$(./push_swap $ARG 2>&1)
-PUSH_SWAP_RESULT=$?
-
-# Verificar si push_swap se ejecutó correctamente
-if [ $PUSH_SWAP_RESULT -ne 0 ]; then
-    echo -e "${RED}Error: push_swap falló con código $PUSH_SWAP_RESULT${NC}"
-    echo "push_swap output:"
-    echo "$MOVES"
-    exit 1
+# Verificar permisos de ejecución
+if [ ! -x "$CHECKER" ]; then
+    echo -e "${YELLOW}Setting execute permissions for checker...${NC}"
+    chmod +x "$CHECKER"
 fi
 
-# Si no hay movimientos, verificar si ya está ordenado
-if [ -z "$MOVES" ]; then
-    echo -e "${YELLOW}No movements needed - checking if already sorted${NC}"
+if [ ! -x "./push_swap" ]; then
+    echo -e "${YELLOW}Setting execute permissions for push_swap...${NC}"
+    chmod +x "./push_swap"
 fi
 
-# Contar el número de movimientos
-NUM_MOVES=$(echo "$MOVES" | wc -l)
+# Menú principal
+while true; do
+    echo -e "\n${YELLOW}Choose an option:${NC}"
+    echo "1. Test with random numbers"
+    echo "2. Test with specific numbers"
+    echo "3. Exit"
+    read -p "Your choice (1-3): " choice
 
-# Ejecutar el checker con los movimientos y capturar su salida
-echo "Checker result:"
-CHECKER_OUTPUT=$(echo "$MOVES" | $CHECKER $ARG 2>&1)
-CHECKER_RESULT=$?
-
-if [ $CHECKER_RESULT -eq 0 ]; then
-    echo -e "${GREEN}$CHECKER_OUTPUT${NC}"
-else
-    echo -e "${RED}$CHECKER_OUTPUT${NC}"
-    echo "Debug info:"
-    echo "push_swap movements:"
-    echo "$MOVES"
-fi
-
-echo
-echo -e "${YELLOW}Number of moves: $NUM_MOVES${NC}"
+    case $choice in
+        1)
+            read -p "How many numbers do you want to test with? " count
+            if ! [[ "$count" =~ ^[0-9]+$ ]] || [ "$count" -lt 1 ]; then
+                echo -e "${RED}Please enter a valid positive number${NC}"
+                continue
+            fi
+            ARG=$(seq 1 $count | sort -R | tr '\n' ' ')
+            test_with_checker "$ARG" "Random $count numbers"
+            operations=$?
+            
+            # Mostrar límites según el tamaño
+            if [ $count -le 100 ]; then
+                echo -e "\nFor $count numbers, limit is 700 operations"
+                if [ $operations -lt 700 ]; then
+                    echo -e "${GREEN}✓ Passed (<700 operations)${NC}"
+                else
+                    echo -e "${RED}✗ Failed (>=700 operations)${NC}"
+                fi
+            elif [ $count -le 500 ]; then
+                echo -e "\nFor $count numbers, limit is 5500 operations"
+                if [ $operations -lt 5500 ]; then
+                    echo -e "${GREEN}✓ Passed (<5500 operations)${NC}"
+                else
+                    echo -e "${RED}✗ Failed (>=5500 operations)${NC}"
+                fi
+            fi
+            ;;
+        2)
+            read -p "Enter the numbers separated by spaces: " numbers
+            if [ -z "$numbers" ]; then
+                echo -e "${RED}Please enter valid numbers${NC}"
+                continue
+            fi
+            # Verificar que son números válidos
+            if ! echo "$numbers" | grep -qE '^[-0-9 ]+$'; then
+                echo -e "${RED}Please enter valid integers${NC}"
+                continue
+            fi
+            test_with_checker "$numbers" "Custom numbers"
+            ;;
+        3)
+            echo -e "${GREEN}Goodbye!${NC}"
+            exit 0
+            ;;
+        *)
+            echo -e "${RED}Invalid option. Please choose 1, 2 or 3${NC}"
+            ;;
+    esac
+done
