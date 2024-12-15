@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/15 04:58:48 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/15 05:36:52 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,15 +85,18 @@ void            sort_five(t_stack *stack_a, t_stack *stack_b);
 void            sort_large(t_stack *stack_a, t_stack *stack_b);
 void            sort_medium(t_stack *a, t_stack *b);
 
+// Funciones de manipulación de movimientos
+void    init_move(t_move *move);
+void    calculate_move_cost(t_stack *a, t_stack *b, t_move *move);
+
 // Funciones de utilidad para sort_large
 void            init_chunk_info(t_stack *a, t_chunk *chunk);
 void            push_chunks_to_b(t_stack *a, t_stack *b, t_chunk *chunk);
-void            push_back_to_a(t_stack *a, t_stack *b);
+void            push_back(t_stack *a, t_stack *b);
 int             get_chunk_start(t_chunk *chunk);
 int             get_chunk_end(t_chunk *chunk);
 bool            is_in_current_chunk(int value, t_chunk *chunk);
 void            calculate_move_cost(t_stack *a, t_stack *b, t_move *move);
-void            execute_move(t_stack *a, t_stack *b, t_move *move);
 
 // Funciones auxiliares
 int             is_sorted(t_stack *stack);
@@ -102,15 +105,15 @@ int             get_position(t_stack *stack, int value);
 int             get_target_position(t_stack *a, int value);
 int             get_min_pos(t_stack *stack);
 int             get_max_pos(t_stack *stack);
-int get_highest_pos(t_stack *stack); //ver si pudeo sustituir con get_max_pos
-void            rotate_both(t_stack *a, t_stack *b, int *cost_a, int *cost_b);
-void            rev_rotate_both(t_stack *a, t_stack *b, int *cost_a, int *cost_b);
+//int get_highest_pos(t_stack *stack); //ver si pudeo sustituir con get_max_pos
+//void            rotate_both(t_stack *a, t_stack *b, int *cost_a, int *cost_b);
+//void            rev_rotate_both(t_stack *a, t_stack *b, int *cost_a, int *cost_b);
 void    rotate_to_min(t_stack *a);
 
 // Funciones de debug (a mantener temporalmente)
 void            simple_print_stack(t_stack *stack, char *stack_name);
 void            print_stack(t_stack *stack, char *stack_name);
-void            print_chunk_info(t_chunk *chunk);
-void            print_move_info(t_move *move);
+//void            print_chunk_info(t_chunk *chunk);
+//void            print_move_info(t_move *move);
 
 #endif

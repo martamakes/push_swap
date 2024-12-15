@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 19:19:12 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/14 19:19:15 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/15 05:07:36 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ void    init_move(t_move *move)
     move->total_cost = 0;
 }
 
-static int    get_rotation_cost(int pos, int size)
+/*static int    get_rotation_cost(int pos, int size)
 {
     if (pos <= size / 2)
         return (pos);
     return (size - pos);
-}
+}*/
 
 static void    calculate_costs(t_move *move, t_stack *a, t_stack *b)
 {

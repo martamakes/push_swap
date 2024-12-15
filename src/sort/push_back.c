@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 04:51:12 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/15 04:51:40 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/15 05:26:00 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void    execute_move(t_stack *a, t_stack *b, t_move *move)
     pa(a, b);
 }
 
-void    push_back_to_a(t_stack *a, t_stack *b)
+void    push_back(t_stack *a, t_stack *b)
 {
     t_move  current;
     t_move  best;
