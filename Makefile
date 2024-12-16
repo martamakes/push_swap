@@ -6,7 +6,7 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/01 15:27:20 by mvigara-          #+#    #+#              #
-#    Updated: 2024/12/16 08:11:15 by mvigara-         ###   ########.fr        #
+#    Updated: 2024/12/16 12:49:47 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,17 +31,34 @@ INC_DIR = inc
 LIB_DIR = lib
 
 # Source files
-# Source files
 MAIN_SRC = main/push_swap.c
-STACK_SRC = stack/stack_init.c stack/stack_utils.c
-PARSER_SRC = parser/parse_args.c parser/parse_utils.c
+
+STACK_SRC = stack/stack_init.c \
+           stack/stack_utils.c
+
+PARSER_SRC = parser/parse_args.c \
+            parser/parse_utils.c
+
 ERROR_SRC = error/error_handler.c
-DEBUG_SRC = debug/print_stack.c debug/test_ops.c
-OPS_SRC = operations/basic_ops.c operations/push_ops.c operations/rotate_ops.c \
-    operations/reverse_rotate_ops.c
-SORT_SRC = sort/sort_large.c sort/sort_small.c sort/sort_utils.c \
-    sort/chunk_utils.c sort/move_utils.c sort/position_utils.c sort/sort_medium.c \
-	sort/push_back.c sort/move_to_b.c
+
+DEBUG_SRC = debug/print_stack.c \
+           debug/test_ops.c
+
+OPS_SRC = operations/basic_ops.c \
+         operations/push_ops.c \
+         operations/rotate_ops.c \
+         operations/reverse_rotate_ops.c
+
+SORT_SRC = sort/sort_small.c \
+          sort/sort_medium.c \
+          sort/sort_large.c \
+          sort/sort_utils.c \
+          sort/position_utils.c \
+          sort/move_utils.c \
+          sort/push_back.c \
+          sort/move_to_b.c \
+          sort/chunk_utils.c \
+          sort/move_executor.c
 	
 
 # Source files with directory prefix

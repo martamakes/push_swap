@@ -6,9 +6,11 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 19:19:12 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/15 05:07:36 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/16 12:47:49 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "push_swap.h"
 
 #include "push_swap.h"
 
@@ -26,13 +28,6 @@ void    init_move(t_move *move)
     move->total_cost = 0;
 }
 
-/*static int    get_rotation_cost(int pos, int size)
-{
-    if (pos <= size / 2)
-        return (pos);
-    return (size - pos);
-}*/
-
 static void    calculate_costs(t_move *move, t_stack *a, t_stack *b)
 {
     int size_a;
@@ -44,7 +39,6 @@ static void    calculate_costs(t_move *move, t_stack *a, t_stack *b)
     size_a = a->size;
     size_b = b->size;
 
-    // Calcular si es mejor rotar hacia arriba o abajo
     if (move->pos_a <= size_a / 2)
         move->rev_a = false;
     else
@@ -61,11 +55,9 @@ static void    calculate_costs(t_move *move, t_stack *a, t_stack *b)
         move->pos_b = size_b - move->pos_b;
     }
 
-    // Calcular costes individuales
     move->cost_a = move->pos_a;
     move->cost_b = move->pos_b;
 
-    // Calcular coste total optimizado
     if (move->rev_a == move->rev_b)
         move->total_cost = move->cost_a > move->cost_b ? 
             move->cost_a : move->cost_b;
@@ -78,12 +70,8 @@ void    calculate_move_cost(t_stack *a, t_stack *b, t_move *move)
     if (!a || !b || !move)
         return ;
 
-    // Calcular posición objetivo en A
-    move->pos_a = get_target_position(a, move->value);
-    
-    // Calcular posición actual en B
+    move->pos_a = get_target_position_value(a, move->value);
     move->pos_b = get_position(b, move->value);
 
-    // Calcular todos los costes
     calculate_costs(move, a, b);
 }
