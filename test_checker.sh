@@ -6,7 +6,7 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/03 07:53:30 by mvigara-          #+#    #+#              #
-#    Updated: 2024/12/15 12:52:11 by mvigara-         ###   ########.fr        #
+#    Updated: 2024/12/15 15:02:20 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,9 +32,64 @@ fi
 echo -e "${BLUE}=== PUSH_SWAP TESTER ===${NC}\n"
 echo -e "${BLUE}Using checker for $(uname -s)${NC}\n"
 
-# Función para imprimir sección
-print_section() {
-    echo -e "\n${YELLOW}=== $1 ===${NC}"
+# Función para evaluar número de operaciones según cantidad de números
+check_operations() {
+    local count=$1
+    local ops=$2
+    
+    case $count in
+        3)
+            if [ $ops -le 3 ]; then
+                echo -e "${GREEN}✓ Excellent! ($ops ops <= 3)${NC}"
+            else
+                echo -e "${RED}✗ Too many operations for 3 numbers ($ops > 3)${NC}"
+            fi
+            ;;
+        5)
+            if [ $ops -le 12 ]; then
+                echo -e "${GREEN}✓ Excellent! ($ops ops <= 12)${NC}"
+            else
+                echo -e "${RED}✗ Too many operations for 5 numbers ($ops > 12)${NC}"
+            fi
+            ;;
+        100)
+            if [ $ops -lt 700 ]; then
+                echo -e "${GREEN}✓ Perfect! 5 points ($ops < 700)${NC}"
+            elif [ $ops -lt 900 ]; then
+                echo -e "${YELLOW}✓ Good! 4 points ($ops < 900)${NC}"
+            elif [ $ops -lt 1100 ]; then
+                echo -e "${YELLOW}✓ Okay! 3 points ($ops < 1100)${NC}"
+            elif [ $ops -lt 1300 ]; then
+                echo -e "${YELLOW}△ Fair! 2 points ($ops < 1300)${NC}"
+            elif [ $ops -lt 1500 ]; then
+                echo -e "${RED}△ Poor! 1 point ($ops < 1500)${NC}"
+            else
+                echo -e "${RED}✗ Failed! ($ops >= 1500)${NC}"
+            fi
+            ;;
+        500)
+            if [ $ops -lt 5500 ]; then
+                echo -e "${GREEN}✓ Perfect! 5 points ($ops < 5500)${NC}"
+            elif [ $ops -lt 7000 ]; then
+                echo -e "${YELLOW}✓ Good! 4 points ($ops < 7000)${NC}"
+            elif [ $ops -lt 8500 ]; then
+                echo -e "${YELLOW}✓ Okay! 3 points ($ops < 8500)${NC}"
+            elif [ $ops -lt 10000 ]; then
+                echo -e "${YELLOW}△ Fair! 2 points ($ops < 10000)${NC}"
+            elif [ $ops -lt 11500 ]; then
+                echo -e "${RED}△ Poor! 1 point ($ops < 11500)${NC}"
+            else
+                echo -e "${RED}✗ Failed! ($ops >= 11500)${NC}"
+            fi
+            ;;
+        *)
+            if [ $ops -lt 700 ]; then
+                echo -e "${GREEN}✓ Good performance ($ops operations)${NC}"
+            else
+                echo -e "${YELLOW}△ Could be optimized ($ops operations)${NC}"
+            fi
+            ;;
+    esac
 }
 
 # Función para test con checker
@@ -68,6 +123,10 @@ test_with_checker() {
     # Si no está ordenada, ejecutamos push_swap
     operations=$(./push_swap $args | wc -l)
     echo -e "${BLUE}Number of operations:${NC} $operations"
+    
+    # Evaluar según número de elementos
+    local num_elements=$(echo $args | wc -w)
+    check_operations $num_elements $operations
     
     # Ejecutamos con checker
     local result=$(./push_swap $args | $CHECKER $args)
@@ -106,7 +165,7 @@ fi
 
 # Menú principal
 while true; do
-    echo -e "\n${YELLOW}Choose an option:${NC}"
+    echo -e "\n${YELLOW}Choose a test option:${NC}"
     echo "1. Test with random numbers"
     echo "2. Test with specific numbers"
     echo "3. Exit"
@@ -114,44 +173,51 @@ while true; do
 
     case $choice in
         1)
-            read -p "How many numbers do you want to test with? " count
-            if ! [[ "$count" =~ ^[0-9]+$ ]] || [ "$count" -lt 1 ]; then
-                echo -e "${RED}Please enter a valid positive number${NC}"
-                continue
-            fi
-            ARG=$(seq 1 $count | sort -R | tr '\n' ' ')
-            test_with_checker "$ARG" "Random $count numbers"
-            operations=$?
-            
-            # Mostrar límites según el tamaño
-            if [ $count -le 100 ]; then
-                echo -e "\nFor $count numbers, limit is 700 operations"
-                if [ $operations -lt 700 ]; then
-                    echo -e "${GREEN}✓ Passed (<700 operations)${NC}"
-                else
-                    echo -e "${RED}✗ Failed (>=700 operations)${NC}"
+            while true; do
+                read -p "How many numbers do you want to test with? (or 'q' to go back): " input
+                if [ "$input" = "q" ]; then
+                    break
                 fi
-            elif [ $count -le 500 ]; then
-                echo -e "\nFor $count numbers, limit is 5500 operations"
-                if [ $operations -lt 5500 ]; then
-                    echo -e "${GREEN}✓ Passed (<5500 operations)${NC}"
-                else
-                    echo -e "${RED}✗ Failed (>=5500 operations)${NC}"
+                if ! [[ "$input" =~ ^[0-9]+$ ]] || [ "$input" -lt 1 ]; then
+                    echo -e "${RED}Please enter a valid positive number${NC}"
+                    continue
                 fi
-            fi
+                # Generar números aleatorios únicos entre INT_MIN y INT_MAX
+                ARG=""
+                count=0
+                while [ $count -lt $input ]; do
+                    # Generar número aleatorio entre INT_MIN (-2147483648) y INT_MAX (2147483647)
+                    # Usamos múltiples RANDOM para mejor distribución
+                    r1=$RANDOM
+                    r2=$RANDOM
+                    num=$(( (r1 * 65536 + r2) % 4294967295 - 2147483648 ))
+                    
+                    # Verificar si el número ya está en ARG
+                    if ! echo "$ARG" | grep -q "\b$num\b"; then
+                        ARG="$ARG$num "
+                        count=$((count + 1))
+                    fi
+                done
+                test_with_checker "$ARG" "Random $input numbers"
+            done
             ;;
         2)
-            read -p "Enter the numbers separated by spaces: " numbers
-            if [ -z "$numbers" ]; then
-                echo -e "${RED}Please enter valid numbers${NC}"
-                continue
-            fi
-            # Verificar que son números válidos
-            if ! echo "$numbers" | grep -qE '^[-0-9 ]+$'; then
-                echo -e "${RED}Please enter valid integers${NC}"
-                continue
-            fi
-            test_with_checker "$numbers" "Custom numbers"
+            while true; do
+                read -p "Enter the numbers separated by spaces (or 'q' to go back): " input
+                if [ "$input" = "q" ]; then
+                    break
+                fi
+                if [ -z "$input" ]; then
+                    echo -e "${RED}Please enter valid numbers${NC}"
+                    continue
+                fi
+                # Verificar que son números válidos
+                if ! echo "$input" | grep -qE '^[-0-9 ]+$'; then
+                    echo -e "${RED}Please enter valid integers${NC}"
+                    continue
+                fi
+                test_with_checker "$input" "Custom numbers"
+            done
             ;;
         3)
             echo -e "${GREEN}Goodbye!${NC}"
