@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 19:20:47 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/16 12:33:12 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/16 13:07:00 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,24 +31,7 @@ int    get_position(t_stack *stack, int value)
     return (0);
 }
 
-void    get_stack_position(t_stack *stack)
-{
-    t_node  *current;
-    int     i;
-
-    if (!stack)
-        return ;
-    current = stack->top;
-    i = 0;
-    while (current)
-    {
-        current->pos = i;
-        current = current->next;
-        i++;
-    }
-}
-
-static int    get_target_position_value(t_stack *a, int value)
+int    get_target_position_value(t_stack *a, int value)
 {
     t_node  *current;
     int     target_pos;
@@ -70,25 +53,19 @@ static int    get_target_position_value(t_stack *a, int value)
     return (0);
 }
 
-static void    calculate_target_positions(t_stack *a, t_stack *b)
+void    get_stack_position(t_stack *stack)
 {
-    t_node  *current_b;
-    int     target_pos;
+    t_node  *current;
+    int     i;
 
-    current_b = b->top;
-    while (current_b)
-    {
-        target_pos = get_target_position_value(a, current_b->value);
-        current_b->target = target_pos;
-        current_b = current_b->next;
-    }
-}
-
-void    get_target_position(t_stack *a, t_stack *b)
-{
-    if (!a || !b)
+    if (!stack)
         return ;
-    get_stack_position(a);
-    get_stack_position(b);
-    calculate_target_positions(a, b);
+    current = stack->top;
+    i = 0;
+    while (current)
+    {
+        current->pos = i;
+        current = current->next;
+        i++;
+    }
 }

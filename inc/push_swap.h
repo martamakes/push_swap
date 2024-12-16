@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/16 12:49:30 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/16 13:06:14 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,9 @@ void            sort_medium(t_stack *a, t_stack *b);
 void            sort_large(t_stack *a, t_stack *b);
 
 // Funciones de posición y costes
-void            get_position(t_stack *stack);
-void            get_target_position(t_stack *a, t_stack *b);
+int             get_position(t_stack *stack, int value);
+int             get_target_position_value(t_stack *a, int value);
+void            get_stack_position(t_stack *stack);
 void            calculate_cost(t_stack *a, t_stack *b);
 void            execute_cheapest_move(t_stack *a, t_stack *b);
 void            do_move(t_stack *a, t_stack *b, int cost_a, int cost_b);
