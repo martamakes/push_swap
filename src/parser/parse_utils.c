@@ -6,54 +6,41 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:45:18 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/01 17:05:39 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/16 08:14:48 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static int is_valid_format(char *str)
+int	is_empty_or_spaces(char *str)
 {
-    int i;
-
-    i = 0;
-    if (!str || !*str)
-        return (0);
-    if (str[i] == '-' || str[i] == '+')
-        i++;
-    if (!str[i])
-        return (0);
-    while (str[i])
-    {
-        if (!ft_isdigit(str[i]))
-            return (0);
-        i++;
-    }
-    return (1);
+	while (*str)
+	{
+		if (*str != ' ' && *str != '\t')
+			return (0);
+		str++;
+	}
+	return (1);
 }
 
-static int is_valid_range(char *str)
+int	is_valid_number(char *str)
 {
-    long long num;
+	int			i;
+	long long	num;
 
-    num = ft_atoll(str);
-    return (num <= INT_MAX && num >= INT_MIN);
-}
-
-int is_valid_number(char *str)
-{
-    return (is_valid_format(str) && is_valid_range(str));
-}
-
-void    free_split(char **split)
-{
-    int i;
-
-    i = 0;
-    while (split[i])
-    {
-        free(split[i]);
-        i++;
-    }
-    free(split);
+	i = 0;
+	if (!str || !*str || is_empty_or_spaces(str))
+		return (0);
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	if (!str[i])
+		return (0);
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	num = ft_atoll(str);
+	return (num <= INT_MAX && num >= INT_MIN);
 }

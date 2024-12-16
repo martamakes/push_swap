@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/15 13:30:55 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/16 08:14:54 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,7 @@ t_node          *create_node(int value);
 // Funciones de parseo
 t_stack         *parse_args(int argc, char **argv);
 int             is_valid_number(char *str);
-void            free_split(char **split);
-int             add_number(t_stack *stack, char *str);
+int	is_empty_or_spaces(char *str);
 
 // Operaciones básicas del stack
 void swap_top(t_stack *stack);

@@ -6,7 +6,7 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/01 15:27:20 by mvigara-          #+#    #+#              #
-#    Updated: 2024/12/15 13:30:25 by mvigara-         ###   ########.fr        #
+#    Updated: 2024/12/16 08:11:15 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ LIB_DIR = lib
 # Source files
 MAIN_SRC = main/push_swap.c
 STACK_SRC = stack/stack_init.c stack/stack_utils.c
-PARSER_SRC = parser/parse_args.c parser/parse_utils.c parser/parse_list.c
+PARSER_SRC = parser/parse_args.c parser/parse_utils.c
 ERROR_SRC = error/error_handler.c
 DEBUG_SRC = debug/print_stack.c debug/test_ops.c
 OPS_SRC = operations/basic_ops.c operations/push_ops.c operations/rotate_ops.c \

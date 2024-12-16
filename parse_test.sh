@@ -104,7 +104,7 @@ test_case "./push_swap 1 2 3 a 4" 1 "Some invalid arguments"
 print_section "FORMAT TESTS"
 test_case "./push_swap \"1 2 3\"" 0 "Numbers in string"
 test_case "./push_swap \"1    2     3\"" 0 "Multiple spaces"
-test_case "./push_wrap \"1 2\" \"3 4\" 5" 0 "Mixed format"
+test_case "./push_swap \"1 2\" \"3 4\" 5" 0 "Mixed format"
 
 # Tests de límites
 print_section "EDGE CASES"
