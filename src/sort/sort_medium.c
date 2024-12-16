@@ -6,13 +6,13 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 20:19:17 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/16 13:16:41 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/16 13:38:14 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void move_min_to_b(t_stack *stack_a)
+/*static void move_min_to_b(t_stack *stack_a)
 {
     int min_pos;
     int size;
@@ -51,31 +51,52 @@ static void first_to_b(t_stack *a, t_stack *b)
     // Para 5 números, optimizamos B si es necesario
     if (b && b->size == 2 && b->top->value < b->top->next->value)
         sb(b);
+}*/
+
+#include "push_swap.h"
+
+static void rotate_min_to_top(t_stack *a)
+{
+    int min_pos;
+
+    min_pos = get_min_pos(a);
+    while (min_pos > 0)
+    {
+        if (min_pos <= a->size / 2)
+        {
+            ra(a);
+            min_pos--;
+        }
+        else
+        {
+            rra(a);
+            min_pos = get_min_pos(a);
+        }
+    }
 }
 
 void sort_medium(t_stack *a, t_stack *b)
 {
-    if (!a || !b)
+    int nums_to_push;
+
+    if (!a || !b || a->size <= 3 || is_sorted(a))
         return ;
 
-    // Primero movemos números a B dejando 3 en A
-    first_to_b(a, b);
+    // Calculamos cuántos números mover a B (1 para 4 números, 2 para 5)
+    nums_to_push = a->size - 3;
 
-    // Ordenamos los 3 números en A
+    // Movemos los números más pequeños a B
+    while (nums_to_push > 0)
+    {
+        rotate_min_to_top(a);
+        pb(a, b);
+        nums_to_push--;
+    }
+
+    // Ordenamos los 3 restantes en A
     sort_three(a, 'a');
 
-    // Para ≤5 números usamos una estrategia simple
-    if (a->size <= 5)
-    {
-        while (b && b->size > 0)
-            pa(a, b);
-    }
-    else
-    {
-        // Para >5 números usamos push_back optimizado
-        push_back(a, b);
-    }
-
-    // Aseguramos que el mínimo quede arriba
-    rotate_to_min(a);
+    // Devolvemos los números de B a A
+    while (b->size > 0)
+        pa(a, b);
 }

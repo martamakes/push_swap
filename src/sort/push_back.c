@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 04:51:12 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/16 13:15:28 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/16 13:43:26 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,12 @@ static void    find_best_move(t_stack *a, t_stack *b, t_move *best)
     t_move  tmp;
     int     found_better;
 
+    if (!a || !b || !best || !b->top)
+        return;
+    
     current = b->top;
     found_better = 0;
-    while (current)
+    while (current && current->next)  // Cambiado para evitar buffer overflow
     {
         init_move(&tmp);
         tmp.value = current->value;

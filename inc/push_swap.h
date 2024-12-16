@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/16 13:06:14 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/16 13:22:20 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,10 @@ void            get_stack_position(t_stack *stack);
 void            calculate_cost(t_stack *a, t_stack *b);
 void            execute_cheapest_move(t_stack *a, t_stack *b);
 void            do_move(t_stack *a, t_stack *b, int cost_a, int cost_b);
+void    push_back(t_stack *a, t_stack *b);
+void    init_move(t_move *move);
+void    calculate_move_cost(t_stack *a, t_stack *b, t_move *move);
+
 
 // Funciones de indexación
 void            get_index(t_stack *stack_a, int stack_size);
