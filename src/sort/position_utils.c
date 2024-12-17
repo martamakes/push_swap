@@ -6,9 +6,11 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 19:20:47 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/16 12:33:12 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/17 06:33:54 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/* position_utils.c */
 
 #include "push_swap.h"
 
@@ -31,64 +33,27 @@ int    get_position(t_stack *stack, int value)
     return (0);
 }
 
-void    get_stack_position(t_stack *stack)
+int    get_target_position_value(t_stack *stack, int value)
 {
     t_node  *current;
-    int     i;
+    int     target_pos;
+    int     closest_bigger;
 
-    if (!stack)
-        return ;
+    if (!stack || !stack->top)
+        return (0);
     current = stack->top;
-    i = 0;
+    target_pos = 0;
+    closest_bigger = INT_MAX;
     while (current)
     {
-        current->pos = i;
-        current = current->next;
-        i++;
-    }
-}
-
-static int    get_target_position_value(t_stack *a, int value)
-{
-    t_node  *current;
-    int     target_pos;
-    int     min;
-    int     max;
-
-    get_stack_bounds(a, &min, &max);
-    if (value > max || value < min)
-        return (get_min_pos(a));
-    current = a->top;
-    target_pos = 0;
-    while (current->next)
-    {
-        if (value > current->value && value < current->next->value)
-            return (target_pos + 1);
-        target_pos++;
+        if (current->value > value && current->value < closest_bigger)
+        {
+            closest_bigger = current->value;
+            target_pos = get_position(stack, current->value);
+        }
         current = current->next;
     }
-    return (0);
-}
-
-static void    calculate_target_positions(t_stack *a, t_stack *b)
-{
-    t_node  *current_b;
-    int     target_pos;
-
-    current_b = b->top;
-    while (current_b)
-    {
-        target_pos = get_target_position_value(a, current_b->value);
-        current_b->target = target_pos;
-        current_b = current_b->next;
-    }
-}
-
-void    get_target_position(t_stack *a, t_stack *b)
-{
-    if (!a || !b)
-        return ;
-    get_stack_position(a);
-    get_stack_position(b);
-    calculate_target_positions(a, b);
+    if (closest_bigger == INT_MAX)
+        target_pos = get_min_pos(stack);
+    return (target_pos);
 }
