@@ -6,7 +6,7 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/01 15:27:20 by mvigara-          #+#    #+#              #
-#    Updated: 2024/12/16 12:49:47 by mvigara-         ###   ########.fr        #
+#    Updated: 2024/12/17 11:25:53 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,28 +41,18 @@ PARSER_SRC = parser/parse_args.c \
 
 ERROR_SRC = error/error_handler.c
 
-DEBUG_SRC = debug/print_stack.c \
-           debug/test_ops.c
-
 OPS_SRC = operations/basic_ops.c \
          operations/push_ops.c \
          operations/rotate_ops.c \
          operations/reverse_rotate_ops.c
 
 SORT_SRC = sort/sort_small.c \
-          sort/sort_medium.c \
           sort/sort_large.c \
-          sort/sort_utils.c \
-          sort/position_utils.c \
-          sort/move_utils.c \
-          sort/push_back.c \
-          sort/move_to_b.c \
-          sort/chunk_utils.c \
-          sort/move_executor.c
-	
+          sort/sort_utils.c
 
 # Source files with directory prefix
-SRCS = $(addprefix $(SRC_DIR)/, $(MAIN_SRC) $(STACK_SRC) $(PARSER_SRC) $(ERROR_SRC) $(DEBUG_SRC) $(OPS_SRC) $(SORT_SRC))
+SRCS = $(addprefix $(SRC_DIR)/, $(MAIN_SRC) $(STACK_SRC) $(PARSER_SRC) $(ERROR_SRC) $(OPS_SRC) $(SORT_SRC))
+
 # Object files
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
@@ -79,9 +69,11 @@ INCLUDES = -I$(INC_DIR) -I$(LIBFT_DIR)/inc
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Darwin)    # macOS
     CFLAGS += -fsanitize=address -g
+    DEBUG_TOOL = lldb
     $(info $(CYAN)Compiling for macOS with Address Sanitizer$(RESET))
 else ifeq ($(UNAME_S),Linux)    # Linux
     CFLAGS += -g
+    DEBUG_TOOL = gdb
     $(info $(CYAN)Compiling for Linux. Use valgrind for memory checks$(RESET))
 endif
 
@@ -120,7 +112,7 @@ re: fclean all
 # Debug rule
 debug: CFLAGS += -g
 debug: re
-	@echo "$(YELLOW)Debug build complete!$(RESET)"
+	@echo "$(YELLOW)Debug build complete! Run with $(DEBUG_TOOL)$(RESET)"
 
 # Testing helper
 test: $(NAME)
