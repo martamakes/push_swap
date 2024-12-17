@@ -6,7 +6,7 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/01 15:27:20 by mvigara-          #+#    #+#              #
-#    Updated: 2024/12/17 11:25:53 by mvigara-         ###   ########.fr        #
+#    Updated: 2024/12/17 11:54:38 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ PARSER_SRC = parser/parse_args.c \
 
 ERROR_SRC = error/error_handler.c
 
-OPS_SRC = operations/basic_ops.c \
+OPS_SRC = operations/swap_ops.c \
          operations/push_ops.c \
          operations/rotate_ops.c \
          operations/reverse_rotate_ops.c

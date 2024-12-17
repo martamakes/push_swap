@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/17 11:28:52 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/17 12:09:46 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ void        rrr(t_stack **stack_a, t_stack **stack_b);
 // Input processing and validation
 int         is_valid_input(char *str);
 int         check_duplicates(t_stack *stack);
-void        process_input(int ac, char **av, t_stack **stack_a);
+int         process_input(int ac, char **av, t_stack **stack_a);
+void        ft_split_free(char **split);
 
 // Error handling
 void        error_exit(t_stack **stack_a, t_stack **stack_b);

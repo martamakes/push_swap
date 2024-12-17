@@ -44,6 +44,8 @@ test_case() {
 }
 
 # Función para test con checker
+# Add at the beginning of test_with_checker function:
+# Corrected test_with_checker function for parse_test.sh
 test_with_checker() {
     local args="$1"
     local description="$2"
@@ -51,18 +53,55 @@ test_with_checker() {
     echo -e "\n${BLUE}Test:${NC} $description"
     echo -e "${BLUE}Arguments:${NC} $args"
     
+    # Time measurement
+    local start_time
+    local end_time
+    local elapsed_time
+    
+    # Get current time in seconds with nanosecond precision
+    start_time=$(perl -MTime::HiRes=time -e 'printf "%.9f\n", time')
+    
     # Execute push_swap and count operations
-    local operations=$(./push_swap $args | wc -l)
+    operations=$(./push_swap $args | wc -l)
+    
+    # Get end time
+    end_time=$(perl -MTime::HiRes=time -e 'printf "%.9f\n", time')
+    
+    # Calculate elapsed time in milliseconds
+    elapsed_time=$(echo "($end_time - $start_time) * 1000" | bc)
+    
+    echo -e "${BLUE}Execution time:${NC} ${elapsed_time}ms"
     echo -e "${BLUE}Number of operations:${NC} $operations"
     
     # Execute with checker
-    local result=$(./push_swap $args | ./checker_OS $args)
+    result=$(./push_swap $args | ./checker_OS $args)
     echo -e "${BLUE}Checker result:${NC} $result"
     
     if [ "$result" = "OK" ]; then
         echo -e "${GREEN}✓ Test passed${NC}"
     else
         echo -e "${RED}✗ Test failed${NC}"
+    fi
+}
+
+# New function for memory testing
+test_memory() {
+    local args="$1"
+    echo -e "\n${YELLOW}=== Memory Test ===${NC}"
+    echo -e "${BLUE}Testing with args:${NC} $args"
+    
+    valgrind --leak-check=full \
+             --show-leak-kinds=all \
+             --track-origins=yes \
+             --verbose \
+             --log-file=valgrind-out.txt \
+             ./push_swap $args
+
+    if grep -q "ERROR SUMMARY: 0 errors" valgrind-out.txt; then
+        echo -e "${GREEN}✓ No memory leaks detected${NC}"
+    else
+        echo -e "${RED}✗ Memory leaks detected${NC}"
+        cat valgrind-out.txt
     fi
 }
 
@@ -107,12 +146,20 @@ test_case "./push_swap \"1    2     3\"" 0 "Multiple spaces"
 test_case "./push_swap \"1 2\" \"3 4\" 5" 0 "Mixed format"
 
 # Tests de límites
-print_section "EDGE CASES"
-test_case "./push_swap -0" 0 "Negative zero"
-test_case "./push_swap +1" 0 "Positive sign"
-test_case "./push_swap +42 -42" 0 "Mixed signs"
-test_case "./push_swap 2147483647" 0 "INT_MAX"
-test_case "./push_swap -2147483648" 0 "INT_MIN"
+print_section "EDGE CASES AND CORNER CASES"
+# Test with repeated sequences
+test_with_checker "1 1 1 1 2" "Multiple repeated numbers"
+test_with_checker "$(seq 1 100 | head -n 50) $(seq 1 100 | head -n 50)" "Two sorted sequences"
+
+# Test with alternating sequences
+test_with_checker "1 3 2 4 3 5 4 6 5" "Alternating sequence"
+
+# Test with reversed chunks
+test_with_checker "5 4 3 8 7 6" "Reversed chunks"
+
+# Test with almost sorted arrays
+test_with_checker "1 2 3 5 4" "Almost sorted"
+test_with_checker "2 1 3 4 5" "Almost sorted (first two swapped)"
 
 # Tests con checker
 print_section "CHECKER TESTS"

@@ -6,13 +6,13 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:44:33 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/17 11:36:15 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/17 12:09:03 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static int	is_sorted(t_stack *stack)
+int	is_sorted(t_stack *stack)
 {
 	if (!stack)
 		return (1);
@@ -49,13 +49,13 @@ static void	get_numbers(char *av, t_stack **stack_a)
 	{
 		if (!is_valid_input(numbers[i]))
 		{
-			free_split(numbers);
+			ft_split_free(numbers);
 			error_exit(stack_a, NULL);
 		}
 		num = ft_atoll(numbers[i]);
 		if (num > INT_MAX || num < INT_MIN)
 		{
-			free_split(numbers);
+			ft_split_free(numbers);
 			error_exit(stack_a, NULL);
 		}
 		stack_add_back(stack_a, stack_new((int)num));
