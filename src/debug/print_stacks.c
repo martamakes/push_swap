@@ -6,57 +6,84 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 07:25:00 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/18 07:39:28 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/18 08:35:50 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void    print_stacks(t_stack *stack_a, t_stack *stack_b)
+void	print_debug_str(char *str)
 {
-    t_stack *temp_a = stack_a;
-    t_stack *temp_b = stack_b;
-    
-    if (!DEBUG)
-        return ;
-
-    ft_putstr_fd("\nStack A: ", 1);
-    while (temp_a)
-    {
-        ft_putnbr_fd(temp_a->value, 1);
-        temp_a = temp_a->next;
-        if (temp_a)
-            ft_putstr_fd(" ", 1);
-    }
-    ft_putchar_fd('\n', 1);
-
-    ft_putstr_fd("Stack B: ", 1);
-    while (temp_b)
-    {
-        ft_putnbr_fd(temp_b->value, 1);
-        temp_b = temp_b->next;
-        if (temp_b)
-            ft_putstr_fd(" ", 1);
-    }
-    ft_putstr_fd("\n\n", 1);
+	if (!VISUALS)
+		return ;
+	write(1, "\033[0;90m", 7);
+	write(1, str, ft_strlen(str));
+	write(1, "\033[0m", 4);
 }
 
-void    print_one(t_stack *stack, char stack_name)
+void	print_debug_nbr(int n)
 {
-    t_stack *temp = stack;
-    
-    if (!DEBUG)
-        return ;
+	if (!VISUALS)
+		return ;
+	write(1, "\033[0;90m", 7);
+	ft_putnbr_fd(n, 1);
+	write(1, "\033[0m", 4);
+}
 
-    ft_putstr_fd("\nStack ", 1);
-    ft_putchar_fd(stack_name, 1);
-    ft_putstr_fd(": ", 1);
-    while (temp)
-    {
-        ft_putnbr_fd(temp->value, 1);
-        temp = temp->next;
-        if (temp)
-            ft_putstr_fd(" ", 1);
-    }
-    ft_putstr_fd("\n\n", 1);
+void	print_debug_char(char c)
+{
+	if (!VISUALS)
+		return ;
+	write(1, "\033[0;90m", 7);
+	write(1, &c, 1);
+	write(1, "\033[0m", 4);
+}
+
+void	print_stacks(t_stack *stack_a, t_stack *stack_b)
+{
+	t_stack	*temp_a;
+	t_stack	*temp_b;
+
+	if (!VISUALS)
+		return ;
+	temp_a = stack_a;
+	temp_b = stack_b;
+	print_debug_str("Stack A: ");
+	while (temp_a)
+	{
+		print_debug_nbr(temp_a->value);
+		temp_a = temp_a->next;
+		if (temp_a)
+			print_debug_char(' ');
+	}
+	print_debug_char('\n');
+	print_debug_str("Stack B: ");
+	while (temp_b)
+	{
+		print_debug_nbr(temp_b->value);
+		temp_b = temp_b->next;
+		if (temp_b)
+			print_debug_char(' ');
+	}
+	print_debug_str("\n");
+}
+
+void	print_one(t_stack *stack, char stack_name)
+{
+	t_stack	*temp;
+
+	if (!VISUALS)
+		return ;
+	temp = stack;
+	print_debug_str("Stack ");
+	print_debug_char(stack_name);
+	print_debug_str(": ");
+	while (temp)
+	{
+		print_debug_nbr(temp->value);
+		temp = temp->next;
+		if (temp)
+			print_debug_char(' ');
+	}
+	print_debug_str("\n");
 }

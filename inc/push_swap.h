@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/18 07:39:51 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/18 09:04:45 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
 # include "../lib/libft/inc/libft.h"
 
 # ifndef DEBUG
-#  define DEBUG 1  // 1 activates prints, 0 deactivates in operations
+#  define VISUALS 0
+# else
+#  define VISUALS 1
 # endif
 
 typedef struct s_stack
@@ -75,5 +77,6 @@ void        index_stack(t_stack *stack);
 //debug
 void print_stacks(t_stack *stack_a, t_stack *stack_b);
 void    print_one(t_stack *stack, char stack_name);
+void	print_debug_str(char *str);
 
 #endif

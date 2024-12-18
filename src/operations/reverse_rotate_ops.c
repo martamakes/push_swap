@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 08:36:43 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/18 07:42:16 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/18 08:36:21 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ void	rra(t_stack **stack_a)
 {
 	reverse_rotate(stack_a);
 	ft_putstr_fd("rra\n", 1);
-	if (DEBUG)
+	if (VISUALS)
     {
-        ft_putstr_fd("After rra:\n", 1);
+        print_debug_str("After rra:\n");
         print_one(*stack_a, 'A');
     }
 }
@@ -57,9 +57,9 @@ void	rrb(t_stack **stack_b)
 {
 	reverse_rotate(stack_b);
 	ft_putstr_fd("rrb\n", 1);
-	if (DEBUG)
+	if (VISUALS)
     {
-        ft_putstr_fd("After rrb:\n", 1);
+        print_debug_str("After rrb:\n");
         print_one(*stack_b, 'B');
     }
 }
@@ -72,9 +72,9 @@ void	rrr(t_stack **stack_a, t_stack **stack_b)
 	reverse_rotate(stack_a);
 	reverse_rotate(stack_b);
 	ft_putstr_fd("rrr\n", 1);
-	if (DEBUG)
+	if (VISUALS)
     {
-        ft_putstr_fd("After rrr:\n", 1);
+        print_debug_str("After rrr:\n");
         print_stacks(*stack_a, *stack_b);
     }
 }

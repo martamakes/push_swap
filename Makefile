@@ -6,7 +6,7 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/01 15:27:20 by mvigara-          #+#    #+#              #
-#    Updated: 2024/12/18 07:48:58 by mvigara-         ###   ########.fr        #
+#    Updated: 2024/12/18 09:04:22 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,14 @@ MAGENTA = \033[0;35m
 CYAN = \033[0;36m
 WHITE = \033[0;37m
 RESET = \033[0m
+
+# Debug prints control
+DEBUG_PRINTS ?= 0
+
+# Force recompilation when DEBUG_PRINTS changes
+ifneq ($(DEBUG_PRINTS),$(shell cat $(OBJ_DIR)/.debug_prints 2>/dev/null))
+FORCE_RECOMPILE := 1
+endif
 
 # Project name
 NAME = push_swap
@@ -68,24 +76,43 @@ INCLUDES = -I$(INC_DIR) -I$(LIBFT_DIR)/inc
 
 # Detect OS
 UNAME_S := $(shell uname -s)
+UNAME_M := $(shell uname -m)
+
+# OS and Architecture specific settings
 ifeq ($(UNAME_S),Darwin)    # macOS
-    CFLAGS += -fsanitize=address -g
-    DEBUG_TOOL = lldb
-    $(info $(CYAN)Compiling for macOS with Address Sanitizer$(RESET))
+    ifeq ($(UNAME_M),arm64)    # Apple Silicon
+        CFLAGS += -g
+        DEBUG_TOOL = lldb
+        $(info $(CYAN)Compiling for macOS ARM64$(RESET))
+    else                        # Intel Mac
+        CFLAGS += -fsanitize=address -g
+        LDFLAGS += -fsanitize=address
+        DEBUG_TOOL = lldb
+        $(info $(CYAN)Compiling for macOS Intel with Address Sanitizer$(RESET))
+    endif
 else ifeq ($(UNAME_S),Linux)    # Linux
     CFLAGS += -g
     DEBUG_TOOL = gdb
     $(info $(CYAN)Compiling for Linux. Use valgrind for memory checks$(RESET))
 endif
 
+# Add DEBUG flag if DEBUG=1
+ifeq ($(DEBUG),1)
+    CFLAGS += -DDEBUG
+endif
+
 # Rules
 all: $(NAME)
 
 # Create directories
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	@mkdir -p $(dir $@)
 	@echo "$(BLUE)Compiling $<...$(RESET)"
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+$(OBJ_DIR):
+	@mkdir -p $@
+	@echo "$(DEBUG_PRINTS)" > $(OBJ_DIR)/.debug_prints
 
 # Compile libft
 $(LIBFT):
@@ -95,7 +122,7 @@ $(LIBFT):
 # Link everything
 $(NAME): $(LIBFT) $(OBJS)
 	@echo "$(GREEN)Linking $@...$(RESET)"
-	@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) -lft -o $(NAME)
+	@$(CC) $(CFLAGS) $(if $(filter 1,$(DEBUG)),-DDEBUG=1) $(OBJS) -L$(LIBFT_DIR) -lft $(LDFLAGS) -o $(NAME)
 	@echo "$(GREEN)Build complete! 🚀$(RESET)"
 
 clean:
@@ -111,9 +138,8 @@ fclean: clean
 re: fclean all
 
 # Debug rule
-debug: CFLAGS += -g
-debug: re
-	@echo "$(YELLOW)Debug build complete! Run with $(DEBUG_TOOL)$(RESET)"
+debug: fclean
+	@$(MAKE) DEBUG=1
 
 # Testing helper
 test: $(NAME)
@@ -124,7 +150,7 @@ test: $(NAME)
 	@./$(NAME) "1 2 3"
 	@./$(NAME) 0 one 2 3
 
-.PHONY: all clean fclean re debug test
+.PHONY: all clean fclean re debug test help
 
 # Help message
 help:
@@ -133,8 +159,12 @@ help:
 	@echo "  $(GREEN)clean$(RESET)   : Remove object files"
 	@echo "  $(GREEN)fclean$(RESET)  : Remove object files and executable"
 	@echo "  $(GREEN)re$(RESET)      : Rebuild the project"
-	@echo "  $(GREEN)debug$(RESET)   : Build with debug symbols"
+	@echo "  $(GREEN)debug$(RESET)   : Build with debug symbols and prints enabled"
 	@echo "  $(GREEN)test$(RESET)    : Run basic tests"
+	@echo
+	@echo "$(CYAN)Debug Options:$(RESET)"
+	@echo "  make DEBUG_PRINTS=1     : Enable debug prints"
+	@echo "  make debug             : Enable debug symbols and prints"
 	@echo
 	@echo "$(CYAN)OS Detection:$(RESET)"
 	@echo "  Current OS: $(UNAME_S)"

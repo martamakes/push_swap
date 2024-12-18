@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:44:33 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/18 07:33:50 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/18 08:37:33 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ int	main(int ac, char **av)
 	if (!stack_a || check_duplicates(stack_a))
 		error_exit(&stack_a, NULL);
 	total_nodes = stack_size(stack_a);
-	  if (DEBUG)
+	  if (VISUALS)
     {
-        ft_putstr_fd("Initial state:\n", 1);
+        print_debug_str("Initial state:\n");
         print_stacks(stack_a, stack_b);
     }
 	if (!is_sorted(stack_a))
