@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/17 12:09:46 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/18 07:39:51 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 # include <stdlib.h>
 # include <limits.h>
 # include "../lib/libft/inc/libft.h"
+
+# ifndef DEBUG
+#  define DEBUG 1  // 1 activates prints, 0 deactivates in operations
+# endif
 
 typedef struct s_stack
 {
@@ -67,5 +71,9 @@ int         is_sorted(t_stack *stack);
 void        free_stack(t_stack **stack);
 int         get_min_pos(t_stack *stack);
 void        index_stack(t_stack *stack);
+
+//debug
+void print_stacks(t_stack *stack_a, t_stack *stack_b);
+void    print_one(t_stack *stack, char stack_name);
 
 #endif

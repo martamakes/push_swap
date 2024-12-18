@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 08:20:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/17 11:57:25 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/18 07:44:55 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@ void	pa(t_stack **stack_a, t_stack **stack_b)
 {
 	push(stack_b, stack_a);
 	ft_putstr_fd("pa\n", 1);
+    if (DEBUG)
+    {
+        ft_putstr_fd("After pa:\n", 1);
+        print_stacks(*stack_a, *stack_b);
+    }
 }
 
 /*
@@ -48,4 +53,9 @@ void	pb(t_stack **stack_a, t_stack **stack_b)
 {
 	push(stack_a, stack_b);
 	ft_putstr_fd("pb\n", 1);
+    if (DEBUG)
+    {
+        ft_putstr_fd("After pb:\n", 1);
+        print_stacks(*stack_a, *stack_b);
+    }
 }

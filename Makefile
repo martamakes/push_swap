@@ -6,7 +6,7 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/01 15:27:20 by mvigara-          #+#    #+#              #
-#    Updated: 2024/12/17 11:54:38 by mvigara-         ###   ########.fr        #
+#    Updated: 2024/12/18 07:48:58 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,8 +36,7 @@ MAIN_SRC = main/push_swap.c
 STACK_SRC = stack/stack_init.c \
            stack/stack_utils.c
 
-PARSER_SRC = parser/parse_args.c \
-            parser/parse_utils.c
+PARSER_SRC = parser/parse_utils.c 
 
 ERROR_SRC = error/error_handler.c
 
@@ -50,8 +49,10 @@ SORT_SRC = sort/sort_small.c \
           sort/sort_large.c \
           sort/sort_utils.c
 
+DEBUG_SRC = debug/print_stacks.c
+
 # Source files with directory prefix
-SRCS = $(addprefix $(SRC_DIR)/, $(MAIN_SRC) $(STACK_SRC) $(PARSER_SRC) $(ERROR_SRC) $(OPS_SRC) $(SORT_SRC))
+SRCS = $(addprefix $(SRC_DIR)/, $(MAIN_SRC) $(STACK_SRC) $(PARSER_SRC) $(ERROR_SRC) $(OPS_SRC) $(SORT_SRC) $(DEBUG_SRC))
 
 # Object files
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
