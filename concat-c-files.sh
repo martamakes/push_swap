@@ -1,25 +1,48 @@
 #!/bin/bash
 
-# Remove the existing all.c if it exists
-rm -f all.c
+# Directorio donde se guardarán los archivos concatenados
+OUTPUT_FILE="my-push.c"
 
-# Find all .c files in current directory and subdirectories
-# and concatenate them into all.c with file headers
-find . -type f -name "*.c" | while read -r file; do
-    # Add a header for each file
-    echo -e "\n/* ************************************************************************** */" >> all.c
-    echo "/*                                                                            */" >> all.c
-    echo "/*     File: $(basename "$file")" >> all.c
-    echo "/*     Path: $file" >> all.c
-    echo "/*                                                                            */" >> all.c
-    echo "/* ************************************************************************** */" >> all.c
-    echo -e "\n" >> all.c
+# Asegurarse de que estamos en el directorio correcto
+if [ ! -d "src" ]; then
+    echo "Error: directorio 'src' no encontrado"
+    exit 1
+fi
+
+# Eliminar el archivo de salida si ya existe
+rm -f "$OUTPUT_FILE"
+
+# Crear el archivo de salida
+touch "$OUTPUT_FILE"
+
+# Función para procesar los archivos .c
+process_directory() {
+    local dir=$1
     
-    # Append the file content
-    cat "$file" >> all.c
+    # Añadir un comentario indicando la sección
+    echo "/* ************************************************************************** */" >> "$OUTPUT_FILE"
+    echo "/*                                                                            */" >> "$OUTPUT_FILE"
+    echo "/*                            $dir                                           */" >> "$OUTPUT_FILE"
+    echo "/*                                                                            */" >> "$OUTPUT_FILE"
+    echo "/* ************************************************************************** */" >> "$OUTPUT_FILE"
+    echo "" >> "$OUTPUT_FILE"
     
-    # Add a newline after each file
-    echo -e "\n" >> all.c
+    # Encontrar y concatenar todos los archivos .c en el directorio actual
+    find "$dir" -maxdepth 1 -name "*.c" -type f | sort | while read -r file; do
+        echo "Procesando: $file"
+        # Añadir una línea en blanco entre archivos
+        echo "" >> "$OUTPUT_FILE"
+        # Concatenar el contenido del archivo
+        cat "$file" >> "$OUTPUT_FILE"
+        echo "" >> "$OUTPUT_FILE"
+    done
+}
+
+# Procesar cada subdirectorio en orden
+for dir in src/*/; do
+    if [ -d "$dir" ]; then
+        process_directory "$dir"
+    fi
 done
 
-echo "All .c files have been concatenated into all.c"
+echo "Archivos concatenados en $OUTPUT_FILE"
