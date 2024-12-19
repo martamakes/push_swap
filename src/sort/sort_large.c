@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 19:14:26 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/19 09:44:05 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/19 15:37:44 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,15 +105,22 @@ void	move_cheapest_to_a(t_stack **a, t_stack **b)
 */
 void	turkish_sort(t_stack **a, t_stack **b)
 {
-	pb(a, b);
-	pb(a, b);
-	if ((*b)->value < (*b)->next->value)
-		sb(b);
-	while (stack_size(*a) > 3)
-		move_cheapest_to_b(a, b);
-	if (!is_sorted(*a))
-		sort_three(a);
-	while (*b)
-		move_cheapest_to_a(a, b);
-	shift_stack(a);
+	int size;
+
+    size = stack_size(*a);
+	if(size < 150)
+	{
+		pb(a, b);
+		pb(a, b);
+		if ((*b)->value < (*b)->next->value)
+			sb(b);
+		while (stack_size(*a) > 3)
+			move_cheapest_to_b(a, b);
+		if (!is_sorted(*a))
+			sort_three(a);
+		while (*b)
+			move_cheapest_to_a(a, b);
+		shift_stack(a);
+	}
+	ft_printf("not there yet");
 }

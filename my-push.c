@@ -1,14 +1,153 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                            src/debug/                                           */
+/*                                                                            */
+/* ************************************************************************** */
+
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_stacks.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/18 07:25:00 by mvigara-          #+#    #+#             */
+/*   Updated: 2024/12/18 08:35:50 by mvigara-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-void    error_exit(t_stack **stack_a, t_stack **stack_b)
+void	print_debug_str(char *str)
 {
-    if (stack_a != NULL)
-        free_stack(stack_a);
-    if (stack_b != NULL)
-        free_stack(stack_b);
-    ft_putstr_fd("Error\n", 2);
-    exit(1);
+	if (!VISUALS)
+		return ;
+	write(1, "\033[0;90m", 7);
+	write(1, str, ft_strlen(str));
+	write(1, "\033[0m", 4);
 }
+
+void	print_debug_nbr(int n)
+{
+	if (!VISUALS)
+		return ;
+	write(1, "\033[0;90m", 7);
+	ft_putnbr_fd(n, 1);
+	write(1, "\033[0m", 4);
+}
+
+void	print_debug_char(char c)
+{
+	if (!VISUALS)
+		return ;
+	write(1, "\033[0;90m", 7);
+	write(1, &c, 1);
+	write(1, "\033[0m", 4);
+}
+
+void	print_stacks(t_stack *stack_a, t_stack *stack_b)
+{
+	t_stack	*temp_a;
+	t_stack	*temp_b;
+
+	if (!VISUALS)
+		return ;
+	temp_a = stack_a;
+	temp_b = stack_b;
+	print_debug_str("Stack A: ");
+	while (temp_a)
+	{
+		print_debug_nbr(temp_a->value);
+		temp_a = temp_a->next;
+		if (temp_a)
+			print_debug_char(' ');
+	}
+	print_debug_char('\n');
+	print_debug_str("Stack B: ");
+	while (temp_b)
+	{
+		print_debug_nbr(temp_b->value);
+		temp_b = temp_b->next;
+		if (temp_b)
+			print_debug_char(' ');
+	}
+	print_debug_str("\n");
+}
+
+void	print_one(t_stack *stack, char stack_name)
+{
+	t_stack	*temp;
+
+	if (!VISUALS)
+		return ;
+	temp = stack;
+	print_debug_str("Stack ");
+	print_debug_char(stack_name);
+	print_debug_str(": ");
+	while (temp)
+	{
+		print_debug_nbr(temp->value);
+		temp = temp->next;
+		if (temp)
+			print_debug_char(' ');
+	}
+	print_debug_str("\n");
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                            src/error/                                           */
+/*                                                                            */
+/* ************************************************************************** */
+
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error_handler.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/01 15:44:56 by mvigara-          #+#    #+#             */
+/*   Updated: 2024/12/19 09:39:34 by mvigara-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+void	error_exit(t_stack **stack_a, t_stack **stack_b)
+{
+	if (stack_a != NULL)
+		free_stack(stack_a);
+	if (stack_b != NULL)
+		free_stack(stack_b);
+	ft_putstr_fd("Error\n", 2);
+	exit(1);
+}
+
+void	ft_split_free(char **split)
+{
+	int	i;
+
+	if (!split)
+		return ;
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+}
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                            src/main/                                           */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -17,7 +156,7 @@ void    error_exit(t_stack **stack_a, t_stack **stack_b)
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:44:33 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/17 21:46:28 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/19 08:44:29 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,23 +175,18 @@ int	is_sorted(t_stack *stack)
 	return (1);
 }
 
-static void    push_swap(t_stack **stack_a, t_stack **stack_b, int total_nodes)
+static void	push_swap(t_stack **stack_a, t_stack **stack_b)
 {
-    if (is_sorted(*stack_a))
-        return ;
-    if (total_nodes == 2)
-        sa(stack_a);
-    else if (total_nodes == 3)
-        sort_three(stack_a);
-    else if (total_nodes > 3)
-        sort_stack(stack_a, stack_b);
+	if (is_sorted(*stack_a))
+		return ;
+	sort_stack(stack_a, stack_b);
 }
 
 static void	get_numbers(char *av, t_stack **stack_a)
 {
-	char		**numbers;
-	long		num;
-	int			i;
+	char	**numbers;
+	long	num;
+	int		i;
 
 	numbers = ft_split(av, ' ');
 	if (!numbers)
@@ -81,7 +215,6 @@ int	main(int ac, char **av)
 {
 	t_stack	*stack_a;
 	t_stack	*stack_b;
-	int		total_nodes;
 	int		i;
 
 	if (ac < 2)
@@ -93,13 +226,25 @@ int	main(int ac, char **av)
 		get_numbers(av[i++], &stack_a);
 	if (!stack_a || check_duplicates(stack_a))
 		error_exit(&stack_a, NULL);
-	total_nodes = stack_size(stack_a);
+	if (VISUALS)
+	{
+		print_debug_str("Initial state:\n");
+		print_stacks(stack_a, stack_b);
+	}
 	if (!is_sorted(stack_a))
-		push_swap(&stack_a, &stack_b, total_nodes);
+		push_swap(&stack_a, &stack_b);
 	free_stack(&stack_a);
 	free_stack(&stack_b);
 	return (0);
 }
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                            src/operations/                                           */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -108,7 +253,7 @@ int	main(int ac, char **av)
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 08:20:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/17 11:57:25 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/18 08:36:05 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +284,11 @@ void	pa(t_stack **stack_a, t_stack **stack_b)
 {
 	push(stack_b, stack_a);
 	ft_putstr_fd("pa\n", 1);
+	if (VISUALS)
+	{
+		print_debug_str("After pa:\n");
+		print_stacks(*stack_a, *stack_b);
+	}
 }
 
 /*
@@ -150,7 +300,14 @@ void	pb(t_stack **stack_a, t_stack **stack_b)
 {
 	push(stack_a, stack_b);
 	ft_putstr_fd("pb\n", 1);
+	if (VISUALS)
+	{
+		print_debug_str("After pb:\n");
+		print_stacks(*stack_a, *stack_b);
+	}
 }
+
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -159,7 +316,7 @@ void	pb(t_stack **stack_a, t_stack **stack_b)
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 08:36:43 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/17 11:58:05 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/18 08:36:21 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,13 +345,18 @@ static void	reverse_rotate(t_stack **stack)
 }
 
 /*
-** rra (reverse rotate a): Shifts down all elements of 
+** rra (reverse rotate a): Shifts down all elements of
 ** stack a by 1. The last element becomes the first one.
 */
 void	rra(t_stack **stack_a)
 {
 	reverse_rotate(stack_a);
 	ft_putstr_fd("rra\n", 1);
+	if (VISUALS)
+	{
+		print_debug_str("After rra:\n");
+		print_one(*stack_a, 'A');
+	}
 }
 
 /*
@@ -205,6 +367,11 @@ void	rrb(t_stack **stack_b)
 {
 	reverse_rotate(stack_b);
 	ft_putstr_fd("rrb\n", 1);
+	if (VISUALS)
+	{
+		print_debug_str("After rrb:\n");
+		print_one(*stack_b, 'B');
+	}
 }
 
 /*
@@ -215,7 +382,14 @@ void	rrr(t_stack **stack_a, t_stack **stack_b)
 	reverse_rotate(stack_a);
 	reverse_rotate(stack_b);
 	ft_putstr_fd("rrr\n", 1);
+	if (VISUALS)
+	{
+		print_debug_str("After rrr:\n");
+		print_stacks(*stack_a, *stack_b);
+	}
 }
+
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -224,7 +398,7 @@ void	rrr(t_stack **stack_a, t_stack **stack_b)
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 08:33:49 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/17 11:57:43 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/18 08:36:37 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,6 +430,11 @@ void	ra(t_stack **stack_a)
 {
 	rotate(stack_a);
 	ft_putstr_fd("ra\n", 1);
+	if (VISUALS)
+	{
+		print_debug_str("After ra:\n");
+		print_one(*stack_a, 'A');
+	}
 }
 
 /*
@@ -266,6 +445,11 @@ void	rb(t_stack **stack_b)
 {
 	rotate(stack_b);
 	ft_putstr_fd("rb\n", 1);
+	if (VISUALS)
+	{
+		print_debug_str("After rb:\n");
+		print_one(*stack_b, 'B');
+	}
 }
 
 /*
@@ -276,68 +460,98 @@ void	rr(t_stack **stack_a, t_stack **stack_b)
 	rotate(stack_a);
 	rotate(stack_b);
 	ft_putstr_fd("rr\n", 1);
+	if (VISUALS)
+	{
+		print_debug_str("After pa:\n");
+		print_stacks(*stack_a, *stack_b);
+	}
 }
+
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rotate_ops.c                                       :+:      :+:    :+:   */
+/*   swap_ops.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/02 08:33:49 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/17 11:57:43 by mvigara-         ###   ########.fr       */
+/*   Created: 2024/12/02 08:09:17 by mvigara-          #+#    #+#             */
+/*   Updated: 2024/12/18 08:36:59 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 /*
-** Shifts up all elements of a stack by 1.
-** The first element becomes the last one.
+** Swaps the first two elements of a stack.
+** Does nothing if there are less than 2 elements.
 */
-static void	rotate(t_stack **stack)
+static void	swap(t_stack **stack)
 {
-	t_stack	*tmp;
-	t_stack	*last;
+	t_stack	*first;
+	t_stack	*second;
 
-	if (!*stack || !(*stack)->next)
+	if (!stack || !*stack || !(*stack)->next)
 		return ;
-	tmp = *stack;
-	*stack = (*stack)->next;
-	last = stack_last(*stack);
-	tmp->next = NULL;
-	last->next = tmp;
+	first = *stack;
+	second = (*stack)->next;
+	first->next = second->next;
+	second->next = first;
+	*stack = second;
 }
 
 /*
-** ra (rotate a): Shifts up all elements of stack a by 1.
-** The first element becomes the last one.
+** sa (swap a): Swaps the top two elements of stack a.
+** Does nothing if there's one or no elements.
 */
-void	ra(t_stack **stack_a)
+void	sa(t_stack **stack_a)
 {
-	rotate(stack_a);
-	ft_putstr_fd("ra\n", 1);
+	swap(stack_a);
+	ft_printf("sa\n");
+	if (VISUALS)
+	{
+		print_debug_str("After sa:\n");
+		print_one(*stack_a, 'A');
+	}
 }
 
 /*
-** rb (rotate b): Shifts up all elements of stack b by 1.
-** The first element becomes the last one.
+** sb (swap b): Swaps the top two elements of stack b.
+** Does nothing if there's one or no elements.
 */
-void	rb(t_stack **stack_b)
+void	sb(t_stack **stack_b)
 {
-	rotate(stack_b);
-	ft_putstr_fd("rb\n", 1);
+	swap(stack_b);
+	ft_putstr_fd("sb\n", 1);
+	if (VISUALS)
+	{
+		print_debug_str("After sb:\n");
+		print_one(*stack_b, 'B');
+	}
 }
 
 /*
-** rr: ra and rb at the same time.
+** ss: sa and sb at the same time.
 */
-void	rr(t_stack **stack_a, t_stack **stack_b)
+void	ss(t_stack **stack_a, t_stack **stack_b)
 {
-	rotate(stack_a);
-	rotate(stack_b);
-	ft_putstr_fd("rr\n", 1);
+	swap(stack_a);
+	swap(stack_b);
+	ft_putstr_fd("ss\n", 1);
+	if (VISUALS)
+	{
+		print_debug_str("After ss:\n");
+		print_stacks(*stack_a, *stack_b);
+	}
 }
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                            src/parser/                                           */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -346,69 +560,77 @@ void	rr(t_stack **stack_a, t_stack **stack_b)
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:45:18 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/17 12:04:36 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/19 09:39:26 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// src/parser/parse_utils.c
-
 #include "push_swap.h"
-
-void    ft_split_free(char **split)
-{
-    int i;
-
-    if (!split)
-        return;
-    i = 0;
-    while (split[i])
-    {
-        free(split[i]);
-        i++;
-    }
-    free(split);
-}
 
 /*
 ** Checks if a string contains only valid number characters
 ** Returns 1 if valid, 0 if invalid
 */
-int    is_valid_input(char *str)
+int	is_valid_input(char *str)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    if (!str || !*str)
-        return (0);
-    // Skip leading spaces
-    while (ft_iswhitespace(str[i]))
-        i++;
-    // Handle sign if present
-    if (str[i] == '-' || str[i] == '+')
-        i++;
-    // Must have at least one digit after sign
-    if (!str[i])
-        return (0);
-    // Check all remaining characters are digits
-    while (str[i])
-    {
-        if (!ft_isdigit(str[i]) && !ft_iswhitespace(str[i]))
-            return (0);
-        i++;
-    }
-    return (1);
+	i = 0;
+	if (!str || !*str)
+		return (0);
+	while (ft_iswhitespace(str[i]))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	if (!str[i])
+		return (0);
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]) && !ft_iswhitespace(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 /*
 ** Process a single argument string that might contain multiple numbers
 ** Returns 1 if successful, 0 if error
 */
+static int validate_and_convert_number(char *str, t_stack **stack_a)
+{
+    long num;
+
+    if (!is_valid_input(str))
+        return (0);
+    num = ft_atoll(str);
+    if (num > INT_MAX || num < INT_MIN)
+        return (0);
+    stack_add_back(stack_a, stack_new((int)num));
+    return (1);
+}
+
+static int process_numbers_array(char **numbers, t_stack **stack_a)
+{
+    int i;
+
+    i = 0;
+    while (numbers[i])
+    {
+        if (!validate_and_convert_number(numbers[i], stack_a))
+        {
+            ft_split_free(numbers);
+            return (0);
+        }
+        i++;
+    }
+    ft_split_free(numbers);
+    return (1);
+}
+
 static int process_arg_string(char *str, t_stack **stack_a)
 {
-    char    **numbers;
-    char    *trimmed;
-    int     i;
-    long    num;
+    char **numbers;
+    char *trimmed;
 
     trimmed = ft_strtrim(str, " \t\n\v\f\r");
     if (!trimmed)
@@ -417,161 +639,434 @@ static int process_arg_string(char *str, t_stack **stack_a)
     free(trimmed);
     if (!numbers)
         return (0);
-    i = 0;
-    while (numbers[i])
-    {
-        if (!is_valid_input(numbers[i]))
-        {
-            ft_split_free(numbers);
-            return (0);
-        }
-        num = ft_atoll(numbers[i]);
-        if (num > INT_MAX || num < INT_MIN)
-        {
-            ft_split_free(numbers);
-            return (0);
-        }
-        stack_add_back(stack_a, stack_new((int)num));
-        i++;
-    }
-    ft_split_free(numbers);
-    return (1);
+    return (process_numbers_array(numbers, stack_a));
 }
 
 /*
 ** Process all input arguments
 ** Returns 1 if successful, 0 if error
 */
-int    process_input(int ac, char **av, t_stack **stack_a)
+int	process_input(int ac, char **av, t_stack **stack_a)
 {
-    int i;
+	int	i;
 
-    i = 1;
-    while (i < ac)
-    {
-        if (!process_arg_string(av[i], stack_a))
-            return (0);
-        i++;
-    }
-    return (!check_duplicates(*stack_a));
+	i = 1;
+	while (i < ac)
+	{
+		if (!process_arg_string(av[i], stack_a))
+			return (0);
+		i++;
+	}
+	return (!check_duplicates(*stack_a));
 }
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                            src/sort/                                           */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_utils.c                                      :+:      :+:    :+:   */
+/*   find_pos.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/01 15:45:18 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/17 12:04:36 by mvigara-         ###   ########.fr       */
+/*   Created: 2024/12/19 08:56:36 by mvigara-          #+#    #+#             */
+/*   Updated: 2024/12/19 09:22:38 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// src/parser/parse_utils.c
+#include "push_swap.h"
+
+static int	find_pos(t_stack *stack, int value)
+{
+	int	pos;
+
+	pos = 0;
+	while (stack)
+	{
+		if (stack->value == value)
+			return (pos);
+		pos++;
+		stack = stack->next;
+	}
+	return (0);
+}
+
+/*
+** Finds the position where a number from stack b should be inserted in stack a
+** while maintaining ascending order
+** Returns the position in stack a where the value should be placed
+*/
+static int	find_target_position_b_to_a(t_stack *a, int value)
+{
+	t_stack	*current;
+	int		closest_smaller;
+	int		closest_bigger;
+	int		target_pos;
+
+	closest_smaller = INT_MIN;
+	closest_bigger = INT_MAX;
+	current = a;
+	target_pos = 0;
+	while (current)
+	{
+		if (current->value < value && current->value > closest_smaller)
+		{
+			closest_smaller = current->value;
+			target_pos = current->pos + 1;
+		}
+		if (current->value > value && current->value < closest_bigger)
+			closest_bigger = current->value;
+		current = current->next;
+	}
+	if (closest_bigger == INT_MAX && closest_smaller == INT_MIN)
+		return (0);
+	if (closest_bigger == INT_MAX)
+		return (target_pos);
+	return (find_pos(a, closest_bigger));
+}
+
+/*
+** Finds the position where a number from stack a should be inserted in stack b
+** to maintain order and minimize future moves
+** Returns the position in stack b where the value should be placed
+*/
+static int	find_target_position_a_to_b(t_stack *b, int value)
+{
+	t_stack	*current;
+	int		closest_smaller;
+	int		closest_bigger;
+
+	if (!b)
+		return (0);
+	closest_smaller = INT_MIN;
+	closest_bigger = INT_MAX;
+	current = b;
+	while (current)
+	{
+		if (current->value < value && current->value > closest_smaller)
+			closest_smaller = current->value;
+		if (current->value > value && current->value < closest_bigger)
+			closest_bigger = current->value;
+		current = current->next;
+	}
+	if (closest_bigger != INT_MAX)
+		return (find_pos(b, closest_bigger));
+	if (closest_smaller != INT_MIN)
+		return ((find_pos(b, closest_smaller) + 1) % stack_size(b));
+	return (0);
+}
+
+/*
+** General function that finds target position based on direction
+** direction = 1: moving from A to B
+** direction = 0: moving from B to A
+*/
+int	find_target_position(t_stack *src, t_stack *dst, int value)
+{
+	static t_stack	*last_src = NULL;
+
+	if (src != last_src)
+	{
+		last_src = src;
+		if (src && last_src && src->value == last_src->value)
+			return (find_target_position_b_to_a(dst, value));
+	}
+	return (find_target_position_a_to_b(dst, value));
+}
+
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_chunky.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/19 10:08:12 by mvigara-          #+#    #+#             */
+/*   Updated: 2024/12/19 15:17:32 by mvigara-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "push_swap.h"
 
-void    ft_split_free(char **split)
+static void get_chunk_limits(t_stack *stack, int *min, int *max)
 {
-    int i;
+    t_stack *current;
 
-    if (!split)
-        return;
-    i = 0;
-    while (split[i])
+    if (!stack)
+        return ;
+    *min = stack->value;
+    *max = stack->value;
+    current = stack;
+    while (current)
     {
-        free(split[i]);
-        i++;
+        if (current->value < *min)
+            *min = current->value;
+        if (current->value > *max)
+            *max = current->value;
+        current = current->next;
     }
-    free(split);
 }
 
-/*
-** Checks if a string contains only valid number characters
-** Returns 1 if valid, 0 if invalid
-*/
-int    is_valid_input(char *str)
+static int get_chunk_size(int stack_size)
 {
-    int i;
-
-    i = 0;
-    if (!str || !*str)
-        return (0);
-    // Skip leading spaces
-    while (ft_iswhitespace(str[i]))
-        i++;
-    // Handle sign if present
-    if (str[i] == '-' || str[i] == '+')
-        i++;
-    // Must have at least one digit after sign
-    if (!str[i])
-        return (0);
-    // Check all remaining characters are digits
-    while (str[i])
-    {
-        if (!ft_isdigit(str[i]) && !ft_iswhitespace(str[i]))
-            return (0);
-        i++;
-    }
-    return (1);
+    if (stack_size <= 100)
+        return 20;
+    return 40;
 }
 
-/*
-** Process a single argument string that might contain multiple numbers
-** Returns 1 if successful, 0 if error
-*/
-static int process_arg_string(char *str, t_stack **stack_a)
+static int is_in_chunk(int value, int chunk_start, int chunk_size)
 {
-    char    **numbers;
-    char    *trimmed;
-    int     i;
-    long    num;
+    return (value >= chunk_start && value < chunk_start + chunk_size);
+}
 
-    trimmed = ft_strtrim(str, " \t\n\v\f\r");
-    if (!trimmed)
-        return (0);
-    numbers = ft_split(trimmed, ' ');
-    free(trimmed);
-    if (!numbers)
-        return (0);
-    i = 0;
-    while (numbers[i])
+static void move_chunk_to_b(t_stack **a, t_stack **b, int chunk_start, int chunk_size)
+{
+    t_stack *current;
+    int     moved;
+ 
+    moved = 0;
+    while (*a && moved < chunk_size)
     {
-        if (!is_valid_input(numbers[i]))
+        current = *a;
+        if (is_in_chunk(current->value, chunk_start, chunk_size))
         {
-            ft_split_free(numbers);
-            return (0);
+            pb(a, b);
+            if ((*b)->value < chunk_start + (chunk_size / 2))
+                rb(b);
+            moved++;
         }
-        num = ft_atoll(numbers[i]);
-        if (num > INT_MAX || num < INT_MIN)
-        {
-            ft_split_free(numbers);
-            return (0);
-        }
-        stack_add_back(stack_a, stack_new((int)num));
-        i++;
+        else
+            ra(a);
     }
-    ft_split_free(numbers);
-    return (1);
+}
+
+void get_chunky(t_stack **a, t_stack **b)
+{
+    int min;
+    int max;
+    int chunk_size;
+    int current_chunk;
+    int range;
+
+    get_chunk_limits(*a, &min, &max);
+    range = max - min + 1;
+    chunk_size = range / get_chunk_size(stack_size(*a));
+    current_chunk = min;
+
+    while (stack_size(*a) > 3)
+    {
+        move_chunk_to_b(a, b, current_chunk, chunk_size);
+        current_chunk += chunk_size;
+    }
+
+    sort_three(a);
+    while (*b)
+        move_cheapest_to_a(a, b);
+    shift_stack(a);
+}
+
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rotations.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/19 08:26:40 by mvigara-          #+#    #+#             */
+/*   Updated: 2024/12/19 08:32:15 by mvigara-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+static void	do_same_rotations(t_stack **a, t_stack **b, int *cost_a,
+		int *cost_b)
+{
+	while (*cost_a > 0 && *cost_b > 0)
+	{
+		rr(a, b);
+		(*cost_a)--;
+		(*cost_b)--;
+	}
+	while (*cost_a < 0 && *cost_b < 0)
+	{
+		rrr(a, b);
+		(*cost_a)++;
+		(*cost_b)++;
+	}
+}
+
+static void	do_a_rotations(t_stack **a, int *cost_a)
+{
+	while (*cost_a > 0)
+	{
+		ra(a);
+		(*cost_a)--;
+	}
+	while (*cost_a < 0)
+	{
+		rra(a);
+		(*cost_a)++;
+	}
+}
+
+static void	do_b_rotations(t_stack **b, int *cost_b)
+{
+	while (*cost_b > 0)
+	{
+		rb(b);
+		(*cost_b)--;
+	}
+	while (*cost_b < 0)
+	{
+		rrb(b);
+		(*cost_b)++;
+	}
+}
+
+void	do_rotations(t_stack **a, t_stack **b, int cost_a, int cost_b)
+{
+	do_same_rotations(a, b, &cost_a, &cost_b);
+	do_a_rotations(a, &cost_a);
+	do_b_rotations(b, &cost_b);
+}
+
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sort_large.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/14 19:14:26 by mvigara-          #+#    #+#             */
+/*   Updated: 2024/12/19 15:12:45 by mvigara-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+/*
+** Main sorting function that chooses the appropriate algorithm
+** based on the size of the stack
+*/
+void    sort_stack(t_stack **a, t_stack **b)
+{
+    int size;
+
+    if (!a || !*a || is_sorted(*a))
+        return ;
+    size = stack_size(*a);
+    if (size == 2)
+        sa(a);
+    else if (size == 3)
+        sort_three(a);
+    else if (size < 50)
+        sort_small(a, b, size);
+    else
+        turkish_sort(a, b);
 }
 
 /*
-** Process all input arguments
-** Returns 1 if successful, 0 if error
+** Shifts the stack until the smallest number is at the top
+** Uses the most efficient rotation direction based on position
 */
-int    process_input(int ac, char **av, t_stack **stack_a)
+void    shift_stack(t_stack **stack)
 {
-    int i;
+    int lowest_pos;
+    int size;
 
-    i = 1;
-    while (i < ac)
+    if (!stack || !*stack)
+        return ;
+    size = stack_size(*stack);
+    lowest_pos = get_min_pos(*stack);
+    if (lowest_pos > size / 2)
     {
-        if (!process_arg_string(av[i], stack_a))
-            return (0);
-        i++;
+        while (lowest_pos < size)
+        {
+            rra(stack);
+            lowest_pos++;
+        }
     }
-    return (!check_duplicates(*stack_a));
+    else
+    {
+        while (lowest_pos > 0)
+        {
+            ra(stack);
+            lowest_pos--;
+        }
+    }
 }
+
+/*
+** Moves the cheapest number from stack a to stack b
+*/
+void	move_cheapest_to_b(t_stack **a, t_stack **b)
+{
+	t_stack	*cheapest;
+	int		cost_a;
+	int		cost_b;
+
+	get_target_positions(*a, *b);
+	get_cost(*a, *b);
+	cheapest = get_cheapest(*a);
+	cost_a = cheapest->cost_a;
+	cost_b = cheapest->cost_b;
+	do_rotations(a, b, cost_a, cost_b);
+	pb(a, b);
+}
+
+/*
+** Moves the cheapest number from stack b to stack a
+*/
+void	move_cheapest_to_a(t_stack **a, t_stack **b)
+{
+	t_stack	*cheapest;
+	int		cost_a;
+	int		cost_b;
+
+	get_target_positions(*b, *a);
+	get_cost(*b, *a);
+	cheapest = get_cheapest(*b);
+	cost_a = cheapest->cost_a;
+	cost_b = cheapest->cost_b;
+	do_rotations(a, b, cost_a, cost_b);
+	pa(a, b);
+}
+
+/*
+** Turkish sort algorithm implementation
+*/
+void	turkish_sort(t_stack **a, t_stack **b)
+{
+	int size;
+
+    size = stack_size(*a);
+	if(size < 50)
+	{
+		pb(a, b);
+		pb(a, b);
+		if ((*b)->value < (*b)->next->value)
+			sb(b);
+		while (stack_size(*a) > 3)
+			move_cheapest_to_b(a, b);
+		if (!is_sorted(*a))
+			sort_three(a);
+		while (*b)
+			move_cheapest_to_a(a, b);
+		shift_stack(a);
+	}
+	get_chunky(a, b);
+}
+
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -580,11 +1075,12 @@ int    process_input(int ac, char **av, t_stack **stack_a)
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 08:51:46 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/17 21:35:21 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/19 08:39:33 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
 /*
 ** Finds the highest value in the stack
 ** Returns the highest value found
@@ -610,92 +1106,249 @@ static int	get_highest(t_stack *stack)
 ** The algorithm checks the highest value's position and performs
 ** the necessary rotations and swaps to sort the stack
 */
-void    sort_three(t_stack **stack)
+void	sort_three(t_stack **stack)
 {
-    int    highest;
+	int	highest;
 
-    if (!stack || !*stack || stack_size(*stack) < 2)
-        return ;
-    if (is_sorted(*stack))
-        return ;
-    highest = get_highest(*stack);
-    if ((*stack)->value == highest)
-    {
-        ra(stack);
-        if (!is_sorted(*stack))
-            sa(stack);
-    }
-    else if ((*stack)->next->value == highest)
-    {
-        rra(stack);
-        if (!is_sorted(*stack))
-            sa(stack);
-    }
-    else if (!is_sorted(*stack))
-        sa(stack);
+	if (!stack || !*stack || stack_size(*stack) < 2)
+		return ;
+	if (is_sorted(*stack))
+		return ;
+	highest = get_highest(*stack);
+	if ((*stack)->value == highest)
+	{
+		ra(stack);
+		if (!is_sorted(*stack))
+			sa(stack);
+	}
+	else if ((*stack)->next->value == highest)
+	{
+		rra(stack);
+		if (!is_sorted(*stack))
+			sa(stack);
+	}
+	else if (!is_sorted(*stack))
+		sa(stack);
 }
+
+static void	move_min_to_top(t_stack **a, int min_pos, int mid)
+{
+	while (min_pos > 0)
+	{
+		if (min_pos <= mid)
+			ra(a);
+		else
+			rra(a);
+		min_pos = get_min_pos(*a);
+	}
+}
+
+void	sort_small(t_stack **a, t_stack **b, int size)
+{
+	int	mid;
+
+	if (size == 2)
+		sa(a);
+	else if (size == 3)
+		sort_three(a);
+	else
+	{
+		while (size > 3)
+		{
+			mid = size / 2;
+			move_min_to_top(a, get_min_pos(*a), mid);
+			pb(a, b);
+			size--;
+		}
+		sort_three(a);
+		while (*b)
+			pa(a, b);
+	}
+}
+
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sort_small.c                                       :+:      :+:    :+:   */
+/*   sort_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/02 08:51:46 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/17 21:35:21 by mvigara-         ###   ########.fr       */
+/*   Created: 2024/12/02 08:58:45 by mvigara-          #+#    #+#             */
+/*   Updated: 2024/12/19 09:43:22 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
 /*
-** Finds the highest value in the stack
-** Returns the highest value found
+** Updates position values for all nodes in a stack
+** This is crucial for cost calculations
 */
-static int	get_highest(t_stack *stack)
+void	update_positions(t_stack *stack)
 {
-	int	highest;
+	int		i;
+	t_stack	*current;
+
+	i = 0;
+	current = stack;
+	while (current)
+	{
+		current->pos = i;
+		i++;
+		current = current->next;
+	}
+}
+
+/*
+** Gets total cost of moving elements to their target positions
+** cost_a: moves needed in stack a
+** cost_b: moves needed in stack b
+*/
+void	get_cost(t_stack *a, t_stack *b)
+{
+	int		size_a;
+	int		size_b;
+	t_stack	*current;
+
+	size_a = stack_size(a);
+	size_b = stack_size(b);
+	current = a;
+	while (current)
+	{
+		current->cost_a = current->pos;
+		if (current->pos > size_a / 2)
+			current->cost_a = -(size_a - current->pos);
+		current->cost_b = current->target_pos;
+		if (current->target_pos > size_b / 2)
+			current->cost_b = -(size_b - current->target_pos);
+		current = current->next;
+	}
+}
+
+/*
+** Gets target positions for each element in stack_a
+** This helps determine where each element should go in stack_b
+*/
+void	get_target_positions(t_stack *a, t_stack *b)
+{
+	t_stack	*current;
+
+	current = a;
+	update_positions(a);
+	update_positions(b);
+	while (current)
+	{
+		current->target_pos = find_target_position(a, b, current->value);
+		current = current->next;
+	}
+}
+
+/*
+** Finds the element with the cheapest cost to move
+** Returns the node with the lowest absolute combined cost
+*/
+t_stack	*get_cheapest(t_stack *stack)
+{
+	t_stack	*cheapest;
+	t_stack	*current;
+	int		lowest_cost;
+	int		cost;
 
 	if (!stack)
-		return (0);
-	highest = stack->value;
-	while (stack)
+		return (NULL);
+	cheapest = stack;
+	lowest_cost = ft_abs(stack->cost_a) + ft_abs(stack->cost_b);
+	current = stack->next;
+	while (current)
 	{
-		if (stack->value > highest)
-			highest = stack->value;
-		stack = stack->next;
+		cost = ft_abs(current->cost_a) + ft_abs(current->cost_b);
+		if (cost < lowest_cost)
+		{
+			lowest_cost = cost;
+			cheapest = current;
+		}
+		current = current->next;
 	}
-	return (highest);
+	return (cheapest);
 }
 
 /*
-** Sorts a stack of three numbers using the minimum possible moves
-** The algorithm checks the highest value's position and performs
-** the necessary rotations and swaps to sort the stack
+** Finds the position of the minimum value in the stack
+** Returns the position (0-based index) of the minimum value
 */
-void    sort_three(t_stack **stack)
+int    get_min_pos(t_stack *stack)
 {
-    int    highest;
+    int     min;
+    int     pos;
+    int     min_pos;
+    t_stack *current;
 
-    if (!stack || !*stack || stack_size(*stack) < 2)
-        return ;
-    if (is_sorted(*stack))
-        return ;
-    highest = get_highest(*stack);
-    if ((*stack)->value == highest)
+    if (!stack)
+        return (0);
+    min = INT_MAX;
+    pos = 0;
+    min_pos = 0;
+    current = stack;
+    while (current)
     {
-        ra(stack);
-        if (!is_sorted(*stack))
-            sa(stack);
+        if (current->value < min)
+        {
+            min = current->value;
+            min_pos = pos;
+        }
+        current = current->next;
+        pos++;
     }
-    else if ((*stack)->next->value == highest)
-    {
-        rra(stack);
-        if (!is_sorted(*stack))
-            sa(stack);
-    }
-    else if (!is_sorted(*stack))
-        sa(stack);
+    return (min_pos);
 }
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                            src/stack/                                           */
+/*                                                                            */
+/* ************************************************************************** */
+
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   stack_init.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/01 15:46:40 by mvigara-          #+#    #+#             */
+/*   Updated: 2024/12/17 12:12:46 by mvigara-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+/*
+** Checks for duplicate values in the stack
+** Returns 1 if duplicates are found, 0 otherwise
+*/
+int	check_duplicates(t_stack *stack)
+{
+	t_stack	*current;
+	t_stack	*check;
+
+	current = stack;
+	while (current)
+	{
+		check = current->next;
+		while (check)
+		{
+			if (current->value == check->value)
+				return (1);
+			check = check->next;
+		}
+		current = current->next;
+	}
+	return (0);
+}
+
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -778,3 +1431,4 @@ void	free_stack(t_stack **stack)
 	}
 	*stack = NULL;
 }
+
