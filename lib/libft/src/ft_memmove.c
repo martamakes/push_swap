@@ -14,7 +14,7 @@
 
 /**
  * Copies a block of memory from a source address to a destination address.
- * The memory areas may overlap, but the copy is always done in a 
+ * The memory areas may overlap, but the copy is always done in a
  * non-destructive manner.
  *
  * @param dst The destination address where the memory will be copied to.

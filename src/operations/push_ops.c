@@ -37,11 +37,11 @@ void	pa(t_stack **stack_a, t_stack **stack_b)
 {
 	push(stack_b, stack_a);
 	ft_putstr_fd("pa\n", 1);
-    if (VISUALS)
-    {
-        print_debug_str("After pa:\n");
-        print_stacks(*stack_a, *stack_b);
-    }
+	if (VISUALS)
+	{
+		print_debug_str("After pa:\n");
+		print_stacks(*stack_a, *stack_b);
+	}
 }
 
 /*
@@ -53,9 +53,9 @@ void	pb(t_stack **stack_a, t_stack **stack_b)
 {
 	push(stack_a, stack_b);
 	ft_putstr_fd("pb\n", 1);
-    if (VISUALS)
-    {
-        print_debug_str("After pb:\n");
-        print_stacks(*stack_a, *stack_b);
-    }
+	if (VISUALS)
+	{
+		print_debug_str("After pb:\n");
+		print_stacks(*stack_a, *stack_b);
+	}
 }

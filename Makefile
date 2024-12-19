@@ -6,7 +6,7 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/01 15:27:20 by mvigara-          #+#    #+#              #
-#    Updated: 2024/12/18 09:04:22 by mvigara-         ###   ########.fr        #
+#    Updated: 2024/12/19 08:58:27 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,9 @@ OPS_SRC = operations/swap_ops.c \
 
 SORT_SRC = sort/sort_small.c \
           sort/sort_large.c \
-          sort/sort_utils.c
+          sort/sort_utils.c \
+		  sort/rotations.c \
+		  sort/find_pos.c
 
 DEBUG_SRC = debug/print_stacks.c
 

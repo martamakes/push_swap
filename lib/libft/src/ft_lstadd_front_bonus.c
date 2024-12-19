@@ -13,10 +13,10 @@
 #include "libft.h"
 
 /*
-* Adds the element 'new' at the beginning of the list.
-*@param lst A pointer to the first link of a list
-*@param new The link to add at the beginning of the list
-*/
+ * Adds the element 'new' at the beginning of the list.
+ *@param lst A pointer to the first link of a list
+ *@param new The link to add at the beginning of the list
+ */
 void	ft_lstadd_front(t_list **lst, t_list *new)
 {
 	if (!lst || !new)

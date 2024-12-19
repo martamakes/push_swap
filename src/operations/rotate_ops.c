@@ -39,10 +39,10 @@ void	ra(t_stack **stack_a)
 	rotate(stack_a);
 	ft_putstr_fd("ra\n", 1);
 	if (VISUALS)
-    {
-        print_debug_str("After ra:\n");
-        print_one(*stack_a, 'A');
-    }
+	{
+		print_debug_str("After ra:\n");
+		print_one(*stack_a, 'A');
+	}
 }
 
 /*
@@ -54,10 +54,10 @@ void	rb(t_stack **stack_b)
 	rotate(stack_b);
 	ft_putstr_fd("rb\n", 1);
 	if (VISUALS)
-    {
-        print_debug_str("After rb:\n");
-        print_one(*stack_b, 'B');
-    }
+	{
+		print_debug_str("After rb:\n");
+		print_one(*stack_b, 'B');
+	}
 }
 
 /*
@@ -68,9 +68,9 @@ void	rr(t_stack **stack_a, t_stack **stack_b)
 	rotate(stack_a);
 	rotate(stack_b);
 	ft_putstr_fd("rr\n", 1);
-	    if (VISUALS)
-    {
-       print_debug_str("After pa:\n");
-        print_stacks(*stack_a, *stack_b);
-    }
+	if (VISUALS)
+	{
+		print_debug_str("After pa:\n");
+		print_stacks(*stack_a, *stack_b);
+	}
 }

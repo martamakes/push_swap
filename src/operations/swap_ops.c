@@ -38,11 +38,11 @@ void	sa(t_stack **stack_a)
 {
 	swap(stack_a);
 	ft_printf("sa\n");
-    if (VISUALS)
-    {
-        print_debug_str("After sa:\n");
-        print_one(*stack_a, 'A');
-    }
+	if (VISUALS)
+	{
+		print_debug_str("After sa:\n");
+		print_one(*stack_a, 'A');
+	}
 }
 
 /*
@@ -53,11 +53,11 @@ void	sb(t_stack **stack_b)
 {
 	swap(stack_b);
 	ft_putstr_fd("sb\n", 1);
-    if (VISUALS)
-    {
-        print_debug_str("After sb:\n");
-        print_one(*stack_b, 'B');
-    }
+	if (VISUALS)
+	{
+		print_debug_str("After sb:\n");
+		print_one(*stack_b, 'B');
+	}
 }
 
 /*
@@ -68,9 +68,9 @@ void	ss(t_stack **stack_a, t_stack **stack_b)
 	swap(stack_a);
 	swap(stack_b);
 	ft_putstr_fd("ss\n", 1);
-        if (VISUALS)
-    {
-        print_debug_str("After ss:\n");
-        print_stacks(*stack_a, *stack_b);
-    }
+	if (VISUALS)
+	{
+		print_debug_str("After ss:\n");
+		print_stacks(*stack_a, *stack_b);
+	}
 }

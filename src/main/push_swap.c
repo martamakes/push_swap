@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:44:33 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/18 08:37:33 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/19 08:44:29 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,18 @@ int	is_sorted(t_stack *stack)
 	return (1);
 }
 
-static void    push_swap(t_stack **stack_a, t_stack **stack_b, int total_nodes)
+static void	push_swap(t_stack **stack_a, t_stack **stack_b)
 {
-    if (is_sorted(*stack_a))
-        return ;
-    if (total_nodes == 2)
-        sa(stack_a);
-    else if (total_nodes == 3)
-        sort_three(stack_a);
-    else if (total_nodes > 3)
-        sort_stack(stack_a, stack_b);
+	if (is_sorted(*stack_a))
+		return ;
+	sort_stack(stack_a, stack_b);
 }
 
 static void	get_numbers(char *av, t_stack **stack_a)
 {
-	char		**numbers;
-	long		num;
-	int			i;
+	char	**numbers;
+	long	num;
+	int		i;
 
 	numbers = ft_split(av, ' ');
 	if (!numbers)
@@ -70,7 +65,6 @@ int	main(int ac, char **av)
 {
 	t_stack	*stack_a;
 	t_stack	*stack_b;
-	int		total_nodes;
 	int		i;
 
 	if (ac < 2)
@@ -82,14 +76,13 @@ int	main(int ac, char **av)
 		get_numbers(av[i++], &stack_a);
 	if (!stack_a || check_duplicates(stack_a))
 		error_exit(&stack_a, NULL);
-	total_nodes = stack_size(stack_a);
-	  if (VISUALS)
-    {
-        print_debug_str("Initial state:\n");
-        print_stacks(stack_a, stack_b);
-    }
+	if (VISUALS)
+	{
+		print_debug_str("Initial state:\n");
+		print_stacks(stack_a, stack_b);
+	}
 	if (!is_sorted(stack_a))
-		push_swap(&stack_a, &stack_b, total_nodes);
+		push_swap(&stack_a, &stack_b);
 	free_stack(&stack_a);
 	free_stack(&stack_b);
 	return (0);

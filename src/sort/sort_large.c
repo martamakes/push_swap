@@ -6,69 +6,114 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 19:14:26 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/17 12:13:59 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/19 09:44:05 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 /*
-** Gets the position of the smallest number in the stack
-** Returns the position (0-based index)
+** Main sorting function that chooses the appropriate algorithm
+** based on the size of the stack
 */
-int	get_min_pos(t_stack *stack)
+void    sort_stack(t_stack **a, t_stack **b)
 {
-	int		min;
-	int		pos;
-	int		min_pos;
-	t_stack	*tmp;
+    int size;
 
-	if (!stack)
-		return (0);
-	tmp = stack;
-	min = INT_MAX;
-	pos = 0;
-	min_pos = 0;
-	while (tmp)
-	{
-		if (tmp->value < min)
-		{
-			min = tmp->value;
-			min_pos = pos;
-		}
-		pos++;
-		tmp = tmp->next;
-	}
-	return (min_pos);
+    if (!a || !*a || is_sorted(*a))
+        return ;
+    size = stack_size(*a);
+    if (size == 2)
+        sa(a);
+    else if (size == 3)
+        sort_three(a);
+    else if (size < 50)
+        sort_small(a, b, size);
+    else
+        turkish_sort(a, b);
 }
 
 /*
-** Sorts a stack of any size using an optimized algorithm
-** For small stacks (size <= 3), uses sort_three
-** For larger stacks, implements a more complex sorting strategy
+** Shifts the stack until the smallest number is at the top
+** Uses the most efficient rotation direction based on position
 */
-void	sort_stack(t_stack **stack_a, t_stack **stack_b)
+void    shift_stack(t_stack **stack)
 {
-	int	size;
+    int lowest_pos;
+    int size;
 
-	if (!stack_a || !*stack_a)
-		return ;
-	size = stack_size(*stack_a);
-	if (size <= 3)
-	{
-		sort_three(stack_a);
-		return ;
-	}
-	while (size > 3 && !is_sorted(*stack_a))
-	{
-		pb(stack_a, stack_b);
-		size--;
-	}
-	sort_three(stack_a);
-	while (*stack_b)
-	{
-		pa(stack_a, stack_b);
-		if ((*stack_a)->value > (*stack_a)->next->value)
-			sa(stack_a);
-	}
+    if (!stack || !*stack)
+        return ;
+    size = stack_size(*stack);
+    lowest_pos = get_min_pos(*stack);
+    if (lowest_pos > size / 2)
+    {
+        while (lowest_pos < size)
+        {
+            rra(stack);
+            lowest_pos++;
+        }
+    }
+    else
+    {
+        while (lowest_pos > 0)
+        {
+            ra(stack);
+            lowest_pos--;
+        }
+    }
+}
+
+/*
+** Moves the cheapest number from stack a to stack b
+*/
+void	move_cheapest_to_b(t_stack **a, t_stack **b)
+{
+	t_stack	*cheapest;
+	int		cost_a;
+	int		cost_b;
+
+	get_target_positions(*a, *b);
+	get_cost(*a, *b);
+	cheapest = get_cheapest(*a);
+	cost_a = cheapest->cost_a;
+	cost_b = cheapest->cost_b;
+	do_rotations(a, b, cost_a, cost_b);
+	pb(a, b);
+}
+
+/*
+** Moves the cheapest number from stack b to stack a
+*/
+void	move_cheapest_to_a(t_stack **a, t_stack **b)
+{
+	t_stack	*cheapest;
+	int		cost_a;
+	int		cost_b;
+
+	get_target_positions(*b, *a);
+	get_cost(*b, *a);
+	cheapest = get_cheapest(*b);
+	cost_a = cheapest->cost_a;
+	cost_b = cheapest->cost_b;
+	do_rotations(a, b, cost_a, cost_b);
+	pa(a, b);
+}
+
+/*
+** Turkish sort algorithm implementation
+*/
+void	turkish_sort(t_stack **a, t_stack **b)
+{
+	pb(a, b);
+	pb(a, b);
+	if ((*b)->value < (*b)->next->value)
+		sb(b);
+	while (stack_size(*a) > 3)
+		move_cheapest_to_b(a, b);
+	if (!is_sorted(*a))
+		sort_three(a);
+	while (*b)
+		move_cheapest_to_a(a, b);
+	shift_stack(a);
 }

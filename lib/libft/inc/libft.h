@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:19:41 by mvigara           #+#    #+#             */
-/*   Updated: 2024/12/05 10:59:48 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/19 09:37:19 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ char				*ft_strtok(char *str, const char *delim);
 bool				ft_isodd(int n);
 int					ft_abs(int num);
 long				ft_strtol(const char *nptr, char **endptr, int base);
-double  			ft_atof(const char *str);
-int 				ft_min(int a, int b);
+double				ft_atof(const char *str);
+int					ft_min(int a, int b);
 
 #endif

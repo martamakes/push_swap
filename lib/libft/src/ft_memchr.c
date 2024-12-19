@@ -17,7 +17,7 @@
  * @param s     Pointer to the block of memory to search.
  * @param c     Byte to be located.
  * @param n     Number of bytes to be searched.
- * @return      Pointer to the first occurrence of the byte in the block of 
+ * @return      Pointer to the first occurrence of the byte in the block of
  * memory, or NULL if the byte is not found.
  */
 void	*ft_memchr(const void *s, int c, size_t n)

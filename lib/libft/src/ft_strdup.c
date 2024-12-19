@@ -11,16 +11,17 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+
 /**
  * ft_strdup - Duplicates a string
  * @s1: The string to duplicate
- * 
- * Allocates memory for a copy of the string s1, copies s1 
+ *
+ * Allocates memory for a copy of the string s1, copies s1
  * to the allocated memory, and returns a pointer to the copy.
  * The pointer points to a null-terminated string.
  *
  * Returns: Pointer to the copied string or NULL if insufficient memory.
-*/
+ */
 char	*ft_strdup(const char *s1)
 {
 	char	*ptr;

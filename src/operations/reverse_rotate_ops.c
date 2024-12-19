@@ -35,7 +35,7 @@ static void	reverse_rotate(t_stack **stack)
 }
 
 /*
-** rra (reverse rotate a): Shifts down all elements of 
+** rra (reverse rotate a): Shifts down all elements of
 ** stack a by 1. The last element becomes the first one.
 */
 void	rra(t_stack **stack_a)
@@ -43,10 +43,10 @@ void	rra(t_stack **stack_a)
 	reverse_rotate(stack_a);
 	ft_putstr_fd("rra\n", 1);
 	if (VISUALS)
-    {
-        print_debug_str("After rra:\n");
-        print_one(*stack_a, 'A');
-    }
+	{
+		print_debug_str("After rra:\n");
+		print_one(*stack_a, 'A');
+	}
 }
 
 /*
@@ -58,10 +58,10 @@ void	rrb(t_stack **stack_b)
 	reverse_rotate(stack_b);
 	ft_putstr_fd("rrb\n", 1);
 	if (VISUALS)
-    {
-        print_debug_str("After rrb:\n");
-        print_one(*stack_b, 'B');
-    }
+	{
+		print_debug_str("After rrb:\n");
+		print_one(*stack_b, 'B');
+	}
 }
 
 /*
@@ -73,8 +73,8 @@ void	rrr(t_stack **stack_a, t_stack **stack_b)
 	reverse_rotate(stack_b);
 	ft_putstr_fd("rrr\n", 1);
 	if (VISUALS)
-    {
-        print_debug_str("After rrr:\n");
-        print_stacks(*stack_a, *stack_b);
-    }
+	{
+		print_debug_str("After rrr:\n");
+		print_stacks(*stack_a, *stack_b);
+	}
 }

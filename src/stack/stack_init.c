@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
 /*
 ** Checks for duplicate values in the stack
 ** Returns 1 if duplicates are found, 0 otherwise
@@ -34,4 +35,3 @@ int	check_duplicates(t_stack *stack)
 	}
 	return (0);
 }
-

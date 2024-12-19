@@ -45,11 +45,12 @@ static char	*ft_min_int(void)
 
 /**
  * @brief Converts an integer to a string representation.
- * This function takes an integer as input and converts it into a string 
- *representation. The resulting string is allocated dynamically and must be 
+ * This function takes an integer as input and converts it into a string
+ *representation. The resulting string is allocated dynamically and must be
  *freed by the caller.
  * @param n The integer to be converted.
- * @return A pointer to the resulting string, or NULL if memory allocation fails.
+ * @return A pointer to the resulting string,
+	or NULL if memory allocation fails.
  */
 char	*ft_itoa(int n)
 {

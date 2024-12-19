@@ -15,7 +15,7 @@
 /**
  * @brief Calculates the length of a null-terminated string.
  *
- * This function calculates the length of the string pointed to by `s`, 
+ * This function calculates the length of the string pointed to by `s`,
  * excluding the terminating null character.
  *
  * @param s The string to calculate the length of.
@@ -23,7 +23,7 @@
  */
 size_t	ft_strlen(const char *s)
 {
-	size_t		i;
+	size_t	i;
 
 	i = 0;
 	if (s)
