@@ -6,14 +6,14 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 08:26:42 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/20 08:31:57 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/20 09:06:50 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../bonus/inc/checker.h"
+#include "checker.h"
 
 static int	process_instruction(char *line, t_stack **a, t_stack **b,
-		t_logger *log)
+		t_log *log)
 {
 	if (!line)
 		return (0);
@@ -22,7 +22,7 @@ static int	process_instruction(char *line, t_stack **a, t_stack **b,
 	return (execute_instruction(line, a, b, log));
 }
 
-static void	read_and_execute(t_stack **a, t_stack **b, t_logger *log)
+static void	read_and_execute(t_stack **a, t_stack **b, t_log *log)
 {
 	char	*line;
 
@@ -73,9 +73,9 @@ static void	print_result(t_stack *a, t_stack *b)
 
 int	main(int ac, char **av)
 {
-	t_stack		*a;
-	t_stack		*b;
-	t_logger	log;
+	t_stack	*a;
+	t_stack	*b;
+	t_log	log;
 
 	if (!check_args(ac, av))
 	{
@@ -84,7 +84,7 @@ int	main(int ac, char **av)
 	}
 	a = NULL;
 	b = NULL;
-	init_logger(&log);
+	init_log(&log);
 	if (!process_input(ac, av, &a))
 	{
 		free_stack(&a);

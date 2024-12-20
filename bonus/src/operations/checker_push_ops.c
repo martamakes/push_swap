@@ -6,11 +6,11 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 08:43:01 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/20 08:44:14 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/20 09:07:20 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../bonus/inc/checker.h"
+#include "checker.h"
 
 static void	push(t_stack **src, t_stack **dst)
 {

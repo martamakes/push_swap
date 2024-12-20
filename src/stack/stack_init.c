@@ -6,11 +6,11 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:46:40 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/17 12:12:46 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/20 10:30:50 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../../inc/push_swap.h"
 
 /*
 ** Checks for duplicate values in the stack

@@ -6,12 +6,11 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 08:41:44 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/20 08:42:22 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/20 09:08:10 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// bonus/src/operations/checker_swap_ops.c
-#include "../../bonus/inc/checker.h"
+#include "checker.h"
 
 static void	swap(t_stack **stack)
 {

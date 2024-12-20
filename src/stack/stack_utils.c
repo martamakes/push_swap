@@ -6,11 +6,11 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:10:18 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/17 11:37:43 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/20 10:28:25 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../../inc/push_swap.h"
 
 t_stack	*stack_new(int value)
 {

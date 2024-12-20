@@ -6,11 +6,11 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 08:27:13 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/20 08:52:08 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/20 09:04:36 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../bonus/inc/checker.h"
+#include "checker.h"
 
 int	execute_instruction(char *line, t_stack **a, t_stack **b, t_log *log)
 {

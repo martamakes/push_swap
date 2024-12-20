@@ -6,15 +6,13 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 08:27:56 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/20 08:33:26 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/20 09:07:03 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// bonus/src/debug/checker_debug.c
+#include "checker.h"
 
-#include "../../bonus/inc/checker.h"
-
-void	init_logger(t_logger *log)
+void	init_log(t_log *log)
 {
 	log->total_ops = 0;
 	log->valid_ops = 0;
@@ -23,7 +21,7 @@ void	init_logger(t_logger *log)
 	log->debug_mode = getenv("DEBUG") != NULL;
 }
 
-void	log_operation(t_logger *log, const char *op)
+void	log_operation(t_log *log, const char *op)
 {
 	if (!log || !op)
 		return ;
@@ -45,7 +43,7 @@ void	print_stack(t_stack *stack, char stack_name)
 	ft_printf("\n");
 }
 
-void	print_debug_info(t_stack *a, t_stack *b, t_logger *log)
+void	print_debug_info(t_stack *a, t_stack *b, t_log *log)
 {
 	ft_printf("\n=== Debug Information ===\n");
 	ft_printf("Total operations: %d\n", log->total_ops);

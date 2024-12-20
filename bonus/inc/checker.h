@@ -6,11 +6,10 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 08:26:16 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/20 08:47:52 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/20 09:43:39 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// bonus/inc/checker.h
 #ifndef CHECKER_H
 # define CHECKER_H
 
@@ -18,19 +17,15 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-# define BUFFER_SIZE 4
-
 typedef struct s_log {
     int     total_ops;
     int     valid_ops;
     int     invalid_ops;
     char    *last_op;
     int     debug_mode;
-} t_log;
-
+} t_log;  
 // Main checker functions
-int     check_sorting(t_stack **a, t_stack **b);
-int     execute_instruction(char *line, t_stack **a, t_stack **b, t_log *log);
+int	execute_instruction(char *line, t_stack **a, t_stack **b, t_log *log);
 void    free_and_exit(t_stack **a, t_stack **b, int status);
 
 // Operations
@@ -52,7 +47,7 @@ int     is_valid_number_str(char *str);
 void    print_stack(t_stack *stack, char stack_name);
 
 // Debug functions
-void    init_logger(t_log *log);
+void    init_log(t_log *log);
 void    log_operation(t_log *log, const char *op);
 void    print_debug_info(t_stack *a, t_stack *b, t_log *log);
 

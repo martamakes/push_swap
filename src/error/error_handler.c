@@ -6,11 +6,11 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:44:56 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/19 09:39:34 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/20 10:28:37 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../../inc/push_swap.h"
 
 void	error_exit(t_stack **stack_a, t_stack **stack_b)
 {

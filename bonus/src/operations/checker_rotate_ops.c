@@ -6,12 +6,11 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 08:43:51 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/20 08:44:37 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/20 09:07:55 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// bonus/src/operations/checker_rotate_ops.c
-#include "../../bonus/inc/checker.h"
+#include "checker.h"
 
 static void	rotate(t_stack **stack)
 {
