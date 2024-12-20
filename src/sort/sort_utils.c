@@ -108,28 +108,28 @@ t_stack	*get_cheapest(t_stack *stack)
 ** Finds the position of the minimum value in the stack
 ** Returns the position (0-based index) of the minimum value
 */
-int    get_min_pos(t_stack *stack)
+int	get_min_pos(t_stack *stack)
 {
-    int     min;
-    int     pos;
-    int     min_pos;
-    t_stack *current;
+	int		min;
+	int		pos;
+	int		min_pos;
+	t_stack	*current;
 
-    if (!stack)
-        return (0);
-    min = INT_MAX;
-    pos = 0;
-    min_pos = 0;
-    current = stack;
-    while (current)
-    {
-        if (current->value < min)
-        {
-            min = current->value;
-            min_pos = pos;
-        }
-        current = current->next;
-        pos++;
-    }
-    return (min_pos);
+	if (!stack)
+		return (0);
+	min = INT_MAX;
+	pos = 0;
+	min_pos = 0;
+	current = stack;
+	while (current)
+	{
+		if (current->value < min)
+		{
+			min = current->value;
+			min_pos = pos;
+		}
+		current = current->next;
+		pos++;
+	}
+	return (min_pos);
 }

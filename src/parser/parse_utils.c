@@ -42,50 +42,50 @@ int	is_valid_input(char *str)
 ** Process a single argument string that might contain multiple numbers
 ** Returns 1 if successful, 0 if error
 */
-static int validate_and_convert_number(char *str, t_stack **stack_a)
+static int	validate_and_convert_number(char *str, t_stack **stack_a)
 {
-    long num;
+	long	num;
 
-    if (!is_valid_input(str))
-        return (0);
-    num = ft_atoll(str);
-    if (num > INT_MAX || num < INT_MIN)
-        return (0);
-    stack_add_back(stack_a, stack_new((int)num));
-    return (1);
+	if (!is_valid_input(str))
+		return (0);
+	num = ft_atoll(str);
+	if (num > INT_MAX || num < INT_MIN)
+		return (0);
+	stack_add_back(stack_a, stack_new((int)num));
+	return (1);
 }
 
-static int process_numbers_array(char **numbers, t_stack **stack_a)
+static int	process_numbers_array(char **numbers, t_stack **stack_a)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (numbers[i])
-    {
-        if (!validate_and_convert_number(numbers[i], stack_a))
-        {
-            ft_split_free(numbers);
-            return (0);
-        }
-        i++;
-    }
-    ft_split_free(numbers);
-    return (1);
+	i = 0;
+	while (numbers[i])
+	{
+		if (!validate_and_convert_number(numbers[i], stack_a))
+		{
+			ft_split_free(numbers);
+			return (0);
+		}
+		i++;
+	}
+	ft_split_free(numbers);
+	return (1);
 }
 
-static int process_arg_string(char *str, t_stack **stack_a)
+static int	process_arg_string(char *str, t_stack **stack_a)
 {
-    char **numbers;
-    char *trimmed;
+	char	**numbers;
+	char	*trimmed;
 
-    trimmed = ft_strtrim(str, " \t\n\v\f\r");
-    if (!trimmed)
-        return (0);
-    numbers = ft_split(trimmed, ' ');
-    free(trimmed);
-    if (!numbers)
-        return (0);
-    return (process_numbers_array(numbers, stack_a));
+	trimmed = ft_strtrim(str, " \t\n\v\f\r");
+	if (!trimmed)
+		return (0);
+	numbers = ft_split(trimmed, ' ');
+	free(trimmed);
+	if (!numbers)
+		return (0);
+	return (process_numbers_array(numbers, stack_a));
 }
 
 /*

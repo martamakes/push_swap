@@ -16,52 +16,52 @@
 ** Main sorting function that chooses the appropriate algorithm
 ** based on the size of the stack
 */
-void    sort_stack(t_stack **a, t_stack **b)
+void	sort_stack(t_stack **a, t_stack **b)
 {
-    int size;
+	int	size;
 
-    if (!a || !*a || is_sorted(*a))
-        return ;
-    size = stack_size(*a);
-    if (size == 2)
-        sa(a);
-    else if (size == 3)
-        sort_three(a);
-    else if (size < 150)
-        sort_small(a, b, size);
-    else
-        turkish_sort(a, b);
+	if (!a || !*a || is_sorted(*a))
+		return ;
+	size = stack_size(*a);
+	if (size == 2)
+		sa(a);
+	else if (size == 3)
+		sort_three(a);
+	else if (size < 150)
+		sort_small(a, b, size);
+	else
+		turkish_sort(a, b);
 }
 
 /*
 ** Shifts the stack until the smallest number is at the top
 ** Uses the most efficient rotation direction based on position
 */
-void    shift_stack(t_stack **stack)
+void	shift_stack(t_stack **stack)
 {
-    int lowest_pos;
-    int size;
+	int	lowest_pos;
+	int	size;
 
-    if (!stack || !*stack)
-        return ;
-    size = stack_size(*stack);
-    lowest_pos = get_min_pos(*stack);
-    if (lowest_pos > size / 2)
-    {
-        while (lowest_pos < size)
-        {
-            rra(stack);
-            lowest_pos++;
-        }
-    }
-    else
-    {
-        while (lowest_pos > 0)
-        {
-            ra(stack);
-            lowest_pos--;
-        }
-    }
+	if (!stack || !*stack)
+		return ;
+	size = stack_size(*stack);
+	lowest_pos = get_min_pos(*stack);
+	if (lowest_pos > size / 2)
+	{
+		while (lowest_pos < size)
+		{
+			rra(stack);
+			lowest_pos++;
+		}
+	}
+	else
+	{
+		while (lowest_pos > 0)
+		{
+			ra(stack);
+			lowest_pos--;
+		}
+	}
 }
 
 /*
@@ -103,26 +103,22 @@ void	move_cheapest_to_a(t_stack **a, t_stack **b)
 /*
 ** Turkish sort algorithm implementation
 */
-void    turkish_sort(t_stack **a, t_stack **b)
+void	turkish_sort(t_stack **a, t_stack **b)
 {
-    // Inicialización: Push primeros dos números y ordenarlos
-    pb(a, b);
-    pb(a, b);
-    if ((*b)->value < (*b)->next->value)
-        sb(b);
-
-    // Primera fase: Push al stack B manteniendo orden descendente
-    while (stack_size(*a) > 3)
-        move_cheapest_to_b(a, b);
-
-    // Segunda fase: Ordenar los tres números restantes en A
-    if (!is_sorted(*a))
-        sort_three(a);
-
-    // Tercera fase: Devolver números a A en orden
-    while (*b)
-        move_cheapest_to_a(a, b);
-
-    // Fase final: Asegurar que el mínimo está arriba
-    shift_stack(a);
+	// Inicialización: Push primeros dos números y ordenarlos
+	pb(a, b);
+	pb(a, b);
+	if ((*b)->value < (*b)->next->value)
+		sb(b);
+	// Primera fase: Push al stack B manteniendo orden descendente
+	while (stack_size(*a) > 3)
+		move_cheapest_to_b(a, b);
+	// Segunda fase: Ordenar los tres números restantes en A
+	if (!is_sorted(*a))
+		sort_three(a);
+	// Tercera fase: Devolver números a A en orden
+	while (*b)
+		move_cheapest_to_a(a, b);
+	// Fase final: Asegurar que el mínimo está arriba
+	shift_stack(a);
 }

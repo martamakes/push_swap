@@ -6,7 +6,7 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/01 15:27:20 by mvigara-          #+#    #+#              #
-#    Updated: 2024/12/19 15:32:21 by mvigara-         ###   ########.fr        #
+#    Updated: 2024/12/20 08:46:19 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,12 @@ OBJ_DIR = obj
 INC_DIR = inc
 LIB_DIR = lib
 
+# Bonus rules
+CHECKER = checker
+CHECKER_SRC_DIR = bonus/src
+CHECKER_OBJ_DIR = bonus/obj
+CHECKER_INC_DIR = bonus/inc
+
 # Source files
 MAIN_SRC = main/push_swap.c
 
@@ -60,6 +66,18 @@ SORT_SRC = sort/sort_small.c \
 		  sort/find_pos.c
 
 DEBUG_SRC = debug/print_stacks.c
+
+# Bonus files
+CHECKER_MAIN = bonus/src/main/checker.c
+CHECKER_OPS = bonus/src/operations/checker_swap_ops.c \
+              bonus/src/operations/checker_push_ops.c \
+              bonus/src/operations/checker_rotate_ops.c \
+              bonus/src/operations/checker_rev_rot_ops.c
+CHECKER_DEBUG = bonus/src/debug/checker_debug.c
+CHECKER_UTILS = bonus/src/utils/checker_utils.c
+
+CHECKER_SRCS = $(CHECKER_MAIN) $(CHECKER_OPS) $(CHECKER_DEBUG) $(CHECKER_UTILS)
+CHECKER_OBJS = $(CHECKER_SRCS:$(CHECKER_SRC_DIR)/%.c=$(CHECKER_OBJ_DIR)/%.o)
 
 # Source files with directory prefix
 SRCS = $(addprefix $(SRC_DIR)/, $(MAIN_SRC) $(STACK_SRC) $(PARSER_SRC) $(ERROR_SRC) $(OPS_SRC) $(SORT_SRC) $(DEBUG_SRC))
@@ -127,6 +145,21 @@ $(NAME): $(LIBFT) $(OBJS)
 	@$(CC) $(CFLAGS) $(if $(filter 1,$(DEBUG)),-DDEBUG=1) $(OBJS) -L$(LIBFT_DIR) -lft $(LDFLAGS) -o $(NAME)
 	@echo "$(GREEN)Build complete! 🚀$(RESET)"
 
+bonus: $(CHECKER)
+
+$(CHECKER): $(LIBFT) $(CHECKER_OBJS)
+	@echo "$(GREEN)Building checker...$(RESET)"
+	@$(CC) $(CFLAGS) $(CHECKER_OBJS) -L$(LIBFT_DIR) -lft -o $(CHECKER)
+	@echo "$(GREEN)Checker built successfully! 🎯$(RESET)"
+
+$(CHECKER_OBJ_DIR)/%.o: $(CHECKER_SRC_DIR)/%.c | $(CHECKER_OBJ_DIR)
+	@mkdir -p $(dir $@)
+	@echo "$(BLUE)Compiling $<...$(RESET)"
+	@$(CC) $(CFLAGS) $(INCLUDES) -I$(CHECKER_INC_DIR) -c $< -o $@
+
+$(CHECKER_OBJ_DIR):
+	@mkdir -p $@
+	
 clean:
 	@echo "$(RED)Cleaning object files...$(RESET)"
 	@rm -rf $(OBJ_DIR)
