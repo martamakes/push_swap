@@ -4,7 +4,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -101,7 +100,6 @@ void	print_one(t_stack *stack, char stack_name)
 /*                                                                            */
 /* ************************************************************************** */
 
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -146,7 +144,6 @@ void	ft_split_free(char **split)
 /*                            src/main/                                           */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -244,7 +241,6 @@ int	main(int ac, char **av)
 /*                                                                            */
 /* ************************************************************************** */
 
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -306,7 +302,6 @@ void	pb(t_stack **stack_a, t_stack **stack_b)
 		print_stacks(*stack_a, *stack_b);
 	}
 }
-
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -389,7 +384,6 @@ void	rrr(t_stack **stack_a, t_stack **stack_b)
 	}
 }
 
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -466,7 +460,6 @@ void	rr(t_stack **stack_a, t_stack **stack_b)
 		print_stacks(*stack_a, *stack_b);
 	}
 }
-
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -551,7 +544,6 @@ void	ss(t_stack **stack_a, t_stack **stack_b)
 /*                                                                            */
 /* ************************************************************************** */
 
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -596,50 +588,50 @@ int	is_valid_input(char *str)
 ** Process a single argument string that might contain multiple numbers
 ** Returns 1 if successful, 0 if error
 */
-static int validate_and_convert_number(char *str, t_stack **stack_a)
+static int	validate_and_convert_number(char *str, t_stack **stack_a)
 {
-    long num;
+	long	num;
 
-    if (!is_valid_input(str))
-        return (0);
-    num = ft_atoll(str);
-    if (num > INT_MAX || num < INT_MIN)
-        return (0);
-    stack_add_back(stack_a, stack_new((int)num));
-    return (1);
+	if (!is_valid_input(str))
+		return (0);
+	num = ft_atoll(str);
+	if (num > INT_MAX || num < INT_MIN)
+		return (0);
+	stack_add_back(stack_a, stack_new((int)num));
+	return (1);
 }
 
-static int process_numbers_array(char **numbers, t_stack **stack_a)
+static int	process_numbers_array(char **numbers, t_stack **stack_a)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (numbers[i])
-    {
-        if (!validate_and_convert_number(numbers[i], stack_a))
-        {
-            ft_split_free(numbers);
-            return (0);
-        }
-        i++;
-    }
-    ft_split_free(numbers);
-    return (1);
+	i = 0;
+	while (numbers[i])
+	{
+		if (!validate_and_convert_number(numbers[i], stack_a))
+		{
+			ft_split_free(numbers);
+			return (0);
+		}
+		i++;
+	}
+	ft_split_free(numbers);
+	return (1);
 }
 
-static int process_arg_string(char *str, t_stack **stack_a)
+static int	process_arg_string(char *str, t_stack **stack_a)
 {
-    char **numbers;
-    char *trimmed;
+	char	**numbers;
+	char	*trimmed;
 
-    trimmed = ft_strtrim(str, " \t\n\v\f\r");
-    if (!trimmed)
-        return (0);
-    numbers = ft_split(trimmed, ' ');
-    free(trimmed);
-    if (!numbers)
-        return (0);
-    return (process_numbers_array(numbers, stack_a));
+	trimmed = ft_strtrim(str, " \t\n\v\f\r");
+	if (!trimmed)
+		return (0);
+	numbers = ft_split(trimmed, ' ');
+	free(trimmed);
+	if (!numbers)
+		return (0);
+	return (process_numbers_array(numbers, stack_a));
 }
 
 /*
@@ -665,7 +657,6 @@ int	process_input(int ac, char **av, t_stack **stack_a)
 /*                            src/sort/                                           */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -779,7 +770,6 @@ int	find_target_position(t_stack *src, t_stack *dst, int value)
 	return (find_target_position_a_to_b(dst, value));
 }
 
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -846,7 +836,6 @@ void	do_rotations(t_stack **a, t_stack **b, int cost_a, int cost_b)
 	do_b_rotations(b, &cost_b);
 }
 
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -865,52 +854,52 @@ void	do_rotations(t_stack **a, t_stack **b, int cost_a, int cost_b)
 ** Main sorting function that chooses the appropriate algorithm
 ** based on the size of the stack
 */
-void    sort_stack(t_stack **a, t_stack **b)
+void	sort_stack(t_stack **a, t_stack **b)
 {
-    int size;
+	int	size;
 
-    if (!a || !*a || is_sorted(*a))
-        return ;
-    size = stack_size(*a);
-    if (size == 2)
-        sa(a);
-    else if (size == 3)
-        sort_three(a);
-    else if (size < 150)
-        sort_small(a, b, size);
-    else
-        turkish_sort(a, b);
+	if (!a || !*a || is_sorted(*a))
+		return ;
+	size = stack_size(*a);
+	if (size == 2)
+		sa(a);
+	else if (size == 3)
+		sort_three(a);
+	else if (size < 150)
+		sort_small(a, b, size);
+	else
+		turkish_sort(a, b);
 }
 
 /*
 ** Shifts the stack until the smallest number is at the top
 ** Uses the most efficient rotation direction based on position
 */
-void    shift_stack(t_stack **stack)
+void	shift_stack(t_stack **stack)
 {
-    int lowest_pos;
-    int size;
+	int	lowest_pos;
+	int	size;
 
-    if (!stack || !*stack)
-        return ;
-    size = stack_size(*stack);
-    lowest_pos = get_min_pos(*stack);
-    if (lowest_pos > size / 2)
-    {
-        while (lowest_pos < size)
-        {
-            rra(stack);
-            lowest_pos++;
-        }
-    }
-    else
-    {
-        while (lowest_pos > 0)
-        {
-            ra(stack);
-            lowest_pos--;
-        }
-    }
+	if (!stack || !*stack)
+		return ;
+	size = stack_size(*stack);
+	lowest_pos = get_min_pos(*stack);
+	if (lowest_pos > size / 2)
+	{
+		while (lowest_pos < size)
+		{
+			rra(stack);
+			lowest_pos++;
+		}
+	}
+	else
+	{
+		while (lowest_pos > 0)
+		{
+			ra(stack);
+			lowest_pos--;
+		}
+	}
 }
 
 /*
@@ -952,30 +941,25 @@ void	move_cheapest_to_a(t_stack **a, t_stack **b)
 /*
 ** Turkish sort algorithm implementation
 */
-void    turkish_sort(t_stack **a, t_stack **b)
+void	turkish_sort(t_stack **a, t_stack **b)
 {
-    // Inicialización: Push primeros dos números y ordenarlos
-    pb(a, b);
-    pb(a, b);
-    if ((*b)->value < (*b)->next->value)
-        sb(b);
-
-    // Primera fase: Push al stack B manteniendo orden descendente
-    while (stack_size(*a) > 3)
-        move_cheapest_to_b(a, b);
-
-    // Segunda fase: Ordenar los tres números restantes en A
-    if (!is_sorted(*a))
-        sort_three(a);
-
-    // Tercera fase: Devolver números a A en orden
-    while (*b)
-        move_cheapest_to_a(a, b);
-
-    // Fase final: Asegurar que el mínimo está arriba
-    shift_stack(a);
+	// Inicialización: Push primeros dos números y ordenarlos
+	pb(a, b);
+	pb(a, b);
+	if ((*b)->value < (*b)->next->value)
+		sb(b);
+	// Primera fase: Push al stack B manteniendo orden descendente
+	while (stack_size(*a) > 3)
+		move_cheapest_to_b(a, b);
+	// Segunda fase: Ordenar los tres números restantes en A
+	if (!is_sorted(*a))
+		sort_three(a);
+	// Tercera fase: Devolver números a A en orden
+	while (*b)
+		move_cheapest_to_a(a, b);
+	// Fase final: Asegurar que el mínimo está arriba
+	shift_stack(a);
 }
-
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -1075,7 +1059,6 @@ void	sort_small(t_stack **a, t_stack **b, int size)
 			pa(a, b);
 	}
 }
-
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -1187,30 +1170,30 @@ t_stack	*get_cheapest(t_stack *stack)
 ** Finds the position of the minimum value in the stack
 ** Returns the position (0-based index) of the minimum value
 */
-int    get_min_pos(t_stack *stack)
+int	get_min_pos(t_stack *stack)
 {
-    int     min;
-    int     pos;
-    int     min_pos;
-    t_stack *current;
+	int		min;
+	int		pos;
+	int		min_pos;
+	t_stack	*current;
 
-    if (!stack)
-        return (0);
-    min = INT_MAX;
-    pos = 0;
-    min_pos = 0;
-    current = stack;
-    while (current)
-    {
-        if (current->value < min)
-        {
-            min = current->value;
-            min_pos = pos;
-        }
-        current = current->next;
-        pos++;
-    }
-    return (min_pos);
+	if (!stack)
+		return (0);
+	min = INT_MAX;
+	pos = 0;
+	min_pos = 0;
+	current = stack;
+	while (current)
+	{
+		if (current->value < min)
+		{
+			min = current->value;
+			min_pos = pos;
+		}
+		current = current->next;
+		pos++;
+	}
+	return (min_pos);
 }
 
 /* ************************************************************************** */
@@ -1218,7 +1201,6 @@ int    get_min_pos(t_stack *stack)
 /*                            src/stack/                                           */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -1257,7 +1239,6 @@ int	check_duplicates(t_stack *stack)
 	}
 	return (0);
 }
-
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -1341,4 +1322,3 @@ void	free_stack(t_stack **stack)
 	}
 	*stack = NULL;
 }
-
