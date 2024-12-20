@@ -783,98 +783,6 @@ int	find_target_position(t_stack *src, t_stack *dst, int value)
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_chunky.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/19 10:08:12 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/19 15:17:32 by mvigara-         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "push_swap.h"
-
-static void get_chunk_limits(t_stack *stack, int *min, int *max)
-{
-    t_stack *current;
-
-    if (!stack)
-        return ;
-    *min = stack->value;
-    *max = stack->value;
-    current = stack;
-    while (current)
-    {
-        if (current->value < *min)
-            *min = current->value;
-        if (current->value > *max)
-            *max = current->value;
-        current = current->next;
-    }
-}
-
-static int get_chunk_size(int stack_size)
-{
-    if (stack_size <= 100)
-        return 20;
-    return 40;
-}
-
-static int is_in_chunk(int value, int chunk_start, int chunk_size)
-{
-    return (value >= chunk_start && value < chunk_start + chunk_size);
-}
-
-static void move_chunk_to_b(t_stack **a, t_stack **b, int chunk_start, int chunk_size)
-{
-    t_stack *current;
-    int     moved;
- 
-    moved = 0;
-    while (*a && moved < chunk_size)
-    {
-        current = *a;
-        if (is_in_chunk(current->value, chunk_start, chunk_size))
-        {
-            pb(a, b);
-            if ((*b)->value < chunk_start + (chunk_size / 2))
-                rb(b);
-            moved++;
-        }
-        else
-            ra(a);
-    }
-}
-
-void get_chunky(t_stack **a, t_stack **b)
-{
-    int min;
-    int max;
-    int chunk_size;
-    int current_chunk;
-    int range;
-
-    get_chunk_limits(*a, &min, &max);
-    range = max - min + 1;
-    chunk_size = range / get_chunk_size(stack_size(*a));
-    current_chunk = min;
-
-    while (stack_size(*a) > 3)
-    {
-        move_chunk_to_b(a, b, current_chunk, chunk_size);
-        current_chunk += chunk_size;
-    }
-
-    sort_three(a);
-    while (*b)
-        move_cheapest_to_a(a, b);
-    shift_stack(a);
-}
-
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
 /*   rotations.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
@@ -947,7 +855,7 @@ void	do_rotations(t_stack **a, t_stack **b, int cost_a, int cost_b)
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 19:14:26 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/19 15:12:45 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/19 18:46:21 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -968,7 +876,7 @@ void    sort_stack(t_stack **a, t_stack **b)
         sa(a);
     else if (size == 3)
         sort_three(a);
-    else if (size < 50)
+    else if (size < 150)
         sort_small(a, b, size);
     else
         turkish_sort(a, b);
@@ -1049,7 +957,7 @@ void	turkish_sort(t_stack **a, t_stack **b)
 	int size;
 
     size = stack_size(*a);
-	if(size < 50)
+	if(size < 150)
 	{
 		pb(a, b);
 		pb(a, b);
@@ -1063,7 +971,7 @@ void	turkish_sort(t_stack **a, t_stack **b)
 			move_cheapest_to_a(a, b);
 		shift_stack(a);
 	}
-	get_chunky(a, b);
+	ft_printf("not there yet");
 }
 
 

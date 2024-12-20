@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 19:14:26 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/19 15:37:44 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/20 08:09:32 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void    sort_stack(t_stack **a, t_stack **b)
         sa(a);
     else if (size == 3)
         sort_three(a);
-    else if (size < 50)
+    else if (size < 150)
         sort_small(a, b, size);
     else
         turkish_sort(a, b);
@@ -103,24 +103,26 @@ void	move_cheapest_to_a(t_stack **a, t_stack **b)
 /*
 ** Turkish sort algorithm implementation
 */
-void	turkish_sort(t_stack **a, t_stack **b)
+void    turkish_sort(t_stack **a, t_stack **b)
 {
-	int size;
+    // Inicialización: Push primeros dos números y ordenarlos
+    pb(a, b);
+    pb(a, b);
+    if ((*b)->value < (*b)->next->value)
+        sb(b);
 
-    size = stack_size(*a);
-	if(size < 150)
-	{
-		pb(a, b);
-		pb(a, b);
-		if ((*b)->value < (*b)->next->value)
-			sb(b);
-		while (stack_size(*a) > 3)
-			move_cheapest_to_b(a, b);
-		if (!is_sorted(*a))
-			sort_three(a);
-		while (*b)
-			move_cheapest_to_a(a, b);
-		shift_stack(a);
-	}
-	ft_printf("not there yet");
+    // Primera fase: Push al stack B manteniendo orden descendente
+    while (stack_size(*a) > 3)
+        move_cheapest_to_b(a, b);
+
+    // Segunda fase: Ordenar los tres números restantes en A
+    if (!is_sorted(*a))
+        sort_three(a);
+
+    // Tercera fase: Devolver números a A en orden
+    while (*b)
+        move_cheapest_to_a(a, b);
+
+    // Fase final: Asegurar que el mínimo está arriba
+    shift_stack(a);
 }
