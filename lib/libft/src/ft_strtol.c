@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtol.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marta <marta@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 09:09:33 by marta             #+#    #+#             */
-/*   Updated: 2024/09/20 09:19:29 by marta            ###   ########.fr       */
+/*   Updated: 2024/12/19 09:34:33 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ static int	convert_digits(const char **nptr, int base, long *result)
 	int	overflow;
 
 	overflow = 0;
-	while ((digit = char_to_digit(**nptr, base)) >= 0)
+	digit = char_to_digit(**nptr, base);
+	while (digit >= 0)
 	{
 		if (*result > (LONG_MAX - digit) / base)
 		{
@@ -59,6 +60,7 @@ static int	convert_digits(const char **nptr, int base, long *result)
 		}
 		*result = *result * base + digit;
 		(*nptr)++;
+		digit = char_to_digit(**nptr, base);
 	}
 	return (overflow);
 }

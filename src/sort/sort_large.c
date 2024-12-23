@@ -6,103 +6,119 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 19:14:26 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/16 13:44:22 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/23 18:56:52 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static int find_closest_in_chunk(t_stack *a, t_chunk *chunk, int *rotate_up)
+/*
+** Main sorting function that chooses the appropriate algorithm
+** based on the size of the stack
+*/
+void	sort_stack(t_stack **a, t_stack **b)
 {
-    t_node  *curr_top;
-    t_node  *curr_bottom;
-    int     moves_top;
-    int     moves_bottom;
+	int	size;
 
-    curr_top = a->top;
-    curr_bottom = a->bottom;
-    moves_top = 0;
-    moves_bottom = 0;
-
-    while (curr_top && moves_top <= a->size / 2)
-    {
-        if (is_in_current_chunk(curr_top->value, chunk))
-        {
-            *rotate_up = 1;
-            return moves_top;
-        }
-        curr_top = curr_top->next;
-        moves_top++;
-    }
-
-    while (curr_bottom && moves_bottom <= a->size / 2)
-    {
-        if (is_in_current_chunk(curr_bottom->value, chunk))
-        {
-            *rotate_up = 0;
-            return moves_bottom + 1;
-        }
-        curr_bottom = curr_bottom->prev;
-        moves_bottom++;
-    }
-    return (-1);
+	if (!a || !*a || is_sorted(*a))
+		return ;
+	size = stack_size(*a);
+	if (size == 2)
+		sa(a);
+	else if (size == 3)
+		sort_three(a);
+	else if (size < 150)
+		sort_small(a, b, size);
+	else
+		turkish_sort(a, b);
 }
 
-static void rotate_to_closest(t_stack *a, int moves, int up)
+/*
+** Shifts the stack until the smallest number is at the top
+** Uses the most efficient rotation direction based on position
+*/
+void	shift_stack(t_stack **stack)
 {
-    while (moves--)
-    {
-        if (up)
-            ra(a);
-        else
-            rra(a);
-    }
+	int	lowest_pos;
+	int	size;
+
+	if (!stack || !*stack)
+		return ;
+	size = stack_size(*stack);
+	lowest_pos = get_min_pos(*stack);
+	if (lowest_pos > size / 2)
+	{
+		while (lowest_pos < size)
+		{
+			rra(stack);
+			lowest_pos++;
+		}
+	}
+	else
+	{
+		while (lowest_pos > 0)
+		{
+			ra(stack);
+			lowest_pos--;
+		}
+	}
 }
 
-static void push_chunk_to_b(t_stack *a, t_stack *b, t_chunk *chunk)
+/*
+** Moves the cheapest number from stack a to stack b
+*/
+void	move_cheapest_to_b(t_stack **a, t_stack **b)
 {
-    int rotate_up;
-    int moves;
-    int pushed;
+	t_stack	*cheapest;
+	int		cost_a;
+	int		cost_b;
 
-    pushed = 0;
-    while (pushed < chunk->chunk_size && a->size > 3)
-    {
-        moves = find_closest_in_chunk(a, chunk, &rotate_up);
-        if (moves == -1)
-            break;
-        
-        rotate_to_closest(a, moves, rotate_up);
-        if (b->size > 0 && b->top->value < b->top->next->value)
-            sb(b);
-        pb(a, b);
-        pushed++;
-    }
+	get_target_positions(*a, *b);
+	get_cost(*a, *b);
+	cheapest = get_cheapest(*a);
+	cost_a = cheapest->cost_a;
+	cost_b = cheapest->cost_b;
+	do_rotations(a, b, cost_a, cost_b);
+	pb(a, b);
 }
 
-void    sort_large(t_stack *a, t_stack *b)
+/*
+** Moves the cheapest number from stack b to stack a
+*/
+void	move_cheapest_to_a(t_stack **a, t_stack **b)
 {
-    t_chunk chunk;
+	t_stack	*cheapest;
+	int		cost_a;
+	int		cost_b;
 
-    if (!a || !b || a->size <= 5)
-        return ;
+	get_target_positions(*b, *a);
+	get_cost(*b, *a);
+	cheapest = get_cheapest(*b);
+	cost_a = cheapest->cost_a;
+	cost_b = cheapest->cost_b;
+	do_rotations(a, b, cost_a, cost_b);
+	pa(a, b);
+}
 
-    // Inicializar información de chunks
-    init_chunk_info(a, &chunk);
-
-    // Empujar números a B por chunks
-    while (chunk.current < chunk.num_chunks && a->size > 3)
-    {
-        push_chunk_to_b(a, b, &chunk);
-        chunk.current++;
-    }
-
-    // Ordenar los últimos 3 números en A
-    sort_three(a, 'a');
-
-    // Devolver números a A de manera ordenada
-    push_back(a, b);
-
-    // Rotar hasta que el mínimo esté arriba
-    rotate_to_min(a);
+/*
+** Turkish sort algorithm implementation
+*/
+void	turkish_sort(t_stack **a, t_stack **b)
+{
+	// Inicialización: Push primeros dos números y ordenarlos
+	pb(a, b);
+	pb(a, b);
+	if ((*b)->value < (*b)->next->value)
+		sb(b);
+	// Primera fase: Push al stack B manteniendo orden descendente
+	while (stack_size(*a) > 3)
+		move_cheapest_to_b(a, b);
+	// Segunda fase: Ordenar los tres números restantes en A
+	if (!is_sorted(*a))
+		sort_three(a);
+	// Tercera fase: Devolver números a A en orden
+	while (*b)
+		move_cheapest_to_a(a, b);
+	// Fase final: Asegurar que el mínimo está arriba
+	shift_stack(a);
 }

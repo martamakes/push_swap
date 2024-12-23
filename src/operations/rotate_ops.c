@@ -6,45 +6,71 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 08:33:49 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/14 21:53:16 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/18 08:36:37 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	rotate(t_stack *stack)
+/*
+** Shifts up all elements of a stack by 1.
+** The first element becomes the last one.
+*/
+static void	rotate(t_stack **stack)
 {
-	t_node	*first;
-	t_node	*last;
+	t_stack	*tmp;
+	t_stack	*last;
 
-	if (!stack || !stack->top || !stack->top->next)
+	if (!*stack || !(*stack)->next)
 		return ;
-	first = stack->top;
-	last = stack->bottom;
-
-	stack->top = first->next;
-	stack->top->prev = NULL;
-	stack->bottom = first;
-	first->next = NULL;
-	first->prev = last;
-	last->next = first;
+	tmp = *stack;
+	*stack = (*stack)->next;
+	last = stack_last(*stack);
+	tmp->next = NULL;
+	last->next = tmp;
 }
 
-void	ra(t_stack *stack_a)
+/*
+** ra (rotate a): Shifts up all elements of stack a by 1.
+** The first element becomes the last one.
+*/
+void	ra(t_stack **stack_a)
 {
 	rotate(stack_a);
-	ft_printf("ra\n");
+	ft_putstr_fd("ra\n", 1);
+	if (VISUALS)
+	{
+		print_debug_str("After ra:\n");
+		print_one(*stack_a, 'A');
+	}
 }
 
-void	rb(t_stack *stack_b)
+/*
+** rb (rotate b): Shifts up all elements of stack b by 1.
+** The first element becomes the last one.
+*/
+void	rb(t_stack **stack_b)
 {
 	rotate(stack_b);
-	ft_printf("rb\n");
+	ft_putstr_fd("rb\n", 1);
+	if (VISUALS)
+	{
+		print_debug_str("After rb:\n");
+		print_one(*stack_b, 'B');
+	}
 }
 
-void	rr(t_stack *stack_a, t_stack *stack_b)
+/*
+** rr: ra and rb at the same time.
+*/
+void	rr(t_stack **stack_a, t_stack **stack_b)
 {
 	rotate(stack_a);
 	rotate(stack_b);
-	ft_printf("rr\n");
+	ft_putstr_fd("rr\n", 1);
+	if (VISUALS)
+	{
+		print_debug_str("After pa:\n");
+		print_stacks(*stack_a, *stack_b);
+	}
 }

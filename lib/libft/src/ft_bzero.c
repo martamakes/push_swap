@@ -15,7 +15,7 @@
 /*
  * The ft_bzero() function writes n zeroed bytes to the string s.
  * It uses ft_memset() to perform the zeroing.
-*/
+ */
 void	ft_bzero(void *s, size_t n)
 {
 	ft_memset(s, 0, n);

@@ -6,20 +6,28 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/01 15:27:20 by mvigara-          #+#    #+#              #
-#    Updated: 2024/12/16 12:49:47 by mvigara-         ###   ########.fr        #
+#    Updated: 2024/12/20 10:48:35 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 # Colors
-RED = \033[0;31m
-GREEN = \033[0;32m
-YELLOW = \033[0;33m
-BLUE = \033[0;34m
-MAGENTA = \033[0;35m
-CYAN = \033[0;36m
-WHITE = \033[0;37m
-RESET = \033[0m
+RED := $(shell printf "\033[0;31m")
+GREEN := $(shell printf "\033[0;32m")
+YELLOW := $(shell printf "\033[0;33m")
+BLUE := $(shell printf "\033[0;34m")
+MAGENTA := $(shell printf "\033[0;35m")
+CYAN := $(shell printf "\033[0;36m")
+WHITE := $(shell printf "\033[0;37m")
+RESET := $(shell printf "\033[0m")
+
+# Debug prints control
+DEBUG_PRINTS ?= 0
+
+# Force recompilation when DEBUG_PRINTS changes
+ifneq ($(DEBUG_PRINTS),$(shell cat $(OBJ_DIR)/.debug_prints 2>/dev/null))
+FORCE_RECOMPILE := 1
+endif
 
 # Project name
 NAME = push_swap
@@ -30,41 +38,38 @@ OBJ_DIR = obj
 INC_DIR = inc
 LIB_DIR = lib
 
+INCLUDES = -I$(INC_DIR)  # Solo para la parte principal
+CHECKER_INCLUDES = -I$(INC_DIR) -I$(CHECKER_INC_DIR)  # Para el bonus
+
 # Source files
 MAIN_SRC = main/push_swap.c
 
 STACK_SRC = stack/stack_init.c \
            stack/stack_utils.c
 
-PARSER_SRC = parser/parse_args.c \
-            parser/parse_utils.c
+PARSER_SRC = parser/parse_utils.c 
 
 ERROR_SRC = error/error_handler.c
 
-DEBUG_SRC = debug/print_stack.c \
-           debug/test_ops.c
-
-OPS_SRC = operations/basic_ops.c \
+OPS_SRC = operations/swap_ops.c \
          operations/push_ops.c \
          operations/rotate_ops.c \
          operations/reverse_rotate_ops.c
 
 SORT_SRC = sort/sort_small.c \
-          sort/sort_medium.c \
           sort/sort_large.c \
           sort/sort_utils.c \
-          sort/position_utils.c \
-          sort/move_utils.c \
-          sort/push_back.c \
-          sort/move_to_b.c \
-          sort/chunk_utils.c \
-          sort/move_executor.c
-	
+		  sort/rotations.c \
+		  sort/find_pos.c
+
+DEBUG_SRC = debug/print_stacks.c
 
 # Source files with directory prefix
-SRCS = $(addprefix $(SRC_DIR)/, $(MAIN_SRC) $(STACK_SRC) $(PARSER_SRC) $(ERROR_SRC) $(DEBUG_SRC) $(OPS_SRC) $(SORT_SRC))
+SRCS = $(addprefix $(SRC_DIR)/, $(MAIN_SRC) $(STACK_SRC) $(PARSER_SRC) $(ERROR_SRC) $(OPS_SRC) $(SORT_SRC) $(DEBUG_SRC))
+
 # Object files
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+CHECKER_OBJS = $(CHECKER_SRCS:$(CHECKER_SRC_DIR)/%.c=$(CHECKER_OBJ_DIR)/%.o)
 
 # Libft
 LIBFT_DIR = $(LIB_DIR)/libft
@@ -77,22 +82,43 @@ INCLUDES = -I$(INC_DIR) -I$(LIBFT_DIR)/inc
 
 # Detect OS
 UNAME_S := $(shell uname -s)
+UNAME_M := $(shell uname -m)
+
+# OS and Architecture specific settings
 ifeq ($(UNAME_S),Darwin)    # macOS
-    CFLAGS += -fsanitize=address -g
-    $(info $(CYAN)Compiling for macOS with Address Sanitizer$(RESET))
+    ifeq ($(UNAME_M),arm64)    # Apple Silicon
+        CFLAGS += -g
+        DEBUG_TOOL = lldb
+        $(info $(CYAN)Compiling for macOS ARM64$(RESET))
+    else                        # Intel Mac
+        CFLAGS += -fsanitize=address -g
+        LDFLAGS += -fsanitize=address
+        DEBUG_TOOL = lldb
+        $(info $(CYAN)Compiling for macOS Intel with Address Sanitizer$(RESET))
+    endif
 else ifeq ($(UNAME_S),Linux)    # Linux
     CFLAGS += -g
+    DEBUG_TOOL = gdb
     $(info $(CYAN)Compiling for Linux. Use valgrind for memory checks$(RESET))
+endif
+
+# Add DEBUG flag if DEBUG=1
+ifeq ($(DEBUG),1)
+    CFLAGS += -DDEBUG
 endif
 
 # Rules
 all: $(NAME)
 
 # Create directories
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	@mkdir -p $(dir $@)
 	@echo "$(BLUE)Compiling $<...$(RESET)"
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+$(OBJ_DIR):
+	@mkdir -p $@
+	@echo "$(DEBUG_PRINTS)" > $(OBJ_DIR)/.debug_prints
 
 # Compile libft
 $(LIBFT):
@@ -102,9 +128,9 @@ $(LIBFT):
 # Link everything
 $(NAME): $(LIBFT) $(OBJS)
 	@echo "$(GREEN)Linking $@...$(RESET)"
-	@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) -lft -o $(NAME)
+	@$(CC) $(CFLAGS) $(if $(filter 1,$(DEBUG)),-DDEBUG=1) $(OBJS) -L$(LIBFT_DIR) -lft $(LDFLAGS) -o $(NAME)
 	@echo "$(GREEN)Build complete! 🚀$(RESET)"
-
+	
 clean:
 	@echo "$(RED)Cleaning object files...$(RESET)"
 	@rm -rf $(OBJ_DIR)
@@ -112,15 +138,14 @@ clean:
 
 fclean: clean
 	@echo "$(RED)Cleaning everything...$(RESET)"
-	@rm -f $(NAME)
+	@rm -f $(NAME) $(CHECKER)
 	@make -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
 # Debug rule
-debug: CFLAGS += -g
-debug: re
-	@echo "$(YELLOW)Debug build complete!$(RESET)"
+debug: fclean
+	@$(MAKE) DEBUG=1
 
 # Testing helper
 test: $(NAME)
@@ -131,7 +156,7 @@ test: $(NAME)
 	@./$(NAME) "1 2 3"
 	@./$(NAME) 0 one 2 3
 
-.PHONY: all clean fclean re debug test
+.PHONY: all clean fclean re debug test help
 
 # Help message
 help:
@@ -140,8 +165,12 @@ help:
 	@echo "  $(GREEN)clean$(RESET)   : Remove object files"
 	@echo "  $(GREEN)fclean$(RESET)  : Remove object files and executable"
 	@echo "  $(GREEN)re$(RESET)      : Rebuild the project"
-	@echo "  $(GREEN)debug$(RESET)   : Build with debug symbols"
+	@echo "  $(GREEN)debug$(RESET)   : Build with debug symbols and prints enabled"
 	@echo "  $(GREEN)test$(RESET)    : Run basic tests"
+	@echo
+	@echo "$(CYAN)Debug Options:$(RESET)"
+	@echo "  make DEBUG_PRINTS=1     : Enable debug prints"
+	@echo "  make debug             : Enable debug symbols and prints"
 	@echo
 	@echo "$(CYAN)OS Detection:$(RESET)"
 	@echo "  Current OS: $(UNAME_S)"

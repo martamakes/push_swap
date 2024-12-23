@@ -6,3 +6,5 @@ tree.txt
 lib/libft/obj
 lib/libft/libft.a
 .vscode/
+obj/
+my-push.c

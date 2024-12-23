@@ -6,83 +6,77 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:10:18 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/05 14:56:24 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/20 10:28:25 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../../inc/push_swap.h"
 
-#include "push_swap.h"
-
-void    get_stack_bounds(t_stack *stack, int *min, int *max)
+t_stack	*stack_new(int value)
 {
-    t_node  *current;
+	t_stack	*new;
 
-    *min = INT_MAX;
-    *max = INT_MIN;
-    if (!stack || !stack->top)
-        return ;
-    current = stack->top;
-    *min = current->value;
-    *max = current->value;
-    while (current)
-    {
-        if (current->value < *min)
-            *min = current->value;
-        if (current->value > *max)
-            *max = current->value;
-        current = current->next;
-    }
+	new = malloc(sizeof(t_stack));
+	if (!new)
+		return (NULL);
+	new->value = value;
+	new->index = 0;
+	new->pos = -1;
+	new->target_pos = -1;
+	new->cost_a = -1;
+	new->cost_b = -1;
+	new->next = NULL;
+	return (new);
 }
 
-int    get_min_pos(t_stack *stack)
+t_stack	*stack_last(t_stack *stack)
 {
-    t_node  *current;
-    int     min;
-    int     pos;
-    int     min_pos;
-
-    if (!stack || !stack->top)
-        return (-1);
-    current = stack->top;
-    min = current->value;
-    pos = 0;
-    min_pos = 0;
-    while (current)
-    {
-        if (current->value < min)
-        {
-            min = current->value;
-            min_pos = pos;
-        }
-        pos++;
-        current = current->next;
-    }
-    return (min_pos);
+	if (!stack)
+		return (NULL);
+	while (stack->next != NULL)
+		stack = stack->next;
+	return (stack);
 }
 
-int    get_max_pos(t_stack *stack)
+void	stack_add_back(t_stack **stack, t_stack *new)
 {
-    t_node  *current;
-    int     max;
-    int     pos;
-    int     max_pos;
+	t_stack	*last;
 
-    if (!stack || !stack->top)
-        return (-1);
-    current = stack->top;
-    max = current->value;
-    pos = 0;
-    max_pos = 0;
-    while (current)
-    {
-        if (current->value > max)
-        {
-            max = current->value;
-            max_pos = pos;
-        }
-        pos++;
-        current = current->next;
-    }
-    return (max_pos);
+	if (!new)
+		return ;
+	if (!*stack)
+	{
+		*stack = new;
+		return ;
+	}
+	last = stack_last(*stack);
+	last->next = new;
+}
+
+int	stack_size(t_stack *stack)
+{
+	int	size;
+
+	size = 0;
+	while (stack)
+	{
+		size++;
+		stack = stack->next;
+	}
+	return (size);
+}
+
+void	free_stack(t_stack **stack)
+{
+	t_stack	*tmp;
+
+	if (!stack || !(*stack))
+		return ;
+	while (*stack)
+	{
+		tmp = (*stack)->next;
+		free(*stack);
+		*stack = tmp;
+	}
+	*stack = NULL;
 }

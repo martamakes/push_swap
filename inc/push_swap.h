@@ -6,118 +6,84 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/16 13:22:20 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/23 18:54:58 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-# include "libft.h"
+# include "../lib/libft/inc/libft.h"
+# include <limits.h>
+# include <stdlib.h>
+# include <unistd.h>
 
-typedef struct s_node
-{
-    int             value;
-    int             index;     // Añadido para la estrategia de indexación
-    int             pos;       // Posición actual en el stack
-    int             target;    // Posición objetivo
-    int             cost_a;    // Coste de mover en stack a
-    int             cost_b;    // Coste de mover en stack b
-    struct s_node   *next;
-    struct s_node   *prev;
-}                   t_node;
+# ifndef DEBUG
+#  define VISUALS 0
+# else
+#  define VISUALS 1
+# endif
 
 typedef struct s_stack
 {
-    t_node  *top;
-    int     size;
-    t_node  *bottom;
-}           t_stack;
+	int value;            // Valor numérico del nodo
+	int index;            // Índice para ordenación
+	int pos;              // Posición actual en el stack
+	int target_pos;       // Posición objetivo en el otro stack
+	int cost_a;           // Coste de mover en stack a
+	int cost_b;           // Coste de mover en stack b
+	struct s_stack *next; // Puntero al siguiente nodo
+}		t_stack;
 
-typedef struct s_chunk
-{
-    int     min;
-    int     max;
-    int     chunk_size;
-    int     num_chunks;
-    int     current;
-}           t_chunk;
+// Stack operations
+t_stack	*stack_new(int value);
+void	stack_add_back(t_stack **stack, t_stack *new);
+t_stack	*stack_last(t_stack *stack);
+int		stack_size(t_stack *stack);
+// Operations functions
+void	sa(t_stack **stack_a);
+void	sb(t_stack **stack_b);
+void	ss(t_stack **stack_a, t_stack **stack_b);
+void	pa(t_stack **stack_a, t_stack **stack_b);
+void	pb(t_stack **stack_b, t_stack **stack_a);
+void	ra(t_stack **stack_a);
+void	rb(t_stack **stack_b);
+void	rr(t_stack **stack_a, t_stack **stack_b);
+void	rra(t_stack **stack_a);
+void	rrb(t_stack **stack_b);
+void	rrr(t_stack **stack_a, t_stack **stack_b);
 
-typedef struct s_move
-{
-    int     value;      // Valor a mover
-    int     cost_a;     // Coste de rotaciones en A
-    int     cost_b;     // Coste de rotaciones en B
-    int     pos_a;      // Posición objetivo en A
-    int     pos_b;      // Posición actual en B
-    bool    rev_a;      // Usar reverse rotate en A
-    bool    rev_b;      // Usar reverse rotate en B
-    int     total_cost; // Coste total del movimiento
-}           t_move;
+// Input processing and validation
+int		is_valid_input(char *str);
+int		check_duplicates(t_stack *stack);
+int		process_input(int ac, char **av, t_stack **stack_a);
+void	ft_split_free(char **split);
 
-// Funciones de inicialización y liberación
-void            error_exit(void);
-void            free_stack(t_stack *stack);
-t_stack         *init_stack(void);
-t_node          *create_node(int value);
+// Error handling
+void	error_exit(t_stack **stack_a, t_stack **stack_b);
 
-// Funciones de parseo
-t_stack         *parse_args(int argc, char **argv);
-int             is_valid_number(char *str);
+// Sorting algorithms
+void	sort_three(t_stack **stack);
+void	sort_stack(t_stack **stack_a, t_stack **stack_b);
 
-// Operaciones básicas del stack
-void            swap_top(t_stack *stack);
-void            sa(t_stack *stack_a);
-void            sb(t_stack *stack_b);
-void            ss(t_stack *stack_a, t_stack *stack_b);
-void            pa(t_stack *stack_a, t_stack *stack_b);
-void            pb(t_stack *stack_a, t_stack *stack_b);
-void            rotate(t_stack *stack);
-void            ra(t_stack *stack_a);
-void            rb(t_stack *stack_b);
-void            rr(t_stack *stack_a, t_stack *stack_b);
-void            reverse_rotate(t_stack *stack);
-void            rra(t_stack *stack_a);
-void            rrb(t_stack *stack_b);
-void            rrr(t_stack *stack_a, t_stack *stack_b);
+// Utils
+int		is_sorted(t_stack *stack);
+void	free_stack(t_stack **stack);
+int		get_min_pos(t_stack *stack);
+void	do_rotations(t_stack **a, t_stack **b, int cost_a, int cost_b);
+void	turkish_sort(t_stack **a, t_stack **b);
+void	get_cost(t_stack *a, t_stack *b);
+void	get_target_positions(t_stack *a, t_stack *b);
+void	sort_small(t_stack **a, t_stack **b, int size);
+t_stack	*get_cheapest(t_stack *stack);
+void	move_cheapest_to_a(t_stack **a, t_stack **b);
+void	move_cheapest_to_b(t_stack **a, t_stack **b);
+void	shift_stack(t_stack **stack);
+int		find_target_position(t_stack *a, t_stack *b, int value);
 
-// Algoritmos de ordenación
-void            sort_two(t_stack *stack_a);
-void            sort_three(t_stack *stack_a, char c);
-void            sort_medium(t_stack *a, t_stack *b);
-void            sort_large(t_stack *a, t_stack *b);
-
-// Funciones de posición y costes
-int             get_position(t_stack *stack, int value);
-int             get_target_position_value(t_stack *a, int value);
-void            get_stack_position(t_stack *stack);
-void            calculate_cost(t_stack *a, t_stack *b);
-void            execute_cheapest_move(t_stack *a, t_stack *b);
-void            do_move(t_stack *a, t_stack *b, int cost_a, int cost_b);
-void    push_back(t_stack *a, t_stack *b);
-void    init_move(t_move *move);
-void    calculate_move_cost(t_stack *a, t_stack *b, t_move *move);
-
-
-// Funciones de indexación
-void            get_index(t_stack *stack_a, int stack_size);
-int             get_lowest_index_position(t_stack *stack);
-
-// Funciones auxiliares
-int             is_sorted(t_stack *stack);
-void            get_stack_bounds(t_stack *stack, int *min, int *max);
-int             get_min_pos(t_stack *stack);
-int             get_max_pos(t_stack *stack);
-void            rotate_to_min(t_stack *a);
-
-// Funciones de chunks (solo para números >100)
-void            init_chunk_info(t_stack *a, t_chunk *chunk);
-void            push_chunks_to_b(t_stack *a, t_stack *b, t_chunk *chunk);
-int             get_chunk_start(t_chunk *chunk);
-int             get_chunk_end(t_chunk *chunk);
-bool            is_in_current_chunk(int value, t_chunk *chunk);
-
-// Funciones de debug
-void            simple_print_stack(t_stack *stack, char *stack_name);
+// debug
+void	print_stacks(t_stack *stack_a, t_stack *stack_b);
+void	print_one(t_stack *stack, char stack_name);
+void	print_debug_str(char *str);
 
 #endif

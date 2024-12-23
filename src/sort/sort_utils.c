@@ -6,79 +6,130 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 08:58:45 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/15 04:57:05 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/19 09:43:22 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int is_sorted(t_stack *stack)
+/*
+** Updates position values for all nodes in a stack
+** This is crucial for cost calculations
+*/
+void	update_positions(t_stack *stack)
 {
-    t_node *current;
+	int		i;
+	t_stack	*current;
 
-    if (!stack || !stack->top || !stack->top->next)
-        return (1);
-    current = stack->top;
-    while (current->next)
-    {
-        if (current->value > current->next->value)
-            return (0);
-        current = current->next;
-    }
-    return (1);
+	i = 0;
+	current = stack;
+	while (current)
+	{
+		current->pos = i;
+		i++;
+		current = current->next;
+	}
 }
 
-int get_highest_pos(t_stack *stack)
+/*
+** Gets total cost of moving elements to their target positions
+** cost_a: moves needed in stack a
+** cost_b: moves needed in stack b
+*/
+void	get_cost(t_stack *a, t_stack *b)
 {
-    t_node  *current;
-    int     highest;
-    int     pos;
-    int     highest_pos;
+	int		size_a;
+	int		size_b;
+	t_stack	*current;
 
-    if (!stack || !stack->top)
-        return (-1);
-    current = stack->top;
-    highest = current->value;
-    pos = 0;
-    highest_pos = 0;
-    while (current)
-    {
-        if (current->value > highest)
-        {
-            highest = current->value;
-            highest_pos = pos;
-        }
-        pos++;
-        current = current->next;
-    }
-    return (highest_pos);
+	size_a = stack_size(a);
+	size_b = stack_size(b);
+	current = a;
+	while (current)
+	{
+		current->cost_a = current->pos;
+		if (current->pos > size_a / 2)
+			current->cost_a = -(size_a - current->pos);
+		current->cost_b = current->target_pos;
+		if (current->target_pos > size_b / 2)
+			current->cost_b = -(size_b - current->target_pos);
+		current = current->next;
+	}
 }
 
-void    rotate_to_min(t_stack *a)
+/*
+** Gets target positions for each element in stack_a
+** This helps determine where each element should go in stack_b
+*/
+void	get_target_positions(t_stack *a, t_stack *b)
 {
-    int min_pos;
-    int size;
+	t_stack	*current;
 
-    if (!a || a->size < 2)
-        return ;
-    min_pos = get_min_pos(a);
-    size = a->size;
-    if (min_pos == 0)
-        return ;
-    if (min_pos <= size / 2)
-    {
-        while (min_pos > 0)
-        {
-            ra(a);
-            min_pos--;
-        }
-    }
-    else
-    {
-        while (min_pos < size)
-        {
-            rra(a);
-            min_pos++;
-        }
-    }
+	current = a;
+	update_positions(a);
+	update_positions(b);
+	while (current)
+	{
+		current->target_pos = find_target_position(a, b, current->value);
+		current = current->next;
+	}
+}
+
+/*
+** Finds the element with the cheapest cost to move
+** Returns the node with the lowest absolute combined cost
+*/
+t_stack	*get_cheapest(t_stack *stack)
+{
+	t_stack	*cheapest;
+	t_stack	*current;
+	int		lowest_cost;
+	int		cost;
+
+	if (!stack)
+		return (NULL);
+	cheapest = stack;
+	lowest_cost = ft_abs(stack->cost_a) + ft_abs(stack->cost_b);
+	current = stack->next;
+	while (current)
+	{
+		cost = ft_abs(current->cost_a) + ft_abs(current->cost_b);
+		if (cost < lowest_cost)
+		{
+			lowest_cost = cost;
+			cheapest = current;
+		}
+		current = current->next;
+	}
+	return (cheapest);
+}
+
+/*
+** Finds the position of the minimum value in the stack
+** Returns the position (0-based index) of the minimum value
+*/
+int	get_min_pos(t_stack *stack)
+{
+	int		min;
+	int		pos;
+	int		min_pos;
+	t_stack	*current;
+
+	if (!stack)
+		return (0);
+	min = INT_MAX;
+	pos = 0;
+	min_pos = 0;
+	current = stack;
+	while (current)
+	{
+		if (current->value < min)
+		{
+			min = current->value;
+			min_pos = pos;
+		}
+		current = current->next;
+		pos++;
+	}
+	return (min_pos);
 }

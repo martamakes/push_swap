@@ -6,34 +6,32 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:46:40 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/02 08:01:02 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/20 10:30:50 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../../inc/push_swap.h"
 
-t_stack *init_stack(void)
+/*
+** Checks for duplicate values in the stack
+** Returns 1 if duplicates are found, 0 otherwise
+*/
+int	check_duplicates(t_stack *stack)
 {
-    t_stack *stack;
+	t_stack	*current;
+	t_stack	*check;
 
-    stack = malloc(sizeof(t_stack));
-    if (!stack)
-        error_exit();
-    stack->top = NULL;
-    stack->size = 0;
-    stack->bottom = NULL;
-    return (stack);
-}
-
-t_node *create_node(int value)
-{
-    t_node *new;
-
-    new = malloc(sizeof(t_node));
-    if (!new)
-        error_exit();
-    new->value = value;
-    new->next = NULL;
-    new->prev = NULL;
-    return (new);
+	current = stack;
+	while (current)
+	{
+		check = current->next;
+		while (check)
+		{
+			if (current->value == check->value)
+				return (1);
+			check = check->next;
+		}
+		current = current->next;
+	}
+	return (0);
 }

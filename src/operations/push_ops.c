@@ -6,47 +6,56 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 08:20:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/05 09:16:24 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/18 08:36:05 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void push_node(t_stack *dst, t_stack *src)
+/*
+** Moves the first element from source stack to the top
+** of destination stack. Does nothing if source is empty.
+*/
+static void	push(t_stack **src, t_stack **dst)
 {
-    t_node *node_to_push;
+	t_stack	*tmp;
 
-    if (!src || !src->top)
-        return ;
-
-    // Remove node from source
-    node_to_push = src->top;
-    src->top = src->top->next;
-    if (src->top)
-        src->top->prev = NULL;
-    src->size--;
-    if (src->size == 0)
-        src->bottom = NULL;
-
-    // Add node to destination
-    node_to_push->next = dst->top;
-    if (dst->top)
-        dst->top->prev = node_to_push;
-    dst->top = node_to_push;
-    node_to_push->prev = NULL;
-    dst->size++;
-    if (dst->size == 1)
-        dst->bottom = node_to_push;
+	if (!*src)
+		return ;
+	tmp = (*src)->next;
+	(*src)->next = *dst;
+	*dst = *src;
+	*src = tmp;
 }
 
-void    pa(t_stack *stack_a, t_stack *stack_b)
+/*
+** pa (push a): Takes the first element of stack b
+** and puts it at the top of stack a.
+** Does nothing if b is empty.
+*/
+void	pa(t_stack **stack_a, t_stack **stack_b)
 {
-    push_node(stack_a, stack_b);
-    ft_printf("pa\n");
+	push(stack_b, stack_a);
+	ft_putstr_fd("pa\n", 1);
+	if (VISUALS)
+	{
+		print_debug_str("After pa:\n");
+		print_stacks(*stack_a, *stack_b);
+	}
 }
 
-void    pb(t_stack *stack_a, t_stack *stack_b)
+/*
+** pb (push b): Takes the first element of stack a
+** and puts it at the top of stack b.
+** Does nothing if a is empty.
+*/
+void	pb(t_stack **stack_a, t_stack **stack_b)
 {
-    push_node(stack_b, stack_a);
-    ft_printf("pb\n");
+	push(stack_a, stack_b);
+	ft_putstr_fd("pb\n", 1);
+	if (VISUALS)
+	{
+		print_debug_str("After pb:\n");
+		print_stacks(*stack_a, *stack_b);
+	}
 }
