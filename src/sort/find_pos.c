@@ -6,106 +6,138 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 08:56:36 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/23 18:43:42 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/23 22:51:42 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static int	find_pos(t_stack *stack, int value)
+/*
+** Finds the position of the minimum value in the stack
+** Returns the position (0-based index) of the minimum value
+*/
+int	get_min_pos(t_stack *stack)
 {
-	int	pos;
+	int		min;
+	int		pos;
+	int		min_pos;
+	t_stack	*current;
 
+	if (!stack)
+		return (0);
+	min = INT_MAX;
 	pos = 0;
-	while (stack)
-	{
-		if (stack->value == value)
-			return (pos);
-		pos++;
-		stack = stack->next;
-	}
-	return (0);
-}
-
-/*
-** Finds the position where a number from stack b should be inserted in stack a
-** while maintaining ascending order
-** Returns the position in stack a where the value should be placed
-*/
-static int	find_target_position_b_to_a(t_stack *a, int value)
-{
-	t_stack	*current;
-	int		closest_smaller;
-	int		closest_bigger;
-	int		target_pos;
-
-	closest_smaller = INT_MIN;
-	closest_bigger = INT_MAX;
-	current = a;
-	target_pos = 0;
+	min_pos = 0;
+	current = stack;
 	while (current)
 	{
-		if (current->value < value && current->value > closest_smaller)
+		if (current->value < min)
 		{
-			closest_smaller = current->value;
-			target_pos = current->pos + 1;
+			min = current->value;
+			min_pos = pos;
 		}
-		if (current->value > value && current->value < closest_bigger)
-			closest_bigger = current->value;
 		current = current->next;
+		pos++;
 	}
-	if (closest_bigger == INT_MAX && closest_smaller == INT_MIN)
-		return (0);
-	if (closest_bigger == INT_MAX)
-		return (target_pos);
-	return (find_pos(a, closest_bigger));
+	return (min_pos);
 }
 
 /*
-** Finds the position where a number from stack a should be inserted in stack b
-** to maintain order and minimize future moves
-** Returns the position in stack b where the value should be placed
+** Finds target position for a node from stack a to stack b
+** Looks for the closest smaller number in b, or the largest if none is smaller
+** Returns the position where the node should be placed in stack b
 */
-static int	find_target_position_a_to_b(t_stack *b, int value)
+static int	get_highest_pos(t_stack *stack)
 {
 	t_stack	*current;
-	int		closest_smaller;
-	int		closest_bigger;
+	int		highest_val;
+	int		highest_pos;
 
-	if (!b)
-		return (0);
-	closest_smaller = INT_MIN;
-	closest_bigger = INT_MAX;
-	current = b;
+	current = stack;
+	highest_val = INT_MIN;
+	highest_pos = 0;
 	while (current)
 	{
-		if (current->value < value && current->value > closest_smaller)
-			closest_smaller = current->value;
-		if (current->value > value && current->value < closest_bigger)
-			closest_bigger = current->value;
+		if (current->value > highest_val)
+		{
+			highest_val = current->value;
+			highest_pos = current->pos;
+		}
 		current = current->next;
 	}
-	if (closest_bigger != INT_MAX)
-		return (find_pos(b, closest_bigger));
-	if (closest_smaller != INT_MIN)
-		return ((find_pos(b, closest_smaller) + 1) % stack_size(b));
-	return (0);
+	return (highest_pos);
+}
+
+int	find_target_pos_a_to_b(t_stack *a_node, t_stack *stack_b)
+{
+	t_stack	*current;
+	int		target_index;
+	int		closest_smaller_index;
+
+	closest_smaller_index = -1;
+	current = stack_b;
+	while (current)
+	{
+		if (current->index < a_node->index && 
+			(closest_smaller_index == -1 || 
+			 current->index > closest_smaller_index))
+		{
+			closest_smaller_index = current->index;
+			target_index = current->pos;
+		}
+		current = current->next;
+	}
+	if (closest_smaller_index == -1)
+		return (get_highest_pos(stack_b));
+	return (target_index);
 }
 
 /*
-** General function that finds target position based on direction
-** direction = 1: moving from A to B
-** direction = 0: moving from B to A
+** Finds target position for a node from stack b to stack a
+** Looks for the closest larger number in a, or the smallest if none is larger
+** Returns the position where the node should be placed in stack a
 */
-int	find_target_position(t_stack *src, t_stack *dst, int value)
+static int	get_lowest_pos(t_stack *stack)
 {
-	static t_stack	*last_src = NULL;
+	t_stack	*current;
+	int		lowest_val;
+	int		lowest_pos;
 
-	if (src != last_src)
+	current = stack;
+	lowest_val = INT_MAX;
+	lowest_pos = 0;
+	while (current)
 	{
-		last_src = src;
-		if (src && last_src && src->value == last_src->value)
-			return (find_target_position_b_to_a(dst, value));
+		if (current->value < lowest_val)
+		{
+			lowest_val = current->value;
+			lowest_pos = current->pos;
+		}
+		current = current->next;
 	}
-	return (find_target_position_a_to_b(dst, value));
+	return (lowest_pos);
+}
+
+int	find_target_pos_b_to_a(t_stack *b_node, t_stack *stack_a)
+{
+	t_stack	*current;
+	int		target_index;
+	int		closest_larger_index;
+
+	closest_larger_index = -1;
+	current = stack_a;
+	while (current)
+	{
+		if (current->index > b_node->index && 
+			(closest_larger_index == -1 || 
+			 current->index < closest_larger_index))
+		{
+			closest_larger_index = current->index;
+			target_index = current->pos;
+		}
+		current = current->next;
+	}
+	if (closest_larger_index == -1)
+		return (get_lowest_pos(stack_a));
+	return (target_index);
 }
