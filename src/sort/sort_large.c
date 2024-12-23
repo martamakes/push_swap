@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 19:14:26 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/23 18:56:52 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/23 23:03:07 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,14 @@ void	sort_stack(t_stack **a, t_stack **b)
 		sa(a);
 	else if (size == 3)
 		sort_three(a);
-	else if (size < 150)
+	else if (size < 10)
 		sort_small(a, b, size);
 	else
+	{
+		index_stack(*a);
 		turkish_sort(a, b);
+	}
+		
 }
 
 /*
@@ -63,62 +67,52 @@ void	shift_stack(t_stack **stack)
 		}
 	}
 }
-
-/*
-** Moves the cheapest number from stack a to stack b
-*/
-void	move_cheapest_to_b(t_stack **a, t_stack **b)
+void    move_cheapest_to_b(t_stack **a, t_stack **b)
 {
-	t_stack	*cheapest;
-	int		cost_a;
-	int		cost_b;
+    t_stack *cheapest;
 
-	get_target_positions(*a, *b);
-	get_cost(*a, *b);
-	cheapest = get_cheapest(*a);
-	cost_a = cheapest->cost_a;
-	cost_b = cheapest->cost_b;
-	do_rotations(a, b, cost_a, cost_b);
-	pb(a, b);
+    get_target_positions(*a, *b);
+    get_cost(*a, *b);
+    cheapest = get_cheapest(*a);
+    do_rotations(a, b, cheapest);
+    pb(a, b);
 }
 
-/*
-** Moves the cheapest number from stack b to stack a
-*/
-void	move_cheapest_to_a(t_stack **a, t_stack **b)
+void    move_cheapest_to_a(t_stack **a, t_stack **b)
 {
-	t_stack	*cheapest;
-	int		cost_a;
-	int		cost_b;
+    t_stack *cheapest;
 
-	get_target_positions(*b, *a);
-	get_cost(*b, *a);
-	cheapest = get_cheapest(*b);
-	cost_a = cheapest->cost_a;
-	cost_b = cheapest->cost_b;
-	do_rotations(a, b, cost_a, cost_b);
-	pa(a, b);
+    get_target_positions_b(*b, *a);
+    get_cost(*b, *a);
+    cheapest = get_cheapest(*b);
+    do_rotations(a, b, cheapest);
+    pa(a, b);
 }
 
-/*
-** Turkish sort algorithm implementation
-*/
-void	turkish_sort(t_stack **a, t_stack **b)
+void    turkish_sort(t_stack **a, t_stack **b)
 {
-	// Inicialización: Push primeros dos números y ordenarlos
-	pb(a, b);
-	pb(a, b);
-	if ((*b)->value < (*b)->next->value)
-		sb(b);
-	// Primera fase: Push al stack B manteniendo orden descendente
-	while (stack_size(*a) > 3)
-		move_cheapest_to_b(a, b);
-	// Segunda fase: Ordenar los tres números restantes en A
-	if (!is_sorted(*a))
-		sort_three(a);
-	// Tercera fase: Devolver números a A en orden
-	while (*b)
+    int size;
+    int mid_index;
+
+    size = stack_size(*a);
+    mid_index = size / 2;
+    while (size > 3)
+	{
+		if((*a)->index < mid_index)
+		{
+			pb(a, b);
+			if(*b && (*b)->index < mid_index / 2)
+				rb(b);
+		}
+		else
+			ra(a);
+	}
+	sort_three(a);
+	while(*b)
+	{
+		get_target_positions_b(*b, *a);
+		get_cost(*b, *a);
 		move_cheapest_to_a(a, b);
-	// Fase final: Asegurar que el mínimo está arriba
-	shift_stack(a);
+	}
+    shift_stack(a);
 }

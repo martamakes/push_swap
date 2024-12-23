@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:46:40 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/20 10:30:50 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/23 22:42:46 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,38 @@ int	check_duplicates(t_stack *stack)
 		current = current->next;
 	}
 	return (0);
+}
+
+void    index_stack(t_stack *stack)
+{
+    t_stack *current;
+    t_stack *tmp;
+    int     size;
+    int     min;
+    int     index;
+
+    size = stack_size(stack);
+    index = 0;
+    while (index < size)
+    {
+        min = INT_MAX;
+        current = stack;
+        while (current)
+        {
+            if (current->index == -1 && current->value <= min)
+                min = current->value;
+            current = current->next;
+        }
+        tmp = stack;
+        while (tmp)
+        {
+            if (tmp->value == min && tmp->index == -1)
+            {
+                tmp->index = index;
+                break;
+            }
+            tmp = tmp->next;
+        }
+        index++;
+    }
 }

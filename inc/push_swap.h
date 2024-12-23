@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/23 18:54:58 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/23 23:03:52 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,19 @@ void	sort_stack(t_stack **stack_a, t_stack **stack_b);
 int		is_sorted(t_stack *stack);
 void	free_stack(t_stack **stack);
 int		get_min_pos(t_stack *stack);
-void	do_rotations(t_stack **a, t_stack **b, int cost_a, int cost_b);
+void	do_rotations(t_stack **a, t_stack **b, t_stack *cheapest);
+void    index_stack(t_stack *stack);
 void	turkish_sort(t_stack **a, t_stack **b);
 void	get_cost(t_stack *a, t_stack *b);
 void	get_target_positions(t_stack *a, t_stack *b);
+void	get_target_positions_b(t_stack *b, t_stack *a);
 void	sort_small(t_stack **a, t_stack **b, int size);
 t_stack	*get_cheapest(t_stack *stack);
 void	move_cheapest_to_a(t_stack **a, t_stack **b);
 void	move_cheapest_to_b(t_stack **a, t_stack **b);
 void	shift_stack(t_stack **stack);
-int		find_target_position(t_stack *a, t_stack *b, int value);
+int		find_target_pos_b_to_a(t_stack *b_node, t_stack *stack_a);
+int		find_target_pos_a_to_b(t_stack *a_node, t_stack *stack_b);
 
 // debug
 void	print_stacks(t_stack *stack_a, t_stack *stack_b);

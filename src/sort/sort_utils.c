@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 08:58:45 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/19 09:43:22 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/23 22:36:19 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,41 +36,51 @@ void	update_positions(t_stack *stack)
 ** cost_a: moves needed in stack a
 ** cost_b: moves needed in stack b
 */
-void	get_cost(t_stack *a, t_stack *b)
+void    get_cost(t_stack *stack, t_stack *other)
 {
-	int		size_a;
-	int		size_b;
-	t_stack	*current;
+    int     size_a;
+    int     size_b;
+    t_stack *temp;
 
-	size_a = stack_size(a);
-	size_b = stack_size(b);
-	current = a;
-	while (current)
-	{
-		current->cost_a = current->pos;
-		if (current->pos > size_a / 2)
-			current->cost_a = -(size_a - current->pos);
-		current->cost_b = current->target_pos;
-		if (current->target_pos > size_b / 2)
-			current->cost_b = -(size_b - current->target_pos);
-		current = current->next;
-	}
+    size_a = stack_size(stack);
+    size_b = stack_size(other);
+    temp = stack;
+    while (temp)
+    {
+        temp->cost_a = temp->pos;
+        if (temp->pos > size_a / 2)
+            temp->cost_a = -(size_a - temp->pos);
+        temp->cost_b = temp->target_pos;
+        if (temp->target_pos > size_b / 2)
+            temp->cost_b = -(size_b - temp->target_pos);
+        if ((temp->cost_a >= 0 && temp->cost_b >= 0) ||
+            (temp->cost_a < 0 && temp->cost_b < 0))
+        {
+            if (ft_abs(temp->cost_a) > ft_abs(temp->cost_b))
+                temp->cost_b = temp->cost_a;
+            else
+                temp->cost_a = temp->cost_b;
+        }
+        temp = temp->next;
+    }
 }
 
 /*
-** Gets target positions for each element in stack_a
-** This helps determine where each element should go in stack_b
+** Updates target positions for each node in stack
+** Used to determine optimal positions for moves between stacks
 */
 void	get_target_positions(t_stack *a, t_stack *b)
 {
 	t_stack	*current;
 
+	if (!a || !b)
+		return ;
 	current = a;
 	update_positions(a);
 	update_positions(b);
 	while (current)
 	{
-		current->target_pos = find_target_position(a, b, current->value);
+		current->target_pos = find_target_pos_a_to_b(current, b);
 		current = current->next;
 	}
 }
@@ -105,31 +115,21 @@ t_stack	*get_cheapest(t_stack *stack)
 }
 
 /*
-** Finds the position of the minimum value in the stack
-** Returns the position (0-based index) of the minimum value
+** Updates target positions for stack b nodes moving to stack a
+** Used during the return phase of the sorting algorithm
 */
-int	get_min_pos(t_stack *stack)
+void	get_target_positions_b(t_stack *b, t_stack *a)
 {
-	int		min;
-	int		pos;
-	int		min_pos;
 	t_stack	*current;
 
-	if (!stack)
-		return (0);
-	min = INT_MAX;
-	pos = 0;
-	min_pos = 0;
-	current = stack;
+	if (!a || !b)
+		return ;
+	current = b;
+	update_positions(a);
+	update_positions(b);
 	while (current)
 	{
-		if (current->value < min)
-		{
-			min = current->value;
-			min_pos = pos;
-		}
+		current->target_pos = find_target_pos_b_to_a(current, a);
 		current = current->next;
-		pos++;
 	}
-	return (min_pos);
 }

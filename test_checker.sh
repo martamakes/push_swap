@@ -6,7 +6,7 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/03 07:53:30 by mvigara-          #+#    #+#              #
-#    Updated: 2024/12/15 15:02:20 by mvigara-         ###   ########.fr        #
+#    Updated: 2024/12/23 22:17:13 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -167,9 +167,10 @@ fi
 while true; do
     echo -e "\n${YELLOW}Choose a test option:${NC}"
     echo "1. Test with random numbers"
-    echo "2. Test with specific numbers"
-    echo "3. Exit"
-    read -p "Your choice (1-3): " choice
+    echo "2. Test with simple random numbers (-249 to 250)"
+    echo "3. Test with specific numbers"
+    echo "4. Exit"
+    read -p "Your choice (1-4): " choice
 
     case $choice in
         1)
@@ -182,17 +183,14 @@ while true; do
                     echo -e "${RED}Please enter a valid positive number${NC}"
                     continue
                 fi
-                # Generar números aleatorios únicos entre INT_MIN y INT_MAX
+                # Original random number generation code remains the same
                 ARG=""
                 count=0
                 while [ $count -lt $input ]; do
-                    # Generar número aleatorio entre INT_MIN (-2147483648) y INT_MAX (2147483647)
-                    # Usamos múltiples RANDOM para mejor distribución
                     r1=$RANDOM
                     r2=$RANDOM
                     num=$(( (r1 * 65536 + r2) % 4294967295 - 2147483648 ))
                     
-                    # Verificar si el número ya está en ARG
                     if ! echo "$ARG" | grep -q "\b$num\b"; then
                         ARG="$ARG$num "
                         count=$((count + 1))
@@ -201,7 +199,65 @@ while true; do
                 test_with_checker "$ARG" "Random $input numbers"
             done
             ;;
+        # Modify the random number generation part in option 2:
         2)
+            while true; do
+                read -p "How many numbers do you want to test with? (or 'q' to go back): " input
+                if [ "$input" = "q" ]; then
+                    break
+                fi
+                if ! [[ "$input" =~ ^[0-9]+$ ]] || [ "$input" -lt 1 ]; then
+                    printf "${RED}Please enter a valid positive number${NC}\n"
+                    continue
+                fi
+
+                # Generate simple random numbers between -249 and 250
+                ARG=""
+                declare -a numbers
+                count=0
+                
+                # Pre-fill array with all possible numbers
+                for ((i=-249; i<=250; i++)); do
+                    numbers[$count]=$i
+                    ((count++))
+                done
+                
+                # Fisher-Yates shuffle and take first n numbers
+                size=${#numbers[@]}
+                for ((i=size-1; i>=0; i--)); do
+                    j=$(($RANDOM % (i+1)))
+                    # Swap elements
+                    temp=${numbers[$i]}
+                    numbers[$i]=${numbers[$j]}
+                    numbers[$j]=$temp
+                done
+                
+                # Take the first $input numbers
+                ARG=""
+                for ((i=0; i<input; i++)); do
+                    ARG="$ARG${numbers[$i]} "
+                done
+                
+                # Run push_swap and check results
+                printf "\n${BLUE}Test:${NC} Simple random %d numbers (-249 to 250)\n" "$input"
+                printf "${BLUE}Arguments:${NC} %s\n" "$ARG"
+                
+                ops=$(./push_swap $ARG | wc -l | tr -d ' ')
+                printf "${BLUE}Number of operations:${NC} %d\n" "$ops"
+                
+                result=$(./push_swap $ARG | $CHECKER $ARG)
+                printf "${BLUE}Checker result:${NC} %s\n" "$result"
+                
+                if [ "$result" = "OK" ]; then
+                    check_operations $input $ops
+                    printf "${GREEN}✓ Test passed${NC}\n"
+                else
+                    printf "${RED}✗ Test failed${NC}\n"
+                fi
+            done
+            ;;
+        3)
+            # Previous "Test with specific numbers" option
             while true; do
                 read -p "Enter the numbers separated by spaces (or 'q' to go back): " input
                 if [ "$input" = "q" ]; then
@@ -211,7 +267,6 @@ while true; do
                     echo -e "${RED}Please enter valid numbers${NC}"
                     continue
                 fi
-                # Verificar que son números válidos
                 if ! echo "$input" | grep -qE '^[-0-9 ]+$'; then
                     echo -e "${RED}Please enter valid integers${NC}"
                     continue
@@ -219,12 +274,12 @@ while true; do
                 test_with_checker "$input" "Custom numbers"
             done
             ;;
-        3)
+        4)
             echo -e "${GREEN}Goodbye!${NC}"
             exit 0
             ;;
         *)
-            echo -e "${RED}Invalid option. Please choose 1, 2 or 3${NC}"
+            echo -e "${RED}Invalid option. Please choose 1, 2, 3 or 4${NC}"
             ;;
     esac
 done
