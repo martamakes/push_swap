@@ -6,102 +6,68 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/20 09:15:26 by mvigara-          #+#    #+#              #
-#    Updated: 2024/12/20 09:20:19 by mvigara-         ###   ########.fr        #
+#    Updated: 2024/12/21 21:16:42 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #!/bin/bash
 
-# Función para pedir el nombre del archivo de salida
-get_output_filename() {
-    local default_name="all.c"
-    read -p "Introduce el nombre del archivo de salida [$default_name]: " output_name
-    echo "${output_name:-$default_name}"
-}
+# Clear screen for better visibility
+clear
 
-# Función para obtener los directorios a procesar
-get_directories() {
-    local default_dirs="src"
-    local input_dirs
-    
-    echo "¿Qué directorios quieres procesar? (separados por espacios)"
-    echo "Por defecto: $default_dirs"
-    read -p "Directorios: " input_dirs
-    
-    # Si no hay input, usar los directorios por defecto
-    if [ -z "$input_dirs" ]; then
-        input_dirs=$default_dirs
-    fi
-    
-    # Verificar y devolver solo los directorios que existen
-    local valid_dirs=""
-    for dir in $input_dirs; do
-        if [ -d "$dir" ]; then
-            valid_dirs="$valid_dirs $dir"
-        else
-            echo "Advertencia: El directorio '$dir' no existe y será ignorado"
-        fi
-    done
-    
-    if [ -z "$valid_dirs" ]; then
-        echo "Error: No se encontraron directorios válidos para procesar"
-        exit 1
-    fi
-    
-    echo "Se procesarán los siguientes directorios:$valid_dirs"
-    echo "$valid_dirs"
-}
+# Print welcome message
+echo "=== C Source Files Concatenation Tool ==="
+echo
 
-# Función para procesar los archivos .c en un directorio y sus subdirectorios
-process_directory() {
-    local dir=$1
-    local output_file=$2
-    
-    # Procesar cada subdirectorio
-    for subdir in "$dir"/*/; do
-        if [ -d "$subdir" ]; then
-            # Añadir encabezado del subdirectorio
-            echo "/* ************************************************************************** */" >> "$output_file"
-            echo "/*                                                                            */" >> "$output_file"
-            echo "/*                            src/${subdir#$dir}                                           */" >> "$output_file"
-            echo "/*                                                                            */" >> "$output_file"
-            echo "/* ************************************************************************** */" >> "$output_file"
-            echo "" >> "$output_file"
-            
-            # Encontrar y concatenar todos los archivos .c en el subdirectorio
-            find "$subdir" -maxdepth 1 -name "*.c" -type f | sort | while read -r file; do
-                echo "Procesando: $file"
-                echo "" >> "$output_file"
-                cat "$file" >> "$output_file"
-                echo "" >> "$output_file"
-            done
-        fi
-    done
-}
+# Ask for directory path
+read -p "Enter the directory path to search for .c files: " search_dir
 
-# Principal
-main() {
-    # Obtener el nombre del archivo de salida
-    OUTPUT_FILE=$(get_output_filename)
-    
-    # Obtener los directorios a procesar
-    DIRS=$(get_directories)
-    
-    # Eliminar el archivo de salida si ya existe
-    rm -f "$OUTPUT_FILE"
-    
-    # Crear el archivo de salida
-    touch "$OUTPUT_FILE"
-    
-    # Procesar cada directorio
-    for dir in $DIRS; do
-        if [ -d "$dir" ]; then
-            process_directory "$dir" "$OUTPUT_FILE"
-        fi
-    done
-    
-    echo "Archivos concatenados en $OUTPUT_FILE"
-}
+# Validate directory exists
+if [ ! -d "$search_dir" ]; then
+    echo "Error: Directory '$search_dir' does not exist."
+    exit 1
+fi
 
-# Ejecutar el script
-main
+# Create output filename with timestamp
+timestamp=$(date +%Y%m%d_%H%M%S)
+output_file="concatenated_sources_${timestamp}.c"
+
+# Initialize the output file with a header
+echo "/* Concatenated source files from $search_dir" > "$output_file"
+echo " * Generated on: $(date)" >> "$output_file"
+echo " * Files included:" >> "$output_file"
+
+# Find and list all .c files
+find "$search_dir" -type f -name "*.c" | while read -r file; do
+    echo " * - $file" >> "$output_file"
+done
+echo " */" >> "$output_file"
+echo >> "$output_file"
+
+# Concatenate all .c files
+find "$search_dir" -type f -name "*.c" | sort | while read -r file; do
+    echo "/* File: $file */" >> "$output_file"
+    echo >> "$output_file"
+    cat "$file" >> "$output_file"
+    echo >> "$output_file"
+    echo "/* End of $file */" >> "$output_file"
+    echo >> "$output_file"
+    echo "Processing: $file"
+done
+
+# Check if any files were found and processed
+if [ ! -s "$output_file" ]; then
+    echo "No .c files found in $search_dir"
+    rm "$output_file"
+    exit 1
+fi
+
+# Print completion message
+echo
+echo "Concatenation complete!"
+echo "Output saved to: $output_file"
+echo
+echo "File contents:"
+echo "-------------"
+wc -l "$output_file" | awk '{print "Total lines:", $1}'
+echo "-------------"
