@@ -6,11 +6,36 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:44:33 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/23 18:56:40 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/23 23:22:24 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+/*
+** Main sorting function that chooses the appropriate algorithm
+** based on the size of the stack
+*/
+void	sort_stack(t_stack **a, t_stack **b)
+{
+	int	size;
+
+	if (!a || !*a || is_sorted(*a))
+		return ;
+	size = stack_size(*a);
+	if (size == 2)
+		sa(a);
+	else if (size == 3)
+		sort_three(a);
+	else if (size < 10)
+		sort_small(a, b, size);
+	else
+	{
+		index_stack(*a);
+		turkish_sort(a, b);
+	}
+		
+}
 
 int	is_sorted(t_stack *stack)
 {
