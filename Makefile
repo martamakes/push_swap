@@ -6,7 +6,7 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/01 15:27:20 by mvigara-          #+#    #+#              #
-#    Updated: 2024/12/20 10:48:35 by mvigara-         ###   ########.fr        #
+#    Updated: 2024/12/24 13:25:30 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,8 @@ SORT_SRC = sort/sort_small.c \
 		  sort/rotations.c \
 		  sort/find_pos.c
 
-DEBUG_SRC = debug/print_stacks.c
+DEBUG_SRC = debug/print_stacks.c \
+			debug/print_index.c
 
 # Source files with directory prefix
 SRCS = $(addprefix $(SRC_DIR)/, $(MAIN_SRC) $(STACK_SRC) $(PARSER_SRC) $(ERROR_SRC) $(OPS_SRC) $(SORT_SRC) $(DEBUG_SRC))

@@ -6,11 +6,11 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:10:18 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/20 10:28:25 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/24 13:41:46 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/push_swap.h"
+#include "push_swap.h"
 
 t_stack	*stack_new(int value)
 {
@@ -20,7 +20,7 @@ t_stack	*stack_new(int value)
 	if (!new)
 		return (NULL);
 	new->value = value;
-	new->index = 0;
+	new->index = -1;
 	new->pos = -1;
 	new->target_pos = -1;
 	new->cost_a = -1;

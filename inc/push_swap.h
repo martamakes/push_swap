@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/23 22:49:14 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/24 17:09:20 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ t_stack	*get_cheapest(t_stack *stack);
 void	move_cheapest_to_a(t_stack **a, t_stack **b);
 void	move_cheapest_to_b(t_stack **a, t_stack **b);
 void	shift_stack(t_stack **stack);
+void	update_positions(t_stack *stack);
 int		find_target_pos_b_to_a(t_stack *b_node, t_stack *stack_a);
 int		find_target_pos_a_to_b(t_stack *a_node, t_stack *stack_b);
 
@@ -88,5 +89,8 @@ int		find_target_pos_a_to_b(t_stack *a_node, t_stack *stack_b);
 void	print_stacks(t_stack *stack_a, t_stack *stack_b);
 void	print_one(t_stack *stack, char stack_name);
 void	print_debug_str(char *str);
+void	print_debug_nbr(int n);
+void	print_debug_char(char c);
+void    print_stack_index(t_stack *stack, char stack_name);
 
 #endif

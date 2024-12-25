@@ -6,11 +6,11 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:46:40 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/23 22:42:46 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/25 08:41:58 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/push_swap.h"
+#include "push_swap.h"
 
 /*
 ** Checks for duplicate values in the stack
@@ -36,36 +36,48 @@ int	check_duplicates(t_stack *stack)
 	return (0);
 }
 
+static t_stack *get_min_node(t_stack *stack)
+{
+    t_stack *current;
+    t_stack *min_node;
+    int     min_val;
+
+    current = stack;
+    min_node = NULL;
+    min_val = INT_MAX;
+    while (current)
+    {
+        if (current->index == -1 && current->value < min_val)
+        {
+            min_val = current->value;
+            min_node = current;
+        }
+        current = current->next;
+    }   
+    return (min_node);
+}
+
 void    index_stack(t_stack *stack)
 {
     t_stack *current;
-    t_stack *tmp;
     int     size;
-    int     min;
-    int     index;
+    int     i;
 
+    if (!stack)
+        return;
     size = stack_size(stack);
-    index = 0;
-    while (index < size)
+    i = 0;
+    while (i < size)
     {
-        min = INT_MAX;
-        current = stack;
-        while (current)
-        {
-            if (current->index == -1 && current->value <= min)
-                min = current->value;
-            current = current->next;
-        }
-        tmp = stack;
-        while (tmp)
-        {
-            if (tmp->value == min && tmp->index == -1)
-            {
-                tmp->index = index;
-                break;
-            }
-            tmp = tmp->next;
-        }
-        index++;
+        current = get_min_node(stack);
+        if (current)
+            current->index = i;
+        i++;
+    }
+    update_positions(stack);
+    if (VISUALS)
+    {
+        ft_printf("\nFinal indexed stack:\n");
+		print_stack_index(stack, 'A');
     }
 }

@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 08:58:45 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/23 22:36:19 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/24 00:03:17 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	get_target_positions(t_stack *a, t_stack *b)
 	if (!a || !b)
 		return ;
 	current = a;
-	update_positions(a);
+	update_positions(a); //pone indice de posición en stack a
 	update_positions(b);
 	while (current)
 	{
