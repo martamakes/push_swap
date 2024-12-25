@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 13:21:36 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/24 17:10:00 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/25 09:31:08 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	print_stack_index(t_stack *stack, char stack_name)
 	temp = stack;
 	print_debug_str("Stack ");
 	print_debug_char(stack_name);
-	print_debug_str(": ");
+	print_debug_str(": \n");
 	while (temp)
 	{
 		print_debug_nbr(temp->value);
