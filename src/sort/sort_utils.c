@@ -6,63 +6,39 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 08:58:45 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/24 00:03:17 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/25 10:59:22 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 /*
-** Updates position values for all nodes in a stack
-** This is crucial for cost calculations
-*/
-void	update_positions(t_stack *stack)
-{
-	int		i;
-	t_stack	*current;
-
-	i = 0;
-	current = stack;
-	while (current)
-	{
-		current->pos = i;
-		i++;
-		current = current->next;
-	}
-}
-
-/*
 ** Gets total cost of moving elements to their target positions
 ** cost_a: moves needed in stack a
 ** cost_b: moves needed in stack b
 */
-void    get_cost(t_stack *stack, t_stack *other)
+static int	get_rotations_needed(int pos, int size)
 {
-    int     size_a;
-    int     size_b;
-    t_stack *temp;
+	if (pos <= size / 2)
+		return (pos);
+	return (-(size - pos));
+}
 
-    size_a = stack_size(stack);
-    size_b = stack_size(other);
-    temp = stack;
-    while (temp)
-    {
-        temp->cost_a = temp->pos;
-        if (temp->pos > size_a / 2)
-            temp->cost_a = -(size_a - temp->pos);
-        temp->cost_b = temp->target_pos;
-        if (temp->target_pos > size_b / 2)
-            temp->cost_b = -(size_b - temp->target_pos);
-        if ((temp->cost_a >= 0 && temp->cost_b >= 0) ||
-            (temp->cost_a < 0 && temp->cost_b < 0))
-        {
-            if (ft_abs(temp->cost_a) > ft_abs(temp->cost_b))
-                temp->cost_b = temp->cost_a;
-            else
-                temp->cost_a = temp->cost_b;
-        }
-        temp = temp->next;
-    }
+void	get_cost(t_stack *stack, t_stack *other)
+{
+	int		size_a;
+	int		size_b;
+	t_stack	*temp;
+
+	size_a = stack_size(stack);
+	size_b = stack_size(other);
+	temp = stack;
+	while (temp)
+	{
+		temp->cost_a = get_rotations_needed(temp->pos, size_a);
+		temp->cost_b = get_rotations_needed(temp->target_pos, size_b);
+		temp = temp->next;
+	}
 }
 
 /*
@@ -71,17 +47,23 @@ void    get_cost(t_stack *stack, t_stack *other)
 */
 void	get_target_positions(t_stack *a, t_stack *b)
 {
-	t_stack	*current;
+	t_stack	*current_a;
 
 	if (!a || !b)
 		return ;
-	current = a;
-	update_positions(a); //pone indice de posición en stack a
+	update_positions(a);
 	update_positions(b);
-	while (current)
+	current_a = a;
+	while (current_a)
 	{
-		current->target_pos = find_target_pos_a_to_b(current, b);
-		current = current->next;
+		current_a->target_pos = find_target_pos_a_to_b(current_a, b);
+		current_a = current_a->next;
+	}
+	if (VISUALS)
+	{
+		print_debug_str("\nTarget positions calculated:\n");
+		print_stack_index(a, 'A');
+		print_stack_index(b, 'B');
 	}
 }
 
@@ -91,27 +73,28 @@ void	get_target_positions(t_stack *a, t_stack *b)
 */
 t_stack	*get_cheapest(t_stack *stack)
 {
-	t_stack	*cheapest;
-	t_stack	*current;
-	int		lowest_cost;
-	int		cost;
+    t_stack	*cheapest;
+    t_stack	*current;
+    int		lowest_cost;
+    int		current_cost;
 
-	if (!stack)
-		return (NULL);
-	cheapest = stack;
-	lowest_cost = ft_abs(stack->cost_a) + ft_abs(stack->cost_b);
-	current = stack->next;
-	while (current)
-	{
-		cost = ft_abs(current->cost_a) + ft_abs(current->cost_b);
-		if (cost < lowest_cost)
-		{
-			lowest_cost = cost;
-			cheapest = current;
-		}
-		current = current->next;
-	}
-	return (cheapest);
+    if (!stack)
+        return (NULL);
+    cheapest = stack;
+    lowest_cost = ft_abs(stack->cost_a) + ft_abs(stack->cost_b);
+    current = stack->next;
+    while (current)
+    {
+        current_cost = ft_abs(current->cost_a) + ft_abs(current->cost_b);
+        if (current_cost < lowest_cost || 
+            (current_cost == lowest_cost && current->index > cheapest->index))
+        {
+            lowest_cost = current_cost;
+            cheapest = current;
+        }
+        current = current->next;
+    }
+    return (cheapest);
 }
 
 /*

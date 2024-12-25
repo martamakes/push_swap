@@ -6,7 +6,7 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/01 15:27:20 by mvigara-          #+#    #+#              #
-#    Updated: 2024/12/24 13:25:30 by mvigara-         ###   ########.fr        #
+#    Updated: 2024/12/25 11:08:35 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,9 @@ SORT_SRC = sort/sort_small.c \
           sort/sort_large.c \
           sort/sort_utils.c \
 		  sort/rotations.c \
-		  sort/find_pos.c
+		  sort/find_pos.c \
+		  sort/turk_sort.c \
+		  sort/move_b_to_a.c
 
 DEBUG_SRC = debug/print_stacks.c \
 			debug/print_index.c

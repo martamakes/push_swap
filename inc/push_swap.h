@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/24 17:09:20 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/25 11:20:48 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	shift_stack(t_stack **stack);
 void	update_positions(t_stack *stack);
 int		find_target_pos_b_to_a(t_stack *b_node, t_stack *stack_a);
 int		find_target_pos_a_to_b(t_stack *a_node, t_stack *stack_b);
+int		find_closest_bigger_position(t_stack *b_node, t_stack *stack_a);
 
 // debug
 void	print_stacks(t_stack *stack_a, t_stack *stack_b);
