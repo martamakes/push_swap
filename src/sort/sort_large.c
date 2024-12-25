@@ -6,11 +6,36 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 19:14:26 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/23 23:46:09 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/12/23 23:03:07 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+/*
+** Main sorting function that chooses the appropriate algorithm
+** based on the size of the stack
+*/
+void	sort_stack(t_stack **a, t_stack **b)
+{
+	int	size;
+
+	if (!a || !*a || is_sorted(*a))
+		return ;
+	size = stack_size(*a);
+	if (size == 2)
+		sa(a);
+	else if (size == 3)
+		sort_three(a);
+	else if (size < 10)
+		sort_small(a, b, size);
+	else
+	{
+		index_stack(*a);
+		turkish_sort(a, b);
+	}
+		
+}
 
 /*
 ** Shifts the stack until the smallest number is at the top
@@ -66,28 +91,28 @@ void    move_cheapest_to_a(t_stack **a, t_stack **b)
 
 void    turkish_sort(t_stack **a, t_stack **b)
 {
-    int size_a;
+    int size;
+    int mid_index;
 
-    size_a = stack_size(*a);
-	pb(a, b);
-	pb(a, b);
-	size_a -= 2;
-	if((*b)->value < ((*b)->next->value))
-		sb(b);
-	while(size_a > 3)
+    size = stack_size(*a);
+    mid_index = size / 2;
+    while (size > 3)
 	{
-		get_target_positions(*a, *b);
-		get_cost(*a, *b);
-		move_cheapest_to_b(a, b);
-		size_a--;
+		if((*a)->index < mid_index)
+		{
+			pb(a, b);
+			if(*b && (*b)->index < mid_index / 2)
+				rb(b);
+		}
+		else
+			ra(a);
 	}
-    if (*a)
-        sort_three(a);
-    while (*b)
-    {
-        get_target_positions_b(*b, *a);
-        get_cost(*b, *a);
-        move_cheapest_to_a(a, b);
-    }
+	sort_three(a);
+	while(*b)
+	{
+		get_target_positions_b(*b, *a);
+		get_cost(*b, *a);
+		move_cheapest_to_a(a, b);
+	}
     shift_stack(a);
 }
