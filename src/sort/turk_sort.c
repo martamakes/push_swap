@@ -12,6 +12,14 @@
 
 #include "push_swap.h"
 
+static void	init_b_stack(t_stack **a, t_stack **b)
+{
+	pb(a, b);
+	pb(a, b);
+	if ((*b)->index < (*b)->next->index)
+		sb(b);
+}
+
 void	turkish_sort(t_stack **a, t_stack **b)
 {
 	int	size;
@@ -19,17 +27,7 @@ void	turkish_sort(t_stack **a, t_stack **b)
 	size = stack_size(*a);
 	if (size <= 3)
 		return (sort_three(a));
-	pb(a, b);
-	pb(a, b);
-	if ((*b)->index < (*b)->next->index)
-    {
-		if ((*a)->index > (*a)->next->index &&
-            ft_abs((*a)->index - (*b)->next->index) < 
-            ft_abs((*a)->next->index - (*b)->next->index))
-            ss(a, b);
-        else
-            sb(b);
-    }
+	init_b_stack(a, b);
 	while (size > 3)
 	{
 		get_target_positions(*a, *b);

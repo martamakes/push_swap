@@ -26,13 +26,13 @@
 
 typedef struct s_stack
 {
-	int value;            // Valor numérico del nodo
-	int index;            // Índice para ordenación
-	int pos;              // Posición actual en el stack
-	int target_pos;       // Posición objetivo en el otro stack
-	int cost_a;           // Coste de mover en stack a
-	int cost_b;           // Coste de mover en stack b
-	struct s_stack *next; // Puntero al siguiente nodo
+	int				value;
+	int				index;
+	int				pos;
+	int				target_pos;
+	int				cost_a;
+	int				cost_b;
+	struct s_stack	*next;
 }		t_stack;
 
 // Stack operations
@@ -40,6 +40,7 @@ t_stack	*stack_new(int value);
 void	stack_add_back(t_stack **stack, t_stack *new);
 t_stack	*stack_last(t_stack *stack);
 int		stack_size(t_stack *stack);
+
 // Operations functions
 void	sa(t_stack **stack_a);
 void	sb(t_stack **stack_b);
@@ -65,26 +66,25 @@ void	error_exit(t_stack **stack_a, t_stack **stack_b);
 // Sorting algorithms
 void	sort_three(t_stack **stack);
 void	sort_stack(t_stack **stack_a, t_stack **stack_b);
+void	sort_small(t_stack **a, t_stack **b, int size);
+void	turkish_sort(t_stack **a, t_stack **b);
 
 // Utils
 int		is_sorted(t_stack *stack);
 void	free_stack(t_stack **stack);
 int		get_min_pos(t_stack *stack);
 void	do_rotations(t_stack **a, t_stack **b, t_stack *cheapest);
-void    index_stack(t_stack *stack);
-void	turkish_sort(t_stack **a, t_stack **b);
+void	index_stack(t_stack *stack);
 void	get_cost(t_stack *a, t_stack *b);
 void	get_target_positions(t_stack *a, t_stack *b);
 void	get_target_positions_b(t_stack *b, t_stack *a);
-void	sort_small(t_stack **a, t_stack **b, int size);
 t_stack	*get_cheapest(t_stack *stack);
 void	move_cheapest_to_a(t_stack **a, t_stack **b);
 void	move_cheapest_to_b(t_stack **a, t_stack **b);
 void	shift_stack(t_stack **stack);
 void	update_positions(t_stack *stack);
-int		find_target_pos_b_to_a(t_stack *b_node, t_stack *stack_a);
-int		find_target_pos_a_to_b(t_stack *a_node, t_stack *stack_b);
-int		find_closest_bigger_position(t_stack *b_node, t_stack *stack_a);
+int		find_target_pos_b_to_a(t_stack *b_node, t_stack *a);
+int		find_target_pos_a_to_b(t_stack *a_node, t_stack *b);
 
 // debug
 void	print_stacks(t_stack *stack_a, t_stack *stack_b);
@@ -92,6 +92,6 @@ void	print_one(t_stack *stack, char stack_name);
 void	print_debug_str(char *str);
 void	print_debug_nbr(int n);
 void	print_debug_char(char c);
-void    print_stack_index(t_stack *stack, char stack_name);
+void	print_stack_index(t_stack *stack, char stack_name);
 
 #endif

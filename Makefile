@@ -59,13 +59,12 @@ OPS_SRC = operations/swap_ops.c \
 SORT_SRC = sort/sort_small.c \
           sort/sort_large.c \
           sort/sort_utils.c \
-		  sort/rotations.c \
-		  sort/find_pos.c \
-		  sort/turk_sort.c \
-		  sort/move_b_to_a.c
+          sort/rotations.c \
+          sort/find_pos.c \
+          sort/turk_sort.c
 
 DEBUG_SRC = debug/print_stacks.c \
-			debug/print_index.c
+            debug/print_index.c
 
 # Source files with directory prefix
 SRCS = $(addprefix $(SRC_DIR)/, $(MAIN_SRC) $(STACK_SRC) $(PARSER_SRC) $(ERROR_SRC) $(OPS_SRC) $(SORT_SRC) $(DEBUG_SRC))
