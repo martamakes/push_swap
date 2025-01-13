@@ -9,4 +9,5 @@ lib/libft/libft.a
 obj/
 my-push.c
 concatenated*
-push*
+formatter_env/
+*.txt

@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:46:40 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/25 08:41:58 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/13 19:29:52 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static t_stack *get_min_node(t_stack *stack)
             min_node = current;
         }
         current = current->next;
-    }   
+    }
     return (min_node);
 }
 

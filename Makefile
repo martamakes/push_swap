@@ -6,10 +6,9 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/01 15:27:20 by mvigara-          #+#    #+#              #
-#    Updated: 2024/12/24 13:25:30 by mvigara-         ###   ########.fr        #
+#    Updated: 2025/01/13 20:30:01 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
 
 # Colors
 RED := $(shell printf "\033[0;31m")
@@ -59,11 +58,16 @@ OPS_SRC = operations/swap_ops.c \
 SORT_SRC = sort/sort_small.c \
           sort/sort_large.c \
           sort/sort_utils.c \
-		  sort/rotations.c \
-		  sort/find_pos.c
+          sort/rotations.c \
+          sort/find_pos.c \
+          sort/turk_sort.c\
+		  sort/move_to_b.c \
+		  sort/push_back.c \
+		  sort/cost_utils.c
 
 DEBUG_SRC = debug/print_stacks.c \
-			debug/print_index.c
+            debug/print_index.c \
+            debug/print_costs.c
 
 # Source files with directory prefix
 SRCS = $(addprefix $(SRC_DIR)/, $(MAIN_SRC) $(STACK_SRC) $(PARSER_SRC) $(ERROR_SRC) $(OPS_SRC) $(SORT_SRC) $(DEBUG_SRC))

@@ -6,11 +6,41 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 08:51:46 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/19 08:39:33 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/13 22:32:41 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+/*
+** Finds the position of the minimum value in the stack
+** Returns the position (0-based index) of the minimum value
+*/
+int	get_min_pos(t_stack *stack)
+{
+	int		min;
+	int		pos;
+	int		min_pos;
+	t_stack	*current;
+
+	if (!stack)
+		return (0);
+	min = INT_MAX;
+	pos = 0;
+	min_pos = 0;
+	current = stack;
+	while (current)
+	{
+		if (current->value < min)
+		{
+			min = current->value;
+			min_pos = pos;
+		}
+		current = current->next;
+		pos++;
+	}
+	return (min_pos);
+}
 
 /*
 ** Finds the highest value in the stack
@@ -64,7 +94,7 @@ void	sort_three(t_stack **stack)
 
 static void	move_min_to_top(t_stack **a, int min_pos, int mid)
 {
-	while (min_pos > 0)
+	while (min_pos > 0 && !is_sorted(*a))
 	{
 		if (min_pos <= mid)
 			ra(a);
@@ -78,20 +108,27 @@ void	sort_small(t_stack **a, t_stack **b, int size)
 {
 	int	mid;
 
+	if (is_sorted(*a))
+		return;
+		
 	if (size == 2)
 		sa(a);
 	else if (size == 3)
 		sort_three(a);
 	else
 	{
-		while (size > 3)
+		while (size > 3 && !is_sorted(*a))
 		{
 			mid = size / 2;
 			move_min_to_top(a, get_min_pos(*a), mid);
-			pb(a, b);
-			size--;
+			if (!is_sorted(*a))
+			{
+				pb(a, b);
+				size--;
+			}		
 		}
-		sort_three(a);
+		if (!is_sorted(*a))
+			sort_three(a);
 		while (*b)
 			pa(a, b);
 	}
