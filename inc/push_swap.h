@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/25 11:20:48 by mvigara-         ###   ########.fr       */
+/*   Updated: 2024/01/13 10:45:48 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <limits.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdbool.h>
 
 # ifndef DEBUG
 #  define VISUALS 0
@@ -32,6 +33,7 @@ typedef struct s_stack
 	int				target_pos;
 	int				cost_a;
 	int				cost_b;
+	bool			is_cheapest;
 	struct s_stack	*next;
 }		t_stack;
 
@@ -68,6 +70,16 @@ void	sort_three(t_stack **stack);
 void	sort_stack(t_stack **stack_a, t_stack **stack_b);
 void	sort_small(t_stack **a, t_stack **b, int size);
 void	turkish_sort(t_stack **a, t_stack **b);
+void	move_to_b(t_stack **a, t_stack **b);
+void	push_back_to_a(t_stack **a, t_stack **b);
+void	return_single_node(t_stack **a, t_stack **b);
+
+// Cost calculation and optimization
+void	calculate_node_cost(t_stack *node, int size_curr, int size_target,
+			bool is_a_to_b);
+t_stack	*get_cheapest_node(t_stack *stack, bool ascending);
+void	find_target_positions(t_stack *src, t_stack *dst, bool is_a_to_b);
+int		calculate_weighted_cost(t_stack *node, int stack_size);
 
 // Utils
 int		is_sorted(t_stack *stack);
@@ -75,23 +87,17 @@ void	free_stack(t_stack **stack);
 int		get_min_pos(t_stack *stack);
 void	do_rotations(t_stack **a, t_stack **b, t_stack *cheapest);
 void	index_stack(t_stack *stack);
-void	get_cost(t_stack *a, t_stack *b);
-void	get_target_positions(t_stack *a, t_stack *b);
-void	get_target_positions_b(t_stack *b, t_stack *a);
-t_stack	*get_cheapest(t_stack *stack);
-void	move_cheapest_to_a(t_stack **a, t_stack **b);
-void	move_cheapest_to_b(t_stack **a, t_stack **b);
 void	shift_stack(t_stack **stack);
 void	update_positions(t_stack *stack);
-int		find_target_pos_b_to_a(t_stack *b_node, t_stack *a);
-int		find_target_pos_a_to_b(t_stack *a_node, t_stack *b);
 
-// debug
+// Debug and Visualization
 void	print_stacks(t_stack *stack_a, t_stack *stack_b);
 void	print_one(t_stack *stack, char stack_name);
 void	print_debug_str(char *str);
 void	print_debug_nbr(int n);
 void	print_debug_char(char c);
 void	print_stack_index(t_stack *stack, char stack_name);
+void	print_costs(t_stack *stack, char stack_name);
+void	print_weighted_cost(t_stack *node, int weighted_cost);
 
 #endif

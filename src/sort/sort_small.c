@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 08:51:46 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/25 09:49:27 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/13 21:20:18 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,11 @@ void	sort_small(t_stack **a, t_stack **b, int size)
 		{
 			mid = size / 2;
 			move_min_to_top(a, get_min_pos(*a), mid);
-			pb(a, b);
-			size--;
+			if (!is_sorted(*a))
+			{
+				pb(a, b);
+				size--;
+			}		
 		}
 		sort_three(a);
 		while (*b)

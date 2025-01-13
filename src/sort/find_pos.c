@@ -5,109 +5,110 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/19 08:56:36 by mvigara-          #+#    #+#             */
-/*   Updated: 2025/01/13 18:30:50 by mvigara-         ###   ########.fr       */
+/*   Created: 2024/01/13 12:48:42 by mvigara-          #+#    #+#             */
+/*   Updated: 2024/01/13 12:48:42 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static int	get_highest_index_pos(t_stack *stack)
+static t_stack	*find_biggest_node(t_stack *stack)
 {
+	t_stack	*biggest;
 	t_stack	*current;
-	int		highest_index;
-	int		highest_pos;
 
 	if (!stack)
-		return (0);
-	current = stack;
-	highest_index = INT_MIN;
-	highest_pos = 0;
+		return (NULL);
+	biggest = stack;
+	current = stack->next;
 	while (current)
 	{
-		if (current->index > highest_index)
-		{
-			highest_index = current->index;
-			highest_pos = current->pos;
-		}
+		if (current->index > biggest->index)
+			biggest = current;
 		current = current->next;
 	}
-	return (highest_pos);
+	return (biggest);
 }
 
-static int	get_lowest_index_pos(t_stack *stack)
+static t_stack	*find_smallest_node(t_stack *stack)
 {
+	t_stack	*smallest;
 	t_stack	*current;
-	int		lowest_index;
-	int		lowest_pos;
 
 	if (!stack)
-		return (0);
-	current = stack;
-	lowest_index = INT_MAX;
-	lowest_pos = 0;
+		return (NULL);
+	smallest = stack;
+	current = stack->next;
 	while (current)
 	{
-		if (current->index < lowest_index)
-		{
-			lowest_index = current->index;
-			lowest_pos = current->pos;
-		}
+		if (current->index < smallest->index)
+			smallest = current;
 		current = current->next;
 	}
-	return (lowest_pos);
+	return (smallest);
 }
 
-static int	find_target_in_descending_stack(t_stack *a_node, t_stack *b)
+/*
+** A->B: target is closest smaller number, or top of biggest if none smaller
+** B->A: target is closest larger number, or smallest if none larger
+*/
+void	find_target_positions(t_stack *src, t_stack *dst, bool is_a_to_b)
 {
-	t_stack	*current;
-	int		target_index;
-	int		target_pos;
+	t_stack	*current_src;
+	t_stack	*current_dst;
+	t_stack	*target;
+	int		closest;
 
-	if (!b)
-		return (0);
-	target_index = INT_MIN;
-	target_pos = 0;
-	current = b;
-	while (current)
+	current_src = src;
+	while (current_src)
 	{
-		if (current->index < a_node->index && current->index > target_index)
+		closest = is_a_to_b ? INT_MIN : INT_MAX;
+		target = NULL;
+		current_dst = dst;
+		while (current_dst)
 		{
-			target_index = current->index;
-			target_pos = current->pos;
+			if (is_a_to_b && current_dst->index == current_src->index - 1)
+			{
+				target = current_dst;
+				break ;
+			}
+			else if (!is_a_to_b && current_dst->index == current_src->index + 1)
+			{
+				target = current_dst;
+				break ;
+			}
+			current_dst = current_dst->next;
 		}
-		current = current->next;
-	}
-	if (target_index == INT_MIN)
-		return (get_highest_index_pos(b));
-	return (target_pos);
-}
-
-int	find_target_pos_a_to_b(t_stack *a_node, t_stack *stack_b)
-{
-	return (find_target_in_descending_stack(a_node, stack_b));
-}
-
-int	find_target_pos_b_to_a(t_stack *b_node, t_stack *stack_a)
-{
-	t_stack	*current;
-	int		lowest_bigger_index;
-	int		target_pos;
-
-	if (!stack_a)
-		return (0);
-	current = stack_a;
-	lowest_bigger_index = INT_MAX;
-	target_pos = get_lowest_index_pos(stack_a);
-	while (current)
-	{
-		if (current->index > b_node->index && 
-			current->index < lowest_bigger_index)
+		if (!target)
 		{
-			lowest_bigger_index = current->index;
-			target_pos = current->pos;
+			current_dst = dst;
+			while (current_dst)
+			{
+				if (is_a_to_b && current_dst->index < current_src->index
+					&& current_dst->index > closest)
+				{
+					closest = current_dst->index;
+					target = current_dst;
+				}
+				else if (!is_a_to_b && current_dst->index > current_src->index
+					&& current_dst->index < closest)
+				{
+					closest = current_dst->index;
+					target = current_dst;
+				}
+				current_dst = current_dst->next;
+			}
 		}
-		current = current->next;
+		if (!target)
+		{
+			if (is_a_to_b)
+				target = find_biggest_node(dst);
+			else
+				target = find_smallest_node(dst);
+			current_src->target_pos = target ? target->pos : 0;
+		}
+		else
+			current_src->target_pos = target->pos;
+		current_src = current_src->next;
 	}
-	return (target_pos);
 }
