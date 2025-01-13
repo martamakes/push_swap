@@ -170,9 +170,9 @@ Strategy benefits:
 	b. files contains only 5 functions
 	c. no ternaries
 	d. only if and while (no for)
-	e. no more than 5 variables per function
+	e. no more than 4 variables per function
 	f. only 80 chars per line
-	
+
 
 
 

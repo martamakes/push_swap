@@ -15,7 +15,8 @@ The current implementation of the Turkish sort algorithm in `src/sort/turk_sort.
 2. **Optimize Target Finding**: Update the target finding functions to handle larger stacks more efficiently.
 3. **Refine Push Selection**: Refine the push selection strategy to handle larger stacks more efficiently.
 4. **Optimize Return Strategy**: Update the return strategy to handle larger stacks more efficiently.
-5. **Testing**: Implement comprehensive testing to ensure the algorithm works correctly for stacks of various sizes.
+5. **Code Style Improvements**: Refactor ternary operators to if-else statements in move_to_b.c for better readability and Norminette compliance.
+6. **Testing**: Implement comprehensive testing to ensure the algorithm works correctly for stacks of various sizes.
 
 ## Next Steps
 1. Review the current implementation and identify specific areas for improvement.
