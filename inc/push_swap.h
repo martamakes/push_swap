@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/01/13 10:45:48 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/13 22:08:06 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	calculate_node_cost(t_stack *node, int size_curr, int size_target,
 			bool is_a_to_b);
 t_stack	*get_cheapest_node(t_stack *stack, bool ascending);
 void	find_target_positions(t_stack *src, t_stack *dst, bool is_a_to_b);
-int		calculate_weighted_cost(t_stack *node, int stack_size);
+int		calculate_weighted_cost(t_stack *node);
 
 // Utils
 int		is_sorted(t_stack *stack);

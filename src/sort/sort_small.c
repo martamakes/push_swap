@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 08:51:46 by mvigara-          #+#    #+#             */
-/*   Updated: 2025/01/13 21:20:18 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/13 22:32:41 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	sort_three(t_stack **stack)
 
 static void	move_min_to_top(t_stack **a, int min_pos, int mid)
 {
-	while (min_pos > 0)
+	while (min_pos > 0 && !is_sorted(*a))
 	{
 		if (min_pos <= mid)
 			ra(a);
@@ -108,13 +108,16 @@ void	sort_small(t_stack **a, t_stack **b, int size)
 {
 	int	mid;
 
+	if (is_sorted(*a))
+		return;
+		
 	if (size == 2)
 		sa(a);
 	else if (size == 3)
 		sort_three(a);
 	else
 	{
-		while (size > 3)
+		while (size > 3 && !is_sorted(*a))
 		{
 			mid = size / 2;
 			move_min_to_top(a, get_min_pos(*a), mid);
@@ -124,7 +127,8 @@ void	sort_small(t_stack **a, t_stack **b, int size)
 				size--;
 			}		
 		}
-		sort_three(a);
+		if (!is_sorted(*a))
+			sort_three(a);
 		while (*b)
 			pa(a, b);
 	}

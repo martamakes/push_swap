@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:10:18 by mvigara-          #+#    #+#             */
-/*   Updated: 2025/01/13 19:36:14 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/13 22:16:01 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,17 @@ t_stack	*find_node_by_index(t_stack *stack, int index)
 		stack = stack->next;
 	}
 	return (NULL);
+}
+
+void	update_positions(t_stack *stack)
+{
+	int	pos;
+
+	pos = 0;
+	while (stack)
+	{
+		stack->pos = pos;
+		stack = stack->next;
+		pos++;
+	}
 }
