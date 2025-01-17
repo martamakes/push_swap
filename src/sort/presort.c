@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../../inc/push_swap.h"
 
 static void	handle_nearly_sorted(t_stack **a)
 {
@@ -54,9 +54,10 @@ void	push_optimal_pair(t_stack **a, t_stack **b, int first, int second)
 
 void	init_b_stack(t_stack **a, t_stack **b)
 {
-	int	size;
-	int	first_pos;
-	int	second_pos;
+	t_group	group;
+	int		size;
+	int		first_pos;
+	int		second_pos;
 
 	if (!a || !*a || stack_size(*a) < 4)
 		return ;
@@ -66,11 +67,17 @@ void	init_b_stack(t_stack **a, t_stack **b)
 		handle_nearly_sorted(a);
 		return ;
 	}
-	first_pos = 0;
-	second_pos = 0;
-	find_min_candidates(*a, &first_pos, &second_pos);
-	if (is_position_optimal(first_pos, size))
-		push_optimal_pair(a, b, first_pos, second_pos);
+	group = find_best_group(*a);
+	if (group.size >= 3)
+		move_group_to_b(a, b, &group);
 	else
-		push_sequential_pair(a, b);
+	{
+		first_pos = 0;
+		second_pos = 0;
+		find_min_candidates(*a, &first_pos, &second_pos);
+		if (is_position_optimal(first_pos, size))
+			push_optimal_pair(a, b, first_pos, second_pos);
+		else
+			push_sequential_pair(a, b);
+	}
 }

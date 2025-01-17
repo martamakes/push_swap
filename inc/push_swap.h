@@ -37,6 +37,14 @@ typedef struct s_stack
 	struct s_stack	*next;
 }		t_stack;
 
+typedef struct s_group
+{
+	int		start_index;
+	int		end_index;
+	int		size;
+	int		position;
+}		t_group;
+
 // Stack operations
 t_stack	*stack_new(int value);
 void	stack_add_back(t_stack **stack, t_stack *new);
@@ -83,6 +91,11 @@ void	find_min_candidates(t_stack *stack, int *first, int *second);
 int		count_out_of_place(t_stack *stack);
 int		is_position_optimal(int pos, int size);
 void	rotate_to_position(t_stack **a, int min_pos, int size);
+
+// Group management
+t_group	find_best_group(t_stack *stack);
+void	move_group_to_b(t_stack **a, t_stack **b, t_group *group);
+int		get_group_rotations(int position, int size);
 
 // Cost calculation and optimization
 void	calculate_node_cost(t_stack *node, int size_curr, int size_target,

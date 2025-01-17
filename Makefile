@@ -6,7 +6,7 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/01 15:27:20 by mvigara-          #+#    #+#              #
-#    Updated: 2025/01/13 20:30:01 by mvigara-         ###   ########.fr        #
+#    Updated: 2025/01/17 17:28:28 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,7 +65,9 @@ SORT_SRC = sort/sort_small.c \
           sort/push_back.c \
           sort/cost_utils.c \
           sort/presort.c \
-          sort/presort_utils.c
+          sort/presort_utils.c \
+		  sort/group_moves.c \
+		  sort/group_utils.c
 
 DEBUG_SRC = debug/print_stacks.c \
             debug/print_index.c \
