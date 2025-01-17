@@ -1,172 +1,41 @@
-# Turkish Sort Algorithm - Optimized Implementation Plan
+# Algoritmo Turkish Sort
 
-## Overview
-The Turkish sort algorithm efficiently sorts a stack using two stacks and a limited set of operations. It uses indexing to optimize decisions about which numbers to move and where to place them.
+El algoritmo Turkish Sort es una variación del algoritmo de ordenación que utiliza dos stacks. Se basa en una estrategia de costes para determinar el movimiento más eficiente en cada paso.
 
-## Data Structure
-Each node contains:
-- value: The actual number
-- index: Position in final sorted array (0 = smallest)
-- pos: Current position in stack
-- target_pos: Position of target node
-- cost_a: Moves needed in stack A
-- cost_b: Moves needed in stack B
+## Pasos principales
 
-## Algorithm Phases
+1. Indexar el stack A: Asignar a cada número su posición final en el stack ordenado.
+2. Inicializar stack B: Mover los primeros elementos según una estrategia inicial.
+3. Mover elementos a B: Calcular costes y mover elementos hasta quedar 3 en A.
+4. Ordenar los 3 elementos en A.
+5. Devolver elementos a A: Calcular posiciones objetivo y costes para cada movimiento.
+6. Alineación final: Rotar A para que el mínimo quede arriba.
 
-first
-sort 2
-sort 3
-if stack is under 10
-```
-void	sort_small(t_stack **a, t_stack **b, int size)
-{
-	int	mid;
+## Cálculo de costes
 
-	if (is_sorted(*a))
-		return;
-		
-	if (size == 2)
-		sa(a);
-	else if (size == 3)
-		sort_three(a);
-	else
-	{
-		while (size > 3 && !is_sorted(*a))
-		{
-			mid = size / 2;
-			move_min_to_top(a, get_min_pos(*a), mid);
-			if (!is_sorted(*a))
-			{
-				pb(a, b);
-				size--;
-			}		
-		}
-		if (!is_sorted(*a))
-			sort_three(a);
-		while (*b)
-			pa(a, b);
-	}
-}
-```
+- Para cada elemento, se calcula su posición objetivo en el otro stack
+- Se calcula el coste de rotación en ambos stacks
+- Se elige el elemento con menor coste total de movimiento
+- Se realizan las rotaciones y el push
 
-### Phase 1: Initial Setup
-if stack is 10 or more
-Index the stack (function void    index_stack(t_stack *stack) in src/stack/stack_init.c)
-Look for the smallest index
-	Phase 1.1.
-	if the stack is mostly sorted and the smallest index is less than 10 rotations away, rotate to top, ra if its top half or rra if its bottom half.
-	if its too far away just push the first node to b
-	check if stack a is sorted
-		if sorted
-			return b node(s) to as in phase 4
-		if not sorted
-			repeat phase 1.1 to push a second node to b
+## Optimización actual
 
-2. If B[0] < B[1], swap B
-3. If A is now sorted:
-   - Return B nodes optimally
-   - Finish
-4. Else continue to Phase 2
+El algoritmo incluye varias optimizaciones:
+- Detección de stacks casi ordenados (≤3 elementos fuera de lugar)
+- Selección de elementos basada en costes ponderados
+- Uso de rotaciones dobles cuando es posible
 
-### Phase 2: Moving to Stack B (Core Phase)
-While A has > 3 nodes:
-1. Update positions
-2. For each A node:
-   - Find target in B (closest smaller index)
-   - if no smaller index, find the highest.
-   - Calculate moves needed for A node to move to top of stack
-   - Calculate moves needed for B target to move to top of stack
-   - Calculate total cost
-3. Choose node with lowest cost
-   - Break ties with higher index
-4. Execute move with optimizations:
-   - Use rr/rrr when possible
-		if both nodes are on top half or top bottom
-			perform the rotation or reverse rotation until one or both reach top position in stack
-				if the other still need to keep rotating, keep rotation until its in top position
-				push a to b
-				check if a is sorted.
-					if not sorted keep pushing nodes to b
-				if sorted
-					push back nodes from b to a as in phase 4
-   - Remember to Use shortest path rotations
+## Posibles optimizaciones:
 
+1. Preagrupación inteligente:
+   * En lugar de mover uno a uno, podríamos identificar grupos de números cercanos y moverlos juntos
+   * Esto reduciría el número total de operaciones de rotación
 
-### Phase 3: Sort Three
-When 3 nodes remain in A:
-sort_three (as in function void	sort_three(t_stack **stack) in src/sort/sort_small.c)
-1. Find highest value position
-2. If highest at top:
-   - rotate_a
-   - swap_a if needed
-3. If highest in middle:
-   - reverse_rotate_a
-   - swap_a if needed
-4. If highest at bottom:
-   - swap_a if needed
+2. Mejora en la selección del nodo más barato:
+   * Actualmente solo consideramos el coste absoluto
+   * Podríamos añadir un factor de "beneficio futuro" al coste
+   * Por ejemplo, si mover un número ayuda a posicionar otros números cercanos
 
-### Phase 4: Return Phase
-For each B node:
-1. Find target in A (closest larger index)
-if no larger index, find the smallest
-2. Calculate optimal moves same way we did in phase 2, only this time tom ove the nodes from b to a.
-3. Execute moves with rr/rrr optimizations
-4. Push to A
-5. Update positions
-
-### Phase 5: Final Alignment
-1. Find smallest index position
-2. Rotate until smallest is at top:
-   - Use ra if above median
-   - Use rra if below median
-
-## Optimization Points
-1. Use index comparisons over value comparisons
-2. Optimize combined moves (rr/rrr)
-3. Track positions efficiently
-4. Minimize total operations
-5. Use median calculations for rotation decisions
-
-## Performance Goals
-- 3 numbers: ≤ 3 moves
-- 5 numbers: ≤ 12 moves
-- 100 numbers: ≤ 700 moves
-- 500 numbers: ≤ 5500 moves
-
-
-## Algorithm Optimizations 16 Jan 2025
-
-### Initial Phase Improvements
-1. Better detection of nearly sorted sequences:
-   - Count out of place elements
-   - If ≤ 3 elements out of place, use direct rotation to position
-   - Avoid unnecessary pushes for nearly sorted stacks
-
-2. Smarter Initial Node Selection:
-   - Analyze first half of stack for optimal candidates
-   - Look for two smallest indices close to top
-   - Consider both top and bottom positions
-   - Push strategy based on candidate positions
-
-3. Optimized Push Strategy:
-   - If optimal candidates found (pos ≤ 1 or pos ≥ size-1):
-     * Push directly if at top
-     * Minimal rotations for near-top elements
-   - Otherwise:
-     * Push sequential pair
-     * Optimize their order in stack B
-
-4. Reduced Operation Count:
-   - Helper functions to avoid redundant stack traversal
-   - Combined rotations when possible
-   - Early exit for nearly sorted sequences
-   - More efficient position handling
-
-### Performance Impact
-- More consistent performance for 100 numbers:
-  * Previous: 600-750 moves average
-  * Optimized: 600-650 moves average
-- Better handling of edge cases
-- Reduced operation count for nearly sorted sequences
-- More predictable behavior across different input patterns
+3. Optimización de rotaciones:
+   * Podríamos buscar oportunidades para hacer más rr y rrr en lugar de rotaciones individuales
+   * Esto requeriría modificar la función do_rotations
