@@ -6,53 +6,11 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 11:48:42 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/01/13 11:48:42 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/17 07:41:24 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-static void	process_first_node(t_stack **a, t_stack **b)
-{
-	int		size;
-
-	pb(a, b);
-	if (is_sorted(*a))
-	{
-		size = stack_size(*a);
-		update_positions(*a);
-		update_positions(*b);
-		find_target_positions(*b, *a, false);
-		if ((*b)->target_pos <= size / 2)
-		{
-			while ((*b)->target_pos-- > 0)
-				ra(a);
-		}
-		else
-		{
-			while ((*b)->target_pos++ < size)
-				rra(a);
-		}
-		pa(a, b);
-		while ((*a)->index != 0)
-		{
-			if (get_min_pos(*a) <= size / 2)
-				ra(a);
-			else
-				rra(a);
-		}
-	}
-}
-
-static void	init_b_stack(t_stack **a, t_stack **b)
-{
-	process_first_node(a, b);
-	if (!*b)
-		return ;
-	pb(a, b);
-	if ((*b)->index < (*b)->next->index)
-		sb(b);
-}
 
 static void	final_alignment(t_stack **a)
 {

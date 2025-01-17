@@ -60,10 +60,12 @@ SORT_SRC = sort/sort_small.c \
           sort/sort_utils.c \
           sort/rotations.c \
           sort/find_pos.c \
-          sort/turk_sort.c\
-		  sort/move_to_b.c \
-		  sort/push_back.c \
-		  sort/cost_utils.c
+          sort/turk_sort.c \
+          sort/move_to_b.c \
+          sort/push_back.c \
+          sort/cost_utils.c \
+          sort/presort.c \
+          sort/presort_utils.c
 
 DEBUG_SRC = debug/print_stacks.c \
             debug/print_index.c \

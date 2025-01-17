@@ -56,7 +56,7 @@ for(node in A) {
 // Can prioritize pushing numbers that are far from their final position
 for(node in A) {
     // Distance from current to final position
-    distance = abs(node->position - node->index);
+    distance = ft_abs(node->position - node->index);
     weighted_cost = calculate_cost(node) * (1 + distance/stack_size);
     if(weighted_cost < min_cost) {
         min_cost = weighted_cost;

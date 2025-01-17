@@ -74,6 +74,16 @@ void	move_to_b(t_stack **a, t_stack **b);
 void	push_back_to_a(t_stack **a, t_stack **b);
 void	return_single_node(t_stack **a, t_stack **b);
 
+// Pre-sorting and initialization
+void	init_b_stack(t_stack **a, t_stack **b);
+void	push_optimal_pair(t_stack **a, t_stack **b, int first_pos, int second_pos);
+
+// Pre-sorting utilities
+void	find_min_candidates(t_stack *stack, int *first, int *second);
+int		count_out_of_place(t_stack *stack);
+int		is_position_optimal(int pos, int size);
+void	rotate_to_position(t_stack **a, int min_pos, int size);
+
 // Cost calculation and optimization
 void	calculate_node_cost(t_stack *node, int size_curr, int size_target,
 			bool is_a_to_b);
