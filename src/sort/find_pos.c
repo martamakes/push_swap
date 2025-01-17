@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 12:48:42 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/01/13 12:48:42 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/18 00:37:41 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ static t_stack	*find_smallest_node(t_stack *stack)
 */
 void	find_target_positions(t_stack *src, t_stack *dst, bool is_a_to_b)
 {
-	t_stack	*current_src;
-	t_stack	*current_dst;
-	t_stack	*target;
-	int		closest;
+	t_stack *current_src;
+	t_stack *current_dst;
+	t_stack *target;
+	int closest;
 
 	current_src = src;
 	while (current_src)

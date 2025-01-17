@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 10:48:42 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/01/17 10:48:42 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/18 00:37:02 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,18 @@ void	init_b_stack(t_stack **a, t_stack **b)
 		push_optimal_pair(a, b, first_pos, second_pos);
 	else
 		push_sequential_pair(a, b);
+}
+
+void	rotate_to_position(t_stack **a, int min_pos, int size)
+{
+	if (min_pos <= size / 2)
+	{
+		while (min_pos-- > 0)
+			ra(a);
+	}
+	else
+	{
+		while (min_pos++ < size)
+			rra(a);
+	}
 }

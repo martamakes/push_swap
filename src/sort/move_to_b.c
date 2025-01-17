@@ -6,36 +6,35 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 18:41:28 by mvigara-          #+#    #+#             */
-/*   Updated: 2025/01/17 18:41:41 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/18 00:37:25 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static t_stack *find_cheapest_with_impact(t_stack *stack)
+static t_stack	*find_cheapest_with_impact(t_stack *stack)
 {
-    t_stack *cheapest;
-    t_stack *current;
-    int lowest_net_cost;
-    t_movement_impact current_impact;
+	t_stack				*cheapest;
+	t_stack				*current;
+	int					lowest_net_cost;
+	t_movement_impact	current_impact;
 
-    if (!stack)
-        return (NULL);
-    cheapest = stack;
-    current = stack;
-    lowest_net_cost = INT_MAX;
-
-    while (current)
-    {
-        current_impact = calculate_move_impact(stack, NULL, current);
-        if (current_impact.net_cost < lowest_net_cost)
-        {
-            lowest_net_cost = current_impact.net_cost;
-            cheapest = current;
-        }
-        current = current->next;
-    }
-    return (cheapest);
+	if (!stack)
+		return (NULL);
+	cheapest = stack;
+	current = stack;
+	lowest_net_cost = INT_MAX;
+	while (current)
+	{
+		current_impact = calculate_move_impact(stack, NULL, current);
+		if (current_impact.net_cost < lowest_net_cost)
+		{
+			lowest_net_cost = current_impact.net_cost;
+			cheapest = current;
+		}
+		current = current->next;
+	}
+	return (cheapest);
 }
 
 void	move_to_b(t_stack **a, t_stack **b)

@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 10:48:42 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/01/17 10:48:42 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/18 00:36:48 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,18 +78,4 @@ int	is_position_optimal(int pos, int size)
 	if (pos >= size - 1)
 		return (1);
 	return (0);
-}
-
-void	rotate_to_position(t_stack **a, int min_pos, int size)
-{
-	if (min_pos <= size / 2)
-	{
-		while (min_pos-- > 0)
-			ra(a);
-	}
-	else
-	{
-		while (min_pos++ < size)
-			rra(a);
-	}
 }
