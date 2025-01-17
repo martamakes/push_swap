@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:46:40 by mvigara-          #+#    #+#             */
-/*   Updated: 2025/01/13 19:29:52 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/17 18:55:13 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ int	check_duplicates(t_stack *stack)
 	return (0);
 }
 
-static t_stack *get_min_node(t_stack *stack)
+static t_stack  *get_min_node(t_stack *stack)
 {
     t_stack *current;
     t_stack *min_node;
-    int     min_val;
+    int min_val;
 
     current = stack;
     min_node = NULL;

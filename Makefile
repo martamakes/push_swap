@@ -6,7 +6,7 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/01 15:27:20 by mvigara-          #+#    #+#              #
-#    Updated: 2025/01/13 20:30:01 by mvigara-         ###   ########.fr        #
+#    Updated: 2025/01/17 18:50:30 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,8 @@ CHECKER_INCLUDES = -I$(INC_DIR) -I$(CHECKER_INC_DIR)  # Para el bonus
 MAIN_SRC = main/push_swap.c
 
 STACK_SRC = stack/stack_init.c \
-           stack/stack_utils.c
+           stack/stack_utils.c \
+		   stack/stack_utils2.c
 
 PARSER_SRC = parser/parse_utils.c 
 
