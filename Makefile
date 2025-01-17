@@ -65,7 +65,8 @@ SORT_SRC = sort/sort_small.c \
           sort/push_back.c \
           sort/cost_utils.c \
           sort/presort.c \
-          sort/presort_utils.c
+          sort/presort_utils.c \
+          sort/advanced_cost.c
 
 DEBUG_SRC = debug/print_stacks.c \
             debug/print_index.c \

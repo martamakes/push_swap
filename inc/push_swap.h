@@ -25,6 +25,13 @@
 #  define VISUALS 1
 # endif
 
+typedef struct s_movement_impact
+{
+    int immediate_cost;
+    int future_benefit;
+    int net_cost;
+} t_movement_impact;
+
 typedef struct s_stack
 {
 	int				value;
@@ -90,6 +97,7 @@ void	calculate_node_cost(t_stack *node, int size_curr, int size_target,
 t_stack	*get_cheapest_node(t_stack *stack, bool ascending);
 void	find_target_positions(t_stack *src, t_stack *dst, bool is_a_to_b);
 int		calculate_weighted_cost(t_stack *node);
+t_movement_impact calculate_move_impact(t_stack *a, t_stack *b, t_stack *node);
 
 // Utils
 int		is_sorted(t_stack *stack);
