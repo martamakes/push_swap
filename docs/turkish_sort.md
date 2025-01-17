@@ -133,3 +133,40 @@ if no larger index, find the smallest
 - 5 numbers: ≤ 12 moves
 - 100 numbers: ≤ 700 moves
 - 500 numbers: ≤ 5500 moves
+
+
+## Algorithm Optimizations 16 Jan 2025
+
+### Initial Phase Improvements
+1. Better detection of nearly sorted sequences:
+   - Count out of place elements
+   - If ≤ 3 elements out of place, use direct rotation to position
+   - Avoid unnecessary pushes for nearly sorted stacks
+
+2. Smarter Initial Node Selection:
+   - Analyze first half of stack for optimal candidates
+   - Look for two smallest indices close to top
+   - Consider both top and bottom positions
+   - Push strategy based on candidate positions
+
+3. Optimized Push Strategy:
+   - If optimal candidates found (pos ≤ 1 or pos ≥ size-1):
+     * Push directly if at top
+     * Minimal rotations for near-top elements
+   - Otherwise:
+     * Push sequential pair
+     * Optimize their order in stack B
+
+4. Reduced Operation Count:
+   - Helper functions to avoid redundant stack traversal
+   - Combined rotations when possible
+   - Early exit for nearly sorted sequences
+   - More efficient position handling
+
+### Performance Impact
+- More consistent performance for 100 numbers:
+  * Previous: 600-750 moves average
+  * Optimized: 600-650 moves average
+- Better handling of edge cases
+- Reduced operation count for nearly sorted sequences
+- More predictable behavior across different input patterns
