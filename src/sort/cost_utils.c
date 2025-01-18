@@ -12,6 +12,14 @@
 
 #include "push_swap.h"
 
+static void	calculate_stack_cost(int *cost, int pos, int size)
+{
+	if (pos <= size / 2)
+		*cost = pos;
+	else
+		*cost = -(size - pos);
+}
+
 void	calculate_node_cost(t_stack *node, int size_curr, int size_target,
 		bool is_a_to_b)
 {
@@ -19,25 +27,13 @@ void	calculate_node_cost(t_stack *node, int size_curr, int size_target,
 		return ;
 	if (is_a_to_b)
 	{
-		if (node->pos <= size_curr / 2)
-			node->cost_a = node->pos;
-		else
-			node->cost_a = -(size_curr - node->pos);
-		if (node->target_pos <= size_target / 2)
-			node->cost_b = node->target_pos;
-		else
-			node->cost_b = -(size_target - node->target_pos);
+		calculate_stack_cost(&node->cost_a, node->pos, size_curr);
+		calculate_stack_cost(&node->cost_b, node->target_pos, size_target);
 	}
 	else
 	{
-		if (node->pos <= size_curr / 2)
-			node->cost_b = node->pos;
-		else
-			node->cost_b = -(size_curr - node->pos);
-		if (node->target_pos <= size_target / 2)
-			node->cost_a = node->target_pos;
-		else
-			node->cost_a = -(size_target - node->target_pos);
+		calculate_stack_cost(&node->cost_b, node->pos, size_curr);
+		calculate_stack_cost(&node->cost_a, node->target_pos, size_target);
 	}
 	if (VISUALS)
 		print_weighted_cost(node, calculate_weighted_cost(node));

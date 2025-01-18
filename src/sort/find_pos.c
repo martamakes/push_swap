@@ -48,67 +48,86 @@ static t_stack	*find_smallest_node(t_stack *stack)
 	return (smallest);
 }
 
-/*
-** A->B: target is closest smaller number, or top of biggest if none smaller
-** B->A: target is closest larger number, or smallest if none larger
-*/
+static t_stack	*find_closest_target_a_to_b(t_stack *src, t_stack *dst)
+{
+	t_stack	*current;
+	t_stack	*target;
+	int		closest;
+
+	target = NULL;
+	closest = INT_MIN;
+	current = dst;
+	while (current)
+	{
+		if (current->index < src->index && current->index > closest)
+		{
+			closest = current->index;
+			target = current;
+		}
+		current = current->next;
+	}
+	return (target);
+}
+
+static t_stack	*find_closest_target_b_to_a(t_stack *src, t_stack *dst)
+{
+	t_stack	*current;
+	t_stack	*target;
+	int		closest;
+
+	target = NULL;
+	closest = INT_MAX;
+	current = dst;
+	while (current)
+	{
+		if (current->index > src->index && current->index < closest)
+		{
+			closest = current->index;
+			target = current;
+		}
+		current = current->next;
+	}
+	return (target);
+}
+
+static t_stack	*find_target(t_stack *src, t_stack *dst, bool is_a_to_b)
+{
+	t_stack	*current;
+	t_stack	*target;
+
+	current = dst;
+	while (current)
+	{
+		if (is_a_to_b && current->index == src->index - 1)
+			return (current);
+		if (!is_a_to_b && current->index == src->index + 1)
+			return (current);
+		current = current->next;
+	}
+	if (is_a_to_b)
+		target = find_closest_target_a_to_b(src, dst);
+	else
+		target = find_closest_target_b_to_a(src, dst);
+	if (!target)
+	{
+		if (is_a_to_b)
+			target = find_biggest_node(dst);
+		else
+			target = find_smallest_node(dst);
+	}
+	return (target);
+}
+
 void	find_target_positions(t_stack *src, t_stack *dst, bool is_a_to_b)
 {
-	t_stack *current_src;
-	t_stack *current_dst;
-	t_stack *target;
-	int closest;
+	t_stack	*current;
+	t_stack	*target;
 
-	current_src = src;
-	while (current_src)
+	current = src;
+	while (current)
 	{
-		closest = is_a_to_b ? INT_MIN : INT_MAX;
-		target = NULL;
-		current_dst = dst;
-		while (current_dst)
-		{
-			if (is_a_to_b && current_dst->index == current_src->index - 1)
-			{
-				target = current_dst;
-				break ;
-			}
-			else if (!is_a_to_b && current_dst->index == current_src->index + 1)
-			{
-				target = current_dst;
-				break ;
-			}
-			current_dst = current_dst->next;
-		}
-		if (!target)
-		{
-			current_dst = dst;
-			while (current_dst)
-			{
-				if (is_a_to_b && current_dst->index < current_src->index
-					&& current_dst->index > closest)
-				{
-					closest = current_dst->index;
-					target = current_dst;
-				}
-				else if (!is_a_to_b && current_dst->index > current_src->index
-					&& current_dst->index < closest)
-				{
-					closest = current_dst->index;
-					target = current_dst;
-				}
-				current_dst = current_dst->next;
-			}
-		}
-		if (!target)
-		{
-			if (is_a_to_b)
-				target = find_biggest_node(dst);
-			else
-				target = find_smallest_node(dst);
-			current_src->target_pos = target ? target->pos : 0;
-		}
-		else
-			current_src->target_pos = target->pos;
-		current_src = current_src->next;
+		target = find_target(current, dst, is_a_to_b);
+		current->target_pos = target ? target->pos : 0;
+		current = current->next;
 	}
 }
