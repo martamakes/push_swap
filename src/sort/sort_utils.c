@@ -22,6 +22,19 @@ int	calculate_weighted_cost(t_stack *node)
 	return (weighted_cost);
 }
 
+static int	compare_nodes(t_stack *current, t_stack *cheapest, bool ascending)
+{
+	int	comp_value;
+
+	if (cheapest)
+		comp_value = cheapest->value;
+	else
+		comp_value = ascending ? INT_MAX : INT_MIN;
+	if (ascending)
+		return (current->value < comp_value);
+	return (current->value > comp_value);
+}
+
 t_stack	*get_cheapest_node(t_stack *stack, bool ascending)
 {
 	t_stack	*current;
@@ -37,10 +50,7 @@ t_stack	*get_cheapest_node(t_stack *stack, bool ascending)
 	while (current)
 	{
 		current_cost = calculate_weighted_cost(current);
-		if ((ascending
-				&& current->value < (cheapest ? cheapest->value : INT_MAX))
-			|| (!ascending
-				&& current->value > (cheapest ? cheapest->value : INT_MIN)))
+		if (compare_nodes(current, cheapest, ascending))
 		{
 			if (current_cost < min_cost)
 			{
