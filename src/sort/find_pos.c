@@ -12,63 +12,6 @@
 
 #include "push_swap.h"
 
-static t_stack	*find_biggest_node(t_stack *stack)
-{
-	t_stack	*biggest;
-	t_stack	*current;
-
-	if (!stack)
-		return (NULL);
-	biggest = stack;
-	current = stack->next;
-	while (current)
-	{
-		if (current->index > biggest->index)
-			biggest = current;
-		current = current->next;
-	}
-	return (biggest);
-}
-
-static t_stack	*find_smallest_node(t_stack *stack)
-{
-	t_stack	*smallest;
-	t_stack	*current;
-
-	if (!stack)
-		return (NULL);
-	smallest = stack;
-	current = stack->next;
-	while (current)
-	{
-		if (current->index < smallest->index)
-			smallest = current;
-		current = current->next;
-	}
-	return (smallest);
-}
-
-static t_stack	*find_closest_target_a_to_b(t_stack *src, t_stack *dst)
-{
-	t_stack	*current;
-	t_stack	*target;
-	int		closest;
-
-	target = NULL;
-	closest = INT_MIN;
-	current = dst;
-	while (current)
-	{
-		if (current->index < src->index && current->index > closest)
-		{
-			closest = current->index;
-			target = current;
-		}
-		current = current->next;
-	}
-	return (target);
-}
-
 static t_stack	*find_closest_target_b_to_a(t_stack *src, t_stack *dst)
 {
 	t_stack	*current;
@@ -90,10 +33,9 @@ static t_stack	*find_closest_target_b_to_a(t_stack *src, t_stack *dst)
 	return (target);
 }
 
-static t_stack	*find_target(t_stack *src, t_stack *dst, bool is_a_to_b)
+static t_stack	*find_direct_target(t_stack *src, t_stack *dst, bool is_a_to_b)
 {
 	t_stack	*current;
-	t_stack	*target;
 
 	current = dst;
 	while (current)
@@ -104,16 +46,27 @@ static t_stack	*find_target(t_stack *src, t_stack *dst, bool is_a_to_b)
 			return (current);
 		current = current->next;
 	}
-	if (is_a_to_b)
-		target = find_closest_target_a_to_b(src, dst);
-	else
-		target = find_closest_target_b_to_a(src, dst);
+	return (NULL);
+}
+
+static t_stack	*find_target(t_stack *src, t_stack *dst, bool is_a_to_b)
+{
+	t_stack	*target;
+
+	target = find_direct_target(src, dst, is_a_to_b);
 	if (!target)
 	{
 		if (is_a_to_b)
-			target = find_biggest_node(dst);
+			target = find_closest_target_a_to_b(src, dst);
 		else
-			target = find_smallest_node(dst);
+			target = find_closest_target_b_to_a(src, dst);
+		if (!target)
+		{
+			if (is_a_to_b)
+				target = find_biggest_node(dst);
+			else
+				target = find_smallest_node(dst);
+		}
 	}
 	return (target);
 }
@@ -127,7 +80,10 @@ void	find_target_positions(t_stack *src, t_stack *dst, bool is_a_to_b)
 	while (current)
 	{
 		target = find_target(current, dst, is_a_to_b);
-		current->target_pos = target ? target->pos : 0;
+		if (target)
+			current->target_pos = target->pos;
+		else
+			current->target_pos = 0;
 		current = current->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2025/01/13 22:08:06 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/18 01:28:37 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,10 @@ void	free_stack(t_stack **stack);
 int		get_min_pos(t_stack *stack);
 void	do_rotations(t_stack **a, t_stack **b, t_stack *cheapest);
 void	index_stack(t_stack *stack);
-void	shift_stack(t_stack **stack);
 void	update_positions(t_stack *stack);
+t_stack	*find_biggest_node(t_stack *stack);
+t_stack	*find_smallest_node(t_stack *stack);
+t_stack	*find_closest_target_a_to_b(t_stack *src, t_stack *dst);
 
 // Debug and Visualization
 void	print_stacks(t_stack *stack_a, t_stack *stack_b);
