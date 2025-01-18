@@ -28,8 +28,10 @@ static int	compare_nodes(t_stack *current, t_stack *cheapest, bool ascending)
 
 	if (cheapest)
 		comp_value = cheapest->value;
+	else if (ascending)
+		comp_value = INT_MAX;
 	else
-		comp_value = ascending ? INT_MAX : INT_MIN;
+		comp_value = INT_MIN;
 	if (ascending)
 		return (current->value < comp_value);
 	return (current->value > comp_value);
