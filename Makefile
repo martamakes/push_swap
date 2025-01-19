@@ -6,7 +6,7 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/01 15:27:20 by mvigara-          #+#    #+#              #
-#    Updated: 2025/01/18 01:29:14 by mvigara-         ###   ########.fr        #
+#    Updated: 2025/01/19 13:30:32 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ endif
 
 # Project name
 NAME = push_swap
+CHECKER = checker
 
 # Directories
 SRC_DIR = src
@@ -45,7 +46,7 @@ MAIN_SRC = main/push_swap.c
 
 STACK_SRC = stack/stack_init.c \
            stack/stack_utils.c \
-		   stack/stack_utils2.c
+           stack/stack_utils2.c
 
 PARSER_SRC = parser/parse_utils.c 
 
@@ -68,11 +69,15 @@ SORT_SRC = sort/sort_small.c \
           sort/presort.c \
           sort/presort_utils.c \
           sort/advanced_cost.c \
-          sort/find_pos_utils.c
+          sort/find_pos_utils.c 
 
 DEBUG_SRC = debug/print_stacks.c \
             debug/print_index.c \
             debug/print_costs.c
+
+BONUS_SRC = bonus/checker_bonus.c \
+            bonus/process_ops_bonus.c \
+            bonus/read_execute_instructions.c
 
 # Source files with directory prefix
 SRCS = $(addprefix $(SRC_DIR)/, $(MAIN_SRC) $(STACK_SRC) $(PARSER_SRC) $(ERROR_SRC) $(OPS_SRC) $(SORT_SRC) $(DEBUG_SRC))
@@ -80,6 +85,7 @@ SRCS = $(addprefix $(SRC_DIR)/, $(MAIN_SRC) $(STACK_SRC) $(PARSER_SRC) $(ERROR_S
 # Object files
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 CHECKER_OBJS = $(CHECKER_SRCS:$(CHECKER_SRC_DIR)/%.c=$(CHECKER_OBJ_DIR)/%.o)
+BONUS_OBJS = $(addprefix $(OBJ_DIR)/, $(BONUS_SRC:.c=.o))
 
 # Libft
 LIBFT_DIR = $(LIB_DIR)/libft
@@ -138,8 +144,15 @@ $(LIBFT):
 # Link everything
 $(NAME): $(LIBFT) $(OBJS)
 	@echo "$(GREEN)Linking $@...$(RESET)"
-	@$(CC) $(CFLAGS) $(if $(filter 1,$(DEBUG)),-DDEBUG=1) $(OBJS) -L$(LIBFT_DIR) -lft $(LDFLAGS) -o $(NAME)
+	@$(CC) $(CFLAGS) -DCHECKER_MODE=1 $(if $(filter 1,$(DEBUG)),-DDEBUG=1) $(OBJS) -L$(LIBFT_DIR) -lft $(LDFLAGS) -o $(NAME)
 	@echo "$(GREEN)Build complete! 🚀$(RESET)"
+
+bonus: $(LIBFT) $(BONUS_OBJS) $(filter-out $(OBJ_DIR)/$(MAIN_SRC:.c=.o), $(OBJS))
+	@echo "$(GREEN)Building checker...$(RESET)"
+	@$(CC) $(CFLAGS) $(BONUS_OBJS) \
+		$(filter-out $(OBJ_DIR)/$(MAIN_SRC:.c=.o), $(OBJS)) \
+		-L$(LIBFT_DIR) -lft $(LDFLAGS) -o $(CHECKER)
+	@echo "$(GREEN)Checker build complete! 🎯$(RESET)"
 	
 clean:
 	@echo "$(RED)Cleaning object files...$(RESET)"

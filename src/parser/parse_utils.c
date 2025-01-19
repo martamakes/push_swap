@@ -6,11 +6,11 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:45:18 by mvigara-          #+#    #+#             */
-/*   Updated: 2024/12/20 10:27:54 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/19 11:04:55 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/push_swap.h"
+#include "push_swap.h"
 
 /*
 ** Checks if a string contains only valid number characters

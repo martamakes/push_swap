@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:19:41 by mvigara           #+#    #+#             */
-/*   Updated: 2024/12/19 09:37:19 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/19 10:17:26 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ char				*ft_strnchr(const char *s, int c, size_t max);
 char				*get_next_line(int fd);
 int					ft_iswhitespace(char c);
 long long			ft_atoll(const char *str);
-int					ft_strcmp(char *s1, char *s2);
+int					ft_strcmp(const char *s1, const char *s2);
 char				*ft_strtok(char *str, const char *delim);
 bool				ft_isodd(int n);
 int					ft_abs(int num);

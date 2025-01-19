@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:44:33 by mvigara-          #+#    #+#             */
-/*   Updated: 2025/01/17 18:51:41 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/19 10:29:38 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,6 @@ void	sort_stack(t_stack **a, t_stack **b)
 		index_stack(*a);
 		turkish_sort(a, b);
 	}
-}
-
-int	is_sorted(t_stack *stack)
-{
-	if (!stack)
-		return (1);
-	while (stack->next)
-	{
-		if (stack->value > stack->next->value)
-			return (0);
-		stack = stack->next;
-	}
-	return (1);
 }
 
 static void	push_swap(t_stack **stack_a, t_stack **stack_b)
