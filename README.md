@@ -175,6 +175,57 @@ To run tests with these instruction files:
 ./checker 1 2 3 4 5 < test/instructions/error_test.txt
 ```
 
+## Visualizer
+
+The project includes a Python visualizer to help understand how the sorting algorithm works. The visualizer provides a graphical representation of the stacks and their operations in real-time.
+
+### Requirements
+- Python3
+- Tkinter (usually comes with Python3)
+
+### Using the Visualizer
+
+You can use the provided script `test_viz.sh` to easily run the visualizer with random numbers:
+
+```bash
+./test_viz.sh <number_of_values>
+```
+
+Example:
+```bash
+./test_viz.sh 100  # Visualize sorting of 100 random numbers
+```
+
+The visualizer interface includes:
+- Left side: Visual representation of stacks A and B
+- Right side: List of operations being executed
+- Control buttons:
+  * `<<` : Decrease speed
+  * `>>` : Increase speed
+  * `>` / `||` : Play/Pause
+  * `R` : Reset visualization
+
+The script will:
+- Check if push_swap is compiled (and compile it if needed)
+- Verify Python3 installation
+- Generate random numbers in range (-1000 to 1000)
+- Launch the visualizer
+
+You can also run the visualizer directly:
+```bash
+python3 python_visualizer.py `ruby -e "puts (-1000..1000).to_a.shuffle[0...100].join(' ')"`
+```
+
+The visualizer is particularly useful for:
+- Understanding how your algorithm works
+- Debugging sorting issues
+- Optimizing your sorting strategy
+- Demonstrating the project
+
+## Visualizer Author
+
+The project includes a Python visualizer created by Emmanuel Ruaud (eruaud@student.le-101.fr) to help understand how the sorting algorithm works. This excellent tool provides a graphical representation of the stacks and their operations in real-time. Special thanks to Emmanuel for creating and sharing this valuable visualization tool with the 42 community.
+
 ## Author
 
 mvigara- (Marta Vigara)
