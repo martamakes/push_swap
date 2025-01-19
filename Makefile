@@ -177,7 +177,16 @@ test: $(NAME)
 	@./$(NAME) "1 2 3"
 	@./$(NAME) 0 one 2 3
 
-.PHONY: all clean fclean re debug test help
+# Tools download rule
+get-tools:
+	@echo "$(CYAN)Downloading testing tools...$(RESET)"
+	@curl -O https://raw.githubusercontent.com/martamakes/push_swap/main/test_viz.sh
+	@curl -O https://raw.githubusercontent.com/martamakes/push_swap/main/test_checker.sh
+	@curl -O https://raw.githubusercontent.com/martamakes/push_swap/main/python_visualizer.py
+	@chmod +x test_viz.sh test_checker.sh
+	@echo "$(GREEN)Testing tools downloaded successfully!$(RESET)"
+
+.PHONY: all clean fclean re debug test help get-tools
 
 # Help message
 help:
@@ -187,7 +196,8 @@ help:
 	@echo "  $(GREEN)fclean$(RESET)  : Remove object files and executable"
 	@echo "  $(GREEN)re$(RESET)      : Rebuild the project"
 	@echo "  $(GREEN)debug$(RESET)   : Build with debug symbols and prints enabled"
-	@echo "  $(GREEN)test$(RESET)    : Run basic tests"
+	@echo "  $(GREEN)test$(RESET)    : Run basic tests
+	@echo "  $(GREEN)get-tools$(RESET): Download testing tools (visualizer and checker)""
 	@echo
 	@echo "$(CYAN)Debug Options:$(RESET)"
 	@echo "  make DEBUG_PRINTS=1     : Enable debug prints"
