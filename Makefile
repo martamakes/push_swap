@@ -183,7 +183,9 @@ get-tools:
 	@curl -O https://raw.githubusercontent.com/martamakes/push_swap/main/test_viz.sh
 	@curl -O https://raw.githubusercontent.com/martamakes/push_swap/main/test_checker.sh
 	@curl -O https://raw.githubusercontent.com/martamakes/push_swap/main/python_visualizer.py
-	@chmod +x test_viz.sh test_checker.sh
+	@curl -O https://raw.githubusercontent.com/martamakes/push_swap/main/checker_OS
+	@curl -O https://raw.githubusercontent.com/martamakes/push_swap/main/checker_linux
+	@chmod +x test_viz.sh test_checker.sh checker_OS checker_linux
 	@echo "$(GREEN)Testing tools downloaded successfully!$(RESET)"
 
 .PHONY: all clean fclean re debug test help get-tools
