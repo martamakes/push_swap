@@ -12,8 +12,6 @@ A sorting algorithm project from 42 School that sorts data on a stack, with a li
 ├── src/            
 │   ├── bonus/       # Bonus program files
 │   │   ├── checker_bonus.c
-│   │   ├── get_next_line_bonus.c
-│   │   └── process_ops_bonus.c
 │   ├── debug/       # Debug utilities
 │   ├── error/       # Error handling
 │   ├── operations/  # Stack operations (sa, sb, ss, etc.)
@@ -51,14 +49,49 @@ Example:
 ```
 
 ### Checker (Bonus)
-```bash
-./checker <numbers>    # Reads operations from stdin and checks if they sort the stack
-```
+The checker program reads and executes sorting instructions and validates if they correctly sort the stack. You can use it in three ways:
 
-Example:
+1. Pipe with push_swap:
 ```bash
 ./push_swap 2 1 3 6 5 8 | ./checker 2 1 3 6 5 8
 ```
+
+2. Using instruction files:
+```bash
+# Create a file with instructions
+echo -e "sa\npb\nra\npa" > test/instructions/test1.txt
+# Run checker with instructions file
+./checker 2 1 3 6 5 8 < test/instructions/test1.txt
+```
+
+3. Manual input:
+```bash
+./checker 2 1 3 6 5 8
+# Type instructions one per line
+sa
+pb
+ra
+pa
+# Press Ctrl+D when done
+```
+
+The checker will output:
+- "OK" if the instructions sort the stack correctly
+- "KO" if the stack is not sorted after executing all instructions
+- "Error" if there are invalid instructions or other errors
+
+#### Available Instructions:
+- `sa` - swap first two elements of stack A
+- `sb` - swap first two elements of stack B
+- `ss` - sa and sb at the same time
+- `pa` - take first element from B and put it on top of A
+- `pb` - take first element from A and put it on top of B
+- `ra` - rotate stack A up by one
+- `rb` - rotate stack B up by one
+- `rr` - ra and rb at the same time
+- `rra` - rotate stack A down by one
+- `rrb` - rotate stack B down by one
+- `rrr` - rra and rrb at the same time
 
 ## Stack Operations
 
@@ -122,6 +155,26 @@ The script will evaluate the performance based on the following criteria:
   * 2 points: < 10000 ops
   * 1 point: < 11500 ops
 
+### Test Instructions
+The project includes a set of test instruction files in the `test/instructions/` directory:
+
+```
+test/instructions/
+├── identity_test.txt    # Empty file for testing already sorted stacks
+├── simple_test.txt      # Basic operations test
+├── error_test.txt       # Invalid instructions test
+└── complex_test.txt     # More complex operation sequences
+```
+
+To run tests with these instruction files:
+```bash
+# Test with a specific instruction file
+./checker 1 2 3 4 5 < test/instructions/simple_test.txt
+
+# Test error cases
+./checker 1 2 3 4 5 < test/instructions/error_test.txt
+```
+
 ## Author
 
-mvigara- (Marta Vigaray)
+mvigara- (Marta Vigara)
