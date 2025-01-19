@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 10:48:42 by mvigara-          #+#    #+#             */
-/*   Updated: 2025/01/18 00:37:02 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/19 18:09:39 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,31 +24,31 @@ static void	handle_nearly_sorted(t_stack **a)
 
 static void	push_sequential_pair(t_stack **a, t_stack **b)
 {
-	pb(a, b);
-	pb(a, b);
+	pb(a, b, true);
+	pb(a, b, true);
 	if (*b && (*b)->index > (*b)->next->index)
-		sb(b);
+		sb(b, true);
 }
 
 void	push_optimal_pair(t_stack **a, t_stack **b, int first, int second)
 {
 	if (first == 0)
 	{
-		pb(a, b);
+		pb(a, b, true);
 		if (second == 1 && !is_sorted(*a))
 		{
-			pb(a, b);
+			pb(a, b, true);
 			if (*b && (*b)->index < (*b)->next->index)
-				sb(b);
+				sb(b, true);
 		}
 	}
 	else
 	{
 		while (first-- > 0)
-			ra(a);
-		pb(a, b);
+			ra(a, true);
+		pb(a, b, true);
 		if (!is_sorted(*a))
-			pb(a, b);
+			pb(a, b, true);
 	}
 }
 
@@ -80,11 +80,11 @@ void	rotate_to_position(t_stack **a, int min_pos, int size)
 	if (min_pos <= size / 2)
 	{
 		while (min_pos-- > 0)
-			ra(a);
+			ra(a, true);
 	}
 	else
 	{
 		while (min_pos++ < size)
-			rra(a);
+			rra(a, true);
 	}
 }

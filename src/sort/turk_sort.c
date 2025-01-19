@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 11:48:42 by mvigara-          #+#    #+#             */
-/*   Updated: 2025/01/17 07:41:24 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/19 18:11:55 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	final_alignment(t_stack **a)
 	{
 		while (min_pos > 0)
 		{
-			ra(a);
+			ra(a, true);
 			min_pos--;
 		}
 	}
@@ -31,7 +31,7 @@ static void	final_alignment(t_stack **a)
 	{
 		while (min_pos < size)
 		{
-			rra(a);
+			rra(a, true);
 			min_pos++;
 		}
 	}

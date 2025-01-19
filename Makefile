@@ -6,7 +6,7 @@
 #    By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/01 15:27:20 by mvigara-          #+#    #+#              #
-#    Updated: 2025/01/19 13:30:32 by mvigara-         ###   ########.fr        #
+#    Updated: 2025/01/19 17:49:12 by mvigara-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,9 +75,7 @@ DEBUG_SRC = debug/print_stacks.c \
             debug/print_index.c \
             debug/print_costs.c
 
-BONUS_SRC = bonus/checker_bonus.c \
-            bonus/process_ops_bonus.c \
-            bonus/read_execute_instructions.c
+BONUS_SRC = bonus/checker_bonus.c 
 
 # Source files with directory prefix
 SRCS = $(addprefix $(SRC_DIR)/, $(MAIN_SRC) $(STACK_SRC) $(PARSER_SRC) $(ERROR_SRC) $(OPS_SRC) $(SORT_SRC) $(DEBUG_SRC))
@@ -144,7 +142,7 @@ $(LIBFT):
 # Link everything
 $(NAME): $(LIBFT) $(OBJS)
 	@echo "$(GREEN)Linking $@...$(RESET)"
-	@$(CC) $(CFLAGS) -DCHECKER_MODE=1 $(if $(filter 1,$(DEBUG)),-DDEBUG=1) $(OBJS) -L$(LIBFT_DIR) -lft $(LDFLAGS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(if $(filter 1,$(DEBUG)),-DDEBUG=1) $(OBJS) -L$(LIBFT_DIR) -lft $(LDFLAGS) -o $(NAME)
 	@echo "$(GREEN)Build complete! 🚀$(RESET)"
 
 bonus: $(LIBFT) $(BONUS_OBJS) $(filter-out $(OBJ_DIR)/$(MAIN_SRC:.c=.o), $(OBJS))

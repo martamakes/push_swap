@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 08:33:49 by mvigara-          #+#    #+#             */
-/*   Updated: 2025/01/19 17:08:37 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/19 18:07:26 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,11 @@ static void	rotate(t_stack **stack)
 ** ra (rotate a): Shifts up all elements of stack a by 1.
 ** The first element becomes the last one.
 */
-void	ra(t_stack **stack_a)
+void	ra(t_stack **stack_a, bool print_ops)
 {
 	rotate(stack_a);
-    ft_putstr_fd("ra\n", 1);
+	if(print_ops)
+    	ft_putstr_fd("ra\n", 1);
 	if (VISUALS)
 	{
 		print_debug_str("After ra:\n");
@@ -49,10 +50,11 @@ void	ra(t_stack **stack_a)
 ** rb (rotate b): Shifts up all elements of stack b by 1.
 ** The first element becomes the last one.
 */
-void	rb(t_stack **stack_b)
+void	rb(t_stack **stack_b, bool print_ops)
 {
 	rotate(stack_b);
-    ft_putstr_fd("rb\n", 1);
+	if(print_ops)
+    	ft_putstr_fd("rb\n", 1);
 	if (VISUALS)
 	{
 		print_debug_str("After rb:\n");
@@ -63,11 +65,12 @@ void	rb(t_stack **stack_b)
 /*
 ** rr: ra and rb at the same time.
 */
-void	rr(t_stack **stack_a, t_stack **stack_b)
+void	rr(t_stack **stack_a, t_stack **stack_b, bool print_ops)
 {
 	rotate(stack_a);
 	rotate(stack_b);
-    ft_putstr_fd("rr\n", 1);
+	if(print_ops)
+    	ft_putstr_fd("rr\n", 1);
 	if (VISUALS)
 	{
 		print_debug_str("After pa:\n");

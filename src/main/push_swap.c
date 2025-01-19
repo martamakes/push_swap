@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:44:33 by mvigara-          #+#    #+#             */
-/*   Updated: 2025/01/19 10:29:38 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/19 18:02:48 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	sort_stack(t_stack **a, t_stack **b)
 		return ;
 	size = stack_size(*a);
 	if (size == 2)
-		sa(a);
+		sa(a, true);
 	else if (size == 3)
 		sort_three(a);
 	else if (size < 10)

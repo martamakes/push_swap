@@ -6,14 +6,14 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:28:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2025/01/19 17:10:21 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/19 17:59:18 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-# include "../lib/libft/inc/libft.h"
+# include "libft.h"
 # include <limits.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -51,17 +51,17 @@ t_stack	*stack_last(t_stack *stack);
 int		stack_size(t_stack *stack);
 
 // Operations functions
-void	sa(t_stack **stack_a);
-void	sb(t_stack **stack_b);
-void	ss(t_stack **stack_a, t_stack **stack_b);
-void	pa(t_stack **stack_a, t_stack **stack_b);
-void	pb(t_stack **stack_b, t_stack **stack_a);
-void	ra(t_stack **stack_a);
-void	rb(t_stack **stack_b);
-void	rr(t_stack **stack_a, t_stack **stack_b);
-void	rra(t_stack **stack_a);
-void	rrb(t_stack **stack_b);
-void	rrr(t_stack **stack_a, t_stack **stack_b);
+void	sa(t_stack **stack_a, bool print_ops);
+void	sb(t_stack **stack_b, bool print_ops);
+void	ss(t_stack **stack_a, t_stack **stack_b, bool print_ops);
+void	pa(t_stack **stack_a, t_stack **stack_b, bool print_ops);
+void	pb(t_stack **stack_b, t_stack **stack_a, bool print_ops);
+void	ra(t_stack **stack_a, bool print_ops);
+void	rb(t_stack **stack_b, bool print_ops);
+void	rr(t_stack **stack_a, t_stack **stack_b, bool print_ops);
+void	rra(t_stack **stack_a, bool print_ops);
+void	rrb(t_stack **stack_b, bool print_ops);
+void	rrr(t_stack **stack_a, t_stack **stack_b, bool print_ops);
 
 // Input processing and validation
 int		is_valid_input(char *str);

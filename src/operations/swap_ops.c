@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 08:09:17 by mvigara-          #+#    #+#             */
-/*   Updated: 2025/01/19 17:08:04 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/19 18:08:12 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,11 @@ static void	swap(t_stack **stack)
 ** sa (swap a): Swaps the top two elements of stack a.
 ** Does nothing if there's one or no elements.
 */
-void	sa(t_stack **stack_a)
+void	sa(t_stack **stack_a, bool print_ops)
 {
 	swap(stack_a);
-    ft_putstr_fd("sa\n", 1);
+	if(print_ops)
+    	ft_putstr_fd("sa\n", 1);
 	if (VISUALS)
 	{
 		print_debug_str("After sa:\n");
@@ -49,10 +50,11 @@ void	sa(t_stack **stack_a)
 ** sb (swap b): Swaps the top two elements of stack b.
 ** Does nothing if there's one or no elements.
 */
-void	sb(t_stack **stack_b)
+void	sb(t_stack **stack_b, bool print_ops)
 {
 	swap(stack_b);
-    ft_putstr_fd("sb\n", 1);
+	if(print_ops)
+    	ft_putstr_fd("sb\n", 1);
 	if (VISUALS)
 	{
 		print_debug_str("After sb:\n");
@@ -63,11 +65,12 @@ void	sb(t_stack **stack_b)
 /*
 ** ss: sa and sb at the same time.
 */
-void	ss(t_stack **stack_a, t_stack **stack_b)
+void	ss(t_stack **stack_a, t_stack **stack_b, bool print_ops)
 {
 	swap(stack_a);
 	swap(stack_b);
-    ft_putstr_fd("ss\n", 1);
+	if(print_ops)
+    	ft_putstr_fd("ss\n", 1);
 	if (VISUALS)
 	{
 		print_debug_str("After ss:\n");

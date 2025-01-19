@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 18:41:28 by mvigara-          #+#    #+#             */
-/*   Updated: 2025/01/18 00:37:25 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/19 18:08:50 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	move_to_b(t_stack **a, t_stack **b)
 		}
 		cheapest = find_cheapest_with_impact(*a);
 		do_rotations(a, b, cheapest);
-		pb(a, b);
+		pb(a, b, true);
 		a_size = stack_size(*a);
 	}
 }

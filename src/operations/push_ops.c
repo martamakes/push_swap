@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 08:20:20 by mvigara-          #+#    #+#             */
-/*   Updated: 2025/01/19 17:09:24 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/19 18:06:11 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ static void	push(t_stack **src, t_stack **dst)
 ** and puts it at the top of stack a.
 ** Does nothing if b is empty.
 */
-void	pa(t_stack **stack_a, t_stack **stack_b)
+void	pa(t_stack **stack_a, t_stack **stack_b, bool print_ops)
 {
 	push(stack_b, stack_a);
-    ft_putstr_fd("pa\n", 1);
+	if(print_ops)
+    	ft_putstr_fd("pa\n", 1);
 	if (VISUALS)
 	{
 		print_debug_str("After pa:\n");
@@ -49,10 +50,11 @@ void	pa(t_stack **stack_a, t_stack **stack_b)
 ** and puts it at the top of stack b.
 ** Does nothing if a is empty.
 */
-void	pb(t_stack **stack_a, t_stack **stack_b)
+void	pb(t_stack **stack_a, t_stack **stack_b, bool print_ops)
 {
 	push(stack_a, stack_b);
-    ft_putstr_fd("pb\n", 1);
+	if(print_ops)
+    	ft_putstr_fd("pb\n", 1);
 	if (VISUALS)
 	{
 		print_debug_str("After pb:\n");

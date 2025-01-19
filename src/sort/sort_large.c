@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 08:51:46 by mvigara-          #+#    #+#             */
-/*   Updated: 2025/01/17 07:40:19 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/19 18:10:50 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	move_min_to_top(t_stack **stack)
 	{
 		while (min_pos < size)
 		{
-			rra(stack);
+			rra(stack, true);
 			min_pos++;
 		}
 	}
@@ -35,7 +35,7 @@ static void	move_min_to_top(t_stack **stack)
 	{
 		while (min_pos > 0)
 		{
-			ra(stack);
+			ra(stack, true);
 			min_pos--;
 		}
 	}
@@ -62,7 +62,7 @@ static void	move_b_to_a(t_stack **a, t_stack **b)
 		}
 		cheapest = get_cheapest_node(*b, true);
 		do_rotations(a, b, cheapest);
-		pa(a, b);
+		pa(a, b, true);
 		current = *b;
 	}
 }
@@ -87,7 +87,7 @@ static void	move_to_b_until_three(t_stack **a, t_stack **b)
 		}
 		cheapest = get_cheapest_node(*a, false);
 		do_rotations(a, b, cheapest);
-		pb(a, b);
+		pb(a, b, true);
 	}
 }
 

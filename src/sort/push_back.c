@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 10:50:42 by mvigara-          #+#    #+#             */
-/*   Updated: 2025/01/19 11:05:23 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/19 18:09:58 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	push_back_to_a(t_stack **a, t_stack **b)
 		}
 		cheapest = get_cheapest_node(*b, true);
 		do_rotations(a, b, cheapest);
-		pa(a, b);
+		pa(a, b, true);
 	}
 }
 
@@ -51,12 +51,12 @@ void	return_single_node(t_stack **a, t_stack **b)
 	if ((*b)->target_pos <= a_size / 2)
 	{
 		while ((*b)->target_pos-- > 0)
-			ra(a);
+			ra(a, true);
 	}
 	else
 	{
 		while ((*b)->target_pos++ < a_size)
-			rra(a);
+			rra(a, true);
 	}
-	pa(a, b);
+	pa(a, b, true);
 }

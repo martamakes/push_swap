@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 07:40:54 by mvigara-          #+#    #+#             */
-/*   Updated: 2025/01/17 18:40:45 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/19 18:10:26 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	do_same_rotations(t_stack **a, t_stack **b, t_stack *cheapest)
 {
 	while (cheapest->cost_a > 0 && cheapest->cost_b > 0)
 	{
-		rr(a, b);
+		rr(a, b, true);
 		update_positions(*a);
 		update_positions(*b);
 		cheapest->cost_a--;
@@ -24,7 +24,7 @@ static void	do_same_rotations(t_stack **a, t_stack **b, t_stack *cheapest)
 	}
 	while (cheapest->cost_a < 0 && cheapest->cost_b < 0)
 	{
-		rrr(a, b);
+		rrr(a, b, true);
 		update_positions(*a);
 		update_positions(*b);
 		cheapest->cost_a++;
@@ -36,13 +36,13 @@ static void	do_a_rotations(t_stack **a, t_stack *cheapest)
 {
 	while (cheapest->cost_a > 0)
 	{
-		ra(a);
+		ra(a, true);
 		update_positions(*a);
 		cheapest->cost_a--;
 	}
 	while (cheapest->cost_a < 0)
 	{
-		rra(a);
+		rra(a, true);
 		update_positions(*a);
 		cheapest->cost_a++;
 	}
@@ -52,13 +52,13 @@ static void	do_b_rotations(t_stack **b, t_stack *cheapest)
 {
 	while (cheapest->cost_b > 0)
 	{
-		rb(b);
+		rb(b, true);
 		update_positions(*b);
 		cheapest->cost_b--;
 	}
 	while (cheapest->cost_b < 0)
 	{
-		rrb(b);
+		rrb(b, true);
 		update_positions(*b);
 		cheapest->cost_b++;
 	}
