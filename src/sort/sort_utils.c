@@ -6,7 +6,7 @@
 /*   By: mvigara- <mvigara-@student.42school.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 07:44:17 by mvigara-          #+#    #+#             */
-/*   Updated: 2025/01/19 17:20:58 by mvigara-         ###   ########.fr       */
+/*   Updated: 2025/01/19 18:21:12 by mvigara-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 int	is_sorted(t_stack *stack)
 {
-    t_stack *current;
+	t_stack	*current;
 
-    if (!stack || !stack->next)
-        return (1);    
-    current = stack;
-    while (current->next)
-    {
-        if (current->value > current->next->value)
-            return (0);
-        current = current->next;
-    }
-    return (1);
+	if (!stack || !stack->next)
+		return (1);
+	current = stack;
+	while (current->next)
+	{
+		if (current->value > current->next->value)
+			return (0);
+		current = current->next;
+	}
+	return (1);
 }
 
 int	calculate_weighted_cost(t_stack *node)
@@ -59,6 +59,7 @@ t_stack	*get_cheapest_node(t_stack *stack, bool ascending)
 	t_stack	*cheapest;
 	int		min_cost;
 	int		current_cost;
+
 	if (!stack)
 		return (NULL);
 	current = stack;
